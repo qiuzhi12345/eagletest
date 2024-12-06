@@ -1,0 +1,3 @@
+ordereddict
+python-docx
+pywin32
