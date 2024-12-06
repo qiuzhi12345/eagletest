@@ -1,0 +1,379 @@
+Address;RegName;Clk;Rst;Port ; Public ; Signal;BitPos;Default;SW(R/W);Comment;HW(W);MCU(W);MISC;Description
+0x0000;RTC_OPTIONS0;dig_clk_rtc_gated;rst_rtc_n;;;sw_sys_rst;[31];1'd0;WO;;;;CLK = dig_clk_rtc;SW system reset
+;;;;;;reg_dg_wrap_force_norst;[30];1'd0;R/W;;;;;digital core force no reset in deep sleep
+;;;;;;reg_dg_wrap_force_rst;[29];1'd0;R/W;;;;;digital wrap force reset in deep sleep
+;;;;;N/A;reg_analog_force_noiso;[28];1'd1;R/W;;;;;
+;;;;;N/A;reg_pll_force_noiso;[27];1'd1;R/W;;;;;
+;;;;;N/A;reg_xtl_force_noiso;[26];1'd1;R/W;;;;;
+;;;;;N/A;reg_analog_force_iso;[25];1'd0;R/W;;;;;
+;;;;;N/A;reg_pll_force_iso;[24];1'd0;R/W;;;;;
+;;;;;N/A;reg_xtl_force_iso;[23];1'd0;R/W;;;;;
+;;;;;;reg_bias_core_force_pu;[22];1'd1;R/W;;;;;BIAS_CORE force power up
+;;;;;;reg_bias_core_force_pd;[21];1'b0;R/W;;;;;BIAS_CORE force power down
+;;;;;;reg_bias_core_folw_8m;[20];1'd0;R/W;;;;;BIAS_CORE follow CK8M
+;;;;;;reg_bias_i2c_force_pu;[19];1'd1;R/W;;;;;BIAS_I2C force power up
+;;;;;;reg_bias_i2c_force_pd;[18];1'b0;R/W;;;;;BIAS_I2C force power down
+;;;;;;reg_bias_i2c_folw_8m;[17];1'd0;R/W;;;;;BIAS_I2C follow CK8M
+;;;;;;reg_bias_force_nosleep;[16];1'd1;R/W;;;;;BIAS_SLEEP force no sleep
+;;;;;;reg_bias_force_sleep;[15];1'b0;R/W;;;;;BIAS_SLEEP force sleep
+;;;;;;reg_bias_sleep_folw_8m;[14];1'b0;R/W;;;;;BIAS_SLEEP follow CK8M
+;;;;;;reg_xtl_force_pu;[13];1'd1;R/W;;;;;crystall force power up
+;;;;;;reg_xtl_force_pd;[12];1'b0;R/W;;;;;crystall force power down
+;;;;;;reg_bbpll_force_pu;[11];1'd0;R/W;;;;;BB_PLL force power up
+;;;;;;reg_bbpll_force_pd;[10];1'b0;R/W;;;;;BB_PLL force power down
+;;;;;;reg_bbpll_i2c_force_pu;[9];1'd0;R/W;;;;;BB_PLL_I2C force power up
+;;;;;;reg_bbpll_i2c_force_pd;[8];1'b0;R/W;;;;;BB_PLL _I2C force power down
+;;;;;;reg_bb_i2c_force_pu;[7];1'd0;R/W;;;;;BB_I2C force power up
+;;;;;;reg_bb_i2c_force_pd;[6];1'b0;R/W;;;;;BB_I2C force power down
+;;;;;;sw_procpu_rst;[5];1'b0;WO;;;;;PRO CPU SW reset
+;;;;;;sw_appcpu_rst;[4];1'b0;WO;;;;;APP CPU SW reset
+;;;;;;reg_sw_stall_procpu_c0;[3:2];2'b0;R/W;;;;;{reg_sw_stall_procpu_c1[5:0],  reg_sw_stall_procpu_c0[1:0]} == 0x86 will stall PRO CPU
+;;;;;;reg_sw_stall_appcpu_c0;[1:0];2'b0;R/W;;;;;{reg_sw_stall_appcpu_c1[5:0],  reg_sw_stall_appcpu_c0[1:0]} == 0x86 will stall APP CPU
+0x0001;RTC_SLP_TIMER0;dig_clk_rtc_gated;rst_rtc_n;;;reg_slp_val_lo;[31:0];32'h0;R/W;;;;IO = O, hwr_rtc_slp_timer0;RTC sleep timer low 32 bits
+0x0002;RTC_SLP_TIMER1;dig_clk_rtc_gated;rst_rtc_n;;;;[31:17];;;;;;IO = O,hwr_rtc_slp_timer1;
+;;;;;;reg_rtc_main_timer_alarm_en;[16];1'h0;R/W;;;;;timer alarm enable bit
+;;;;;;reg_slp_val_hi;[15:0];16'h0;R/W;;;;;RTC sleep timer high 16 bits
+0x0003;RTC_TIME_UPDATE;dig_clk_rtc_gated;rst_rtc_n;;;rtc_time_update;[31];1'h0;WO;;;;;Set 1: to update register with RTC timer
+;;;;;;rtc_time_valid;[30];1'b0;RO;;;;;To indicate the register is updated
+;;;;;;;[29:0];;;;;;;
+0x0004;RTC_TIME0;dig_clk_rtc_gated;rst_rtc_n;;;rtc_time_lo;[31:0];32'h0;RO;;;;;RTC timer low 32 bits
+0x0005;RTC_TIME1;dig_clk_rtc_gated;rst_rtc_n;;;;[31:16];;;;;;;
+;;;;;;rtc_time_hi;[15:0];16'h0;RO;;;;;RTC timer high 16 bits
+0x0006;RTC_STATE0;dig_clk_rtc;rst_rtc_n;;;reg_sleep_en;[31];1'd0;R/W;;sleep_accept_ind/1'd0,sleep_reject_ind/1'd0;;CLK = dig_clk_rtc;sleep enable bit
+;;;;;;slp_reject;[30];1'd0;R/W;;rtc_wakeup/1'd0,rtc_sleep_reject/1'd1;;sCLK = dig_clk_rtc;leep reject bit
+;;;;;;slp_wakeup;[29];1'd0;R/W;;rtc_wakeup/1'd1,rtc_sleep_reject/1'd0;;sCLK = dig_clk_rtc;leep wakeup bit
+;;;;;;sdio_active_ind;[28];1'd0;RO;;;;;SDIO active indication
+;;;;;;;[27:25];;;;;;;
+;;;;;;reg_ulp_cp_slp_timer_en;[24];1'd0;R/W;;;;;ULP-coprocessor timer enable bit
+;;;;;;reg_touch_slp_timer_en;[23];1'd0;R/W;;;;;touch timer enable bit
+;;;;;;reg_apb2rtc_bridge_sel;[22];1'd0;R/W;;;;;1: APB to RTC using bridge,  0: APB to RTC using sync
+;;;;;N/A;reg_ulp_cp_wakeup_force_en;[21];1'd1;R/W;;;;;ULP-coprocessor force wake up
+;;;;;N/A;reg_touch_wakeup_force_en;[20];1'd1;R/W;;;;;touch controller force wake up
+;;;;;N/A;reg_cocpu_wakeup_force_en;[19];1'd1;R/W;;;;;riscV cocpu force wake up
+;;;;;N/A;reg_cocpu_wakeup;[18];1'd0;R/W;;;;;riscV cocpu wake up register
+;;;;;N/A;reg_tsens_int_en;[17];1'd1;R/W;;;;;tsens interrupt enable
+;;;;;N/A;reg_saradc_int_en;[16];1'd1;R/W;;;;;saradc interrupt enable
+;;;;;;;[15:0];;;;;;;
+0x0007;RTC_TIMER1;dig_clk_rtc_gated;rst_rtc_n;;;pll_buf_wait;[31:24];8'd40;R/W;;;;;PLL wait cycles in slow_clk_rtc
+;;;;;;xtl_buf_wait;[23:14];10'd80;R/W;;;;;XTAL wait cycles in slow_clk_rtc
+;;;;;;reg_ck8m_wait;[13:6];8'h10;R/W;;;;;CK8M wait cycles in slow_clk_rtc
+;;;;;;reg_cpu_stall_wait;[5:1];5'd1;R/W;;;;;CPU stall wait cycles in fast_clk_rtc
+;;;;;;reg_cpu_stall_en;[0];1'd1;R/W;;;;;CPU stall enable bit
+0x0008;RTC_TIMER2;dig_clk_rtc_gated;rst_rtc_n;;;reg_min_time_ck8m_off;[31:24];8'h1;R/W;;;;;minimal cycles in slow_clk_rtc for CK8M in power down state
+;;;;;;reg_ulpcp_touch_start_wait;[23:15];9'h10;R/W;;;;;wait cycles in slow_clk_rtc before ULP-coprocessor / touch controller start to work
+;;;;;;;[14:0];;;;;;;
+0x0009;RTC_TIMER3;dig_clk_rtc_gated;rst_rtc_n;;N/A;reg_rom_ram_powerup_timer;[31:25];7'd10;R/W;;;;;
+;;;;;N/A;reg_rom_ram_wait_timer;[24:16];9'h16;R/W;;;;;
+;;;;;N/A;reg_wifi_powerup_timer;[15:9];7'h5;R/W;;;;;
+;;;;;N/A;reg_wifi_wait_timer;[8:0];9'h8;R/W;;;;;
+0x000a;RTC_TIMER4;dig_clk_rtc_gated;rst_rtc_n;;N/A;reg_dg_wrap_powerup_timer;[31:25];7'h8;R/W;;;;;
+;;;;;N/A;reg_dg_wrap_wait_timer;[24:16];9'h20;R/W;;;;;
+;;;;;N/A;reg_rtc_powerup_timer;[15:9];7'h5;R/W;;;;;
+;;;;;N/A;reg_rtc_wait_timer;[8:0];9'h8;R/W;;;;;
+0x000b;RTC_TIMER5;dig_clk_rtc_gated;rst_rtc_n;;N/A;reg_rtcmem_powerup_timer;[31:25];7'h9;R/W;;;;;
+;;;;;N/A;reg_rtcmem_wait_timer;[24:16];9'h14;R/W;;;;;
+;;;;;;reg_min_slp_val;[15:8];8'h80;R/W;;;;;minimal sleep cycles in slow_clk_rtc
+;;;;;N/A;reg_ulp_cp_subtimer_prediv;[7:0];8'd1;R/W;;;;;
+0x000c;RTC_TIMER6;dig_clk_rtc_gated;rst_rtc_n;;;reg_dg_dcdc_powerup_timer;[31:25];7'h8;R/W;;;;;
+;;;;;;reg_dg_dcdc_wait_timer;[24:16];9'h20;R/W;;;;;
+;;;;;;;[15:0];;;;;;;
+0x000d;RTC_ANA_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reg_pll_i2c_pu;[31];1'd0;R/W;;;;;
+;;;;;;reg_ckgen_i2c_pu;[30];1'd0;R/W;;;;;1: CKGEN_I2C power up,  otherwise power down
+;;;;;;;[29];;;;;;;
+;;;;;;reg_rfrx_pbus_pu;[28];1'd0;R/W;;;;;1: RFRX_PBUS power up,  otherwise power down
+;;;;;;reg_txrf_i2c_pu;[27];1'd0;R/W;;;;;1: TXRF_I2C power up,  otherwise power down
+;;;;;;reg_pvtmon_pu;[26];1'b0;R/W;;;;;1: PVTMON power up,  otherwise power down
+;;;;;N/A;reg_bbpll_cal_slp_start;[25];1'b0;R/W;;;;;start BBPLL calibration during sleep
+;;;;;;reg_plla_force_pu;[24];1'b0;R/W;;;;;PLLA force power up
+;;;;;;reg_plla_force_pd;[23];1'b1;R/W;;;;;PLLA force power down
+;;;;;;reg_pwdet_cal_force_en;[22:21];2'd0;R/W;;;;;pwdet force option
+;;;;;;reg_pkdet_cal_force_en;[20:19];2'd0;R/W;;;;;pkdet force option
+;;;;;;;[18:0];;;;;;;
+0x000e;RTC_RESET_STATE;dig_clk_rtc_gated;rst_rtc_n;;;;[31:14];;;;;;;
+;;;;;;procpu_stat_vector_sel;[13];1'b1;R/W;;;;;PRO CPU state vector sel
+;;;;;;appcpu_stat_vector_sel;[12];1'b1;R/W;;;;;APP CPU state vector sel
+;;;;;;reset_cause_appcpu;[11:6];0;RO;;;;;reset cause of APP CPU
+;;;;;;reset_cause_procpu;[5:0];0;RO;;;;;reset cause of PRO CPU
+0x000f;RTC_WAKEUP_STATE;dig_clk_rtc_gated;rst_rtc_n;;;;[31:25];;;;;;;
+;;;;;;reg_gpio_wakeup_filter;[24];1'd0;R/W;;;;;enable filter for gpio wakeup event
+;;;;;;reg_rtc_wakeup_ena;[23:12];12'b1100;R/W;;;;;wakeup enable bitmap
+;;;;;;wakeup_cause;[11:0];12'h0;RO;;;;;wakeup cause
+0x0010;INT_ENA_RTC;dig_clk_rtc_gated;rst_rtc_n;;;;[31:12];;;;;;;
+;;;;Not;;rtc_cocpu_int_ena;[11];1'b0;R/W;;;;;enable riscV cocpu interrupt
+;;;;Not;;rtc_tsens_int_ena;[10];1'b0;R/W;;;;;enable tsens interrupt
+;;;;Not;;rtc_saradc_int_ena;[9];1'b0;R/W;;;;;enable saradc interrupt
+;;;;Not;;rtc_main_timer_int_ena;[8];1'b0;R/W;;;;;enable RTC main timer interrupt
+;;;;Not;;rtc_brown_out_int_ena;[7];1'b0;R/W;;;;;enable brown out interrupt
+;;;;Not;;rtc_touch_int_ena;[6];1'b0;R/W;;;;;enable touch interrupt
+;;;;Not;;rtc_ulp_cp_int_ena;[5];1'b0;R/W;;;;;enable ULP-coprocessor interrupt
+;;;;Not;;rtc_time_valid_int_ena;[4];1'b0;R/W;;;;;enable RTC time valid interrupt
+;;;;Not;;rtc_wdt_int_ena;[3];1'b0;R/W;;;;;enable RTC WDT interrupt
+;;;;Not;;sdio_idle_int_ena;[2];1'b0;R/W;;;;;enable SDIO idle interrupt
+;;;;Not;;slp_reject_int_ena;[1];1'b0;R/W;;;;;enable sleep reject interrupt
+;;;;Not;;slp_wakeup_int_ena;[0];1'b0;R/W;;;;;enable sleep wakeup interrupt
+0x0011;INT_RAW_RTC;dig_clk_rtc;rst_rtc_n;;;;[31:12];;;;;;;
+;;;;Not;;rtc_cocpu_int_raw;[11];1'b0;RO;;rtc_cocpu_int/1'd1;rtc_cocpu_int_clr/1'd0;;riscV cocpu interrupt raw
+;;;;Not;;rtc_tsens_int_raw;[10];1'b0;RO;;rtc_tsens_int/1'd1;rtc_tsens_int_clr/1'd0;;tsens interrupt raw
+;;;;Not;;rtc_saradc_int_raw;[9];1'b0;RO;;rtc_saradc_int/1'd1;rtc_saradc_int_clr/1'd0;;saradc interrupt raw
+;;;;Not;;rtc_main_timer_int_raw;[8];1'b0;RO;;rtc_main_timer_int/1'd1;rtc_main_timer_int_clr/1'd0;;RTC main timer interrupt raw
+;;;;Not;;rtc_brown_out_int_raw;[7];1'b0;RO;;rtc_brown_out_int/1'd1;rtc_brown_out_int_clr/1'd0;;brown out interrupt raw
+;;;;Not;;rtc_touch_int_raw;[6];1'b0;RO;;rtc_touch_int/1'd1;rtc_touch_int_clr/1'd0;;touch interrupt raw
+;;;;Not;;rtc_ulp_cp_int_raw;[5];1'b0;RO;;rtc_ulp_cp_int/1'd1;rtc_ulp_cp_int_clr/1'd0;;ULP-coprocessor interrupt raw
+;;;;Not;;rtc_time_valid_int_raw;[4];1'b0;RO;;rtc_time_valid_int/1'd1;rtc_time_valid_int_clr/1'd0;;RTC time valid interrupt raw
+;;;;Not;;rtc_wdt_int_raw;[3];1'b0;RO;;rtc_wdt_int/1'd1;rtc_wdt_int_clr/1'd0;;RTC WDT interrupt raw
+;;;;Not;;sdio_idle_int_raw;[2];1'b0;RO;;sdio_idle_ind/1'd1;sdio_idle_int_clr/1'd0;;SDIO idle interrupt raw
+;;;;Not;;slp_reject_int_raw;[1];1'b0;RO;;rtc_slp_reject/1'd1;slp_reject_int_clr/1'd0;;sleep reject interrupt raw
+;;;;Not;;slp_wakeup_int_raw;[0];1'b0;RO;;slp_wakeup_ind/1'd1;slp_wakeup_int_clr/1'd0;;sleep wakeup interrupt raw
+0x0012;INT_ST_RTC;dig_clk_rtc;rst_rtc_n;;;;[31:12];;;;;;INT_ST;
+;;;;Not;;rtc_cocpu_int_st;[11];1'b0;RO;;;;;riscV cocpu interrupt state
+;;;;Not;;rtc_tsens_int_st;[10];1'b0;RO;;;;;tsens interrupt state
+;;;;Not;;rtc_saradc_int_st;[9];1'b0;RO;;;;;saradc interrupt state
+;;;;Not;;rtc_main_timer_int_st;[8];1'b0;RO;;;;;RTC main timer interrupt state
+;;;;Not;;rtc_brown_out_int_st;[7];1'b0;RO;;;;;brown out interrupt state
+;;;;Not;;rtc_touch_int_st;[6];1'b0;RO;;;;;touch interrupt state
+;;;;Not;;rtc_ulp_cp_int_st;[5];1'b0;RO;;;;;ULP-coprocessor interrupt state
+;;;;Not;;rtc_time_valid_int_st;[4];1'b0;RO;;;;;RTC time valid interrupt state
+;;;;Not;;rtc_wdt_int_st;[3];1'b0;RO;;;;;RTC WDT interrupt state
+;;;;Not;;sdio_idle_int_st;[2];1'b0;RO;;;;;SDIO idle interrupt state
+;;;;Not;;slp_reject_int_st;[1];1'b0;RO;;;;;sleep reject interrupt state
+;;;;Not;;slp_wakeup_int_st;[0];1'b0;RO;;;;;sleep wakeup interrupt state
+0x0013;INT_CLR_RTC;dig_clk_rtc;rst_rtc_n;;;;[31:12];;;;;;;
+;;;;Not;;rtc_cocpu_int_clr;[11];1'b0;WO;;;;;Clear riscV cocpu interrupt state
+;;;;Not;;rtc_tsens_int_clr;[10];1'b0;WO;;;;;Clear tsens interrupt state
+;;;;Not;;rtc_saradc_int_clr;[9];1'b0;WO;;;;;Clear saradc interrupt state
+;;;;Not;;rtc_main_timer_int_clr;[8];1'b0;WO;;;;;Clear RTC main timer interrupt state
+;;;;Not;;rtc_brown_out_int_clr;[7];1'b0;WO;;;;;Clear brown out interrupt state
+;;;;Not;;rtc_touch_int_clr;[6];1'b0;WO;;;;;Clear touch interrupt state
+;;;;Not;;rtc_ulp_cp_int_clr;[5];1'b0;WO;;;;;Clear ULP-coprocessor interrupt state
+;;;;Not;;rtc_time_valid_int_clr;[4];1'b0;WO;;;;;Clear RTC time valid interrupt state
+;;;;Not;;rtc_wdt_int_clr;[3];1'b0;WO;;;;;Clear RTC WDT interrupt state
+;;;;Not;;sdio_idle_int_clr;[2];1'b0;WO;;;;;Clear SDIO idle interrupt state
+;;;;Not;;slp_reject_int_clr;[1];1'b0;WO;;;;;Clear sleep reject interrupt state
+;;;;Not;;slp_wakeup_int_clr;[0];1'b0;WO;;;;;Clear sleep wakeup interrupt state
+0x0014;RTC_STORE0;dig_clk_rtc_gated;rst_rtc_n;;;rtc_scratch0;[31:0];0;R/W;;;;;
+0x0015;RTC_STORE1;dig_clk_rtc_gated;rst_rtc_n;;;rtc_scratch1;[31:0];0;R/W;;;;;
+0x0016;RTC_STORE2;dig_clk_rtc_gated;rst_rtc_n;;;rtc_scratch2;[31:0];0;R/W;;;;;
+0x0017;RTC_STORE3;dig_clk_rtc_gated;rst_rtc_n;;;rtc_scratch3;[31:0];0;R/W;;;;;
+0x0018;RTC_EXT_XTL_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reg_xtl_ext_ctr_en;[31];1'b0;R/W;;;;;
+;;;;;;reg_xtl_ext_ctr_lv;[30];1'b0;R/W;;;;;0: power down XTAL at high level, 1: power down XTAL at low level
+;;;;;;;[29:0];;;;;;;
+0x0019;RTC_EXT_WAKEUP_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reg_ext_wakeup1_lv;[31];1'b0;R/W;;;;;
+;;;;;;reg_ext_wakeup0_lv;[30];1'b0;R/W;;;;;0: external wakeup at low level, 1: external wakeup at high level
+;;;;;;;[29:0];;;;;;;
+0x001a;RTC_SLP_REJECT_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reject_cause;[31:28];4'b0;RO;;;;;
+;;;;;;reg_deep_slp_reject_en;[27];1'b0;R/W;;;;;enable reject for deep sleep
+;;;;;;reg_light_slp_reject_en;[26];1'b0;R/W;;;;;enable reject for light sleep
+;;;;;;reg_sdio_reject_en;[25];1'b0;R/W;;;;;enable SDIO reject 
+;;;;;;reg_gpio_reject_en;[24];1'b0;R/W;;;;;enable GPIO reject
+;;;;;;;[23:0];;;;;;;
+0x001b;RTC_CPU_PERIOD_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reg_rtc_cpuperiod_sel;[31:30];2'b00;R/W;;;;;
+;;;;;;reg_rtc_cpusel_conf;[29];1'b0;R/W;;;;;CPU sel option
+;;;;;;;[28:0];;;;;;;
+0x001c;RTC_SDIO_ACT_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reg_sdio_act_dnum;[31:22];10'b0;R/W;;;;;
+;;;;;;;[21:0];;;;;;;
+0x001d;RTC_CLK_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reg_ana_clk_rtc_sel;[31:30];2'd0;R/W;;;;;
+;;;;;;reg_fast_clk_rtc_sel;[29];1'b0;R/W;;;;;fast_clk_rtc sel. 0: XTAL div 4, 1: CK8M 
+;;;;;;reg_soc_clk_sel;[28:27];2'd0;R/W;;;;;SOC clock sel. 0: XTAL, 1: PLL, 2: CK8M, 3: APLL
+;;;;;;reg_ck8m_force_pu;[26];1'd0;R/W;;;;;CK8M force power up
+;;;;;;reg_ck8m_force_pd;[25];1'd0;R/W;;;;;CK8M force power down
+;;;;;;reg_ck8m_dfreq;[24:17];8'd172;R/W;;;;;CK8M_DFREQ
+;;;;;;reg_ck8m_force_nogating;[16];1'd0;R/W;;;;;CK8M force no gating during sleep
+;;;;;;reg_xtal_force_nogating;[15];1'd0;R/W;;;;;XTAL force no gating during sleep
+;;;;;;reg_ck8m_div_sel;[14:12];3'd3;R/W;;;;;divider = reg_ck8m_div_sel + 1
+;;;;;;;[11];;;;;;;
+;;;;;;reg_dig_clk8m_en;[10];1'd0;R/W;;;;;enable CK8M for digital core (no relationship with RTC core)
+;;;;;;reg_dig_clk8m_d256_en;[9];1'd1;R/W;;;;;enable CK8M_D256_OUT for digital core (no relationship with RTC core)
+;;;;;;reg_dig_xtal32k_en;[8];1'd0;R/W;;;;;enable CK_XTAL_32K for digital core (no relationship with RTC core)
+;;;;;;reg_enb_ck8m_div;[7];1'd0;R/W;;;;;1: CK8M_D256_OUT is actually CK8M, 0: CK8M_D256_OUT is CK8M divided by 256
+;;;;;;reg_enb_ck8m;[6];1'd0;R/W;;;;;disable CK8M and CK8M_D256_OUT
+;;;;;;reg_ck8m_div;[5:4];2'b01;R/W;;;;;CK8M_D256_OUT divider. 00: div128, 01: div256, 10: div512, 11: div1024. 
+;;;;;;reg_ck8m_div_sel_vld;[3];1'b1;R/W;;;;;used to sync reg_ck8m_div_sel bus. Clear vld before set reg_ck8m_div_sel, then set vld to actually switch the clk
+;;;;;;;[2:0];;;;;;;
+0x001e;RTC_SLOW_CLK_CONF;dig_clk_rtc_gated;rst_rtc_n;;;reg_rtc_ana_clk_div;[31:24];8'd0;R/W;;;;;
+;;;;;;reg_rtc_ana_clk_div_vld;[23];1'b1;R/W;;;;;used to sync div bus. clear vld before set reg_rtc_ana_clk_div, then set vld to actually switch the clk 
+;;;;;;reg_rtc_xtal32k_gpio_sel;[22];1'b0;R/W;;;;;XTAL_32K sel. 0: external XTAL_32K, 1: CLK from RTC pad X32P_C
+;;;;;;reg_dac_xtal_32k;[21:20];2'b01;R/W;;;;;DAC_XTAL_32K
+;;;;;;reg_xpd_xtal_32k;[19];1'd0;R/W;;;;;XPD_XTAL_32K
+;;;;;;reg_dres_xtal_32k;[18:17];2'b10;R/W;;;;;DRES_XTAL_32K
+;;;;;;reg_dbias_xtal_32k;[16:15];2'b00;R/W;;;;;DBIAS_XTAL_32K
+;;;;;;;[14:0];;;;;;;
+0x001f;RTC_SDIO_CONF;dig_clk_rtc_gated;rst_rtc_n;;N/A;reg_xpd_sdio_reg;[31];1'd0;R/W;;;;;
+;;;;;N/A;reg_drefh_sdio;[30:29];2'b00;R/W;;;;;SW option for DREFH_SDIO. Only active when reg_sdio_force = 1
+;;;;;N/A;reg_drefm_sdio;[28:27];2'b00;R/W;;;;;SW option for DREFM_SDIO. Only active when reg_sdio_force = 1
+;;;;;N/A;reg_drefl_sdio;[26:25];2'b01;R/W;;;;;SW option for DREFL_SDIO. Only active when reg_sdio_force = 1
+;;;;;N/A;reg1p8_ready;[24];1'd0;RO;;;;;read only register for REG1P8_READY
+;;;;;N/A;reg_sdio_tieh;[23];1'd1;R/W;;;;;SW option for SDIO_TIEH. Only active when reg_sdio_force = 1
+;;;;;N/A;reg_sdio_force;[22];1'd0;R/W;;;;;1: use SW option to control SDIO_REG, 0: use state machine
+;;;;;N/A;reg_sdio_reg_pd_en;[21];1'd1;R/W;;;;;power down SDIO_REG in sleep. Only active when reg_sdio_force = 0
+;;;;;;;[20:0];;;;;;;
+0x0020;RTC_BIAS_CONF;dig_clk_rtc_gated;rst_rtc_n;;N/A;reg_rst_bias_i2c;[31];1'd0;R/W;;;;;
+;;;;;N/A;reg_dec_heartbeat_width;[30];1'd0;R/W;;;;;DEC_HEARTBEAT_WIDTH
+;;;;;N/A;reg_inc_heartbeat_period;[29];1'd0;R/W;;;;;INC_HEARTBEAT_PERIOD
+;;;;;N/A;reg_dec_heartbeat_period;[28];1'd0;R/W;;;;;DEC_HEARTBEAT_PERIOD
+;;;;;N/A;reg_inc_heartbeat_refresh;[27];1'd0;R/W;;;;;INC_HEARTBEAT_REFRESH
+;;;;;N/A;reg_enb_sck_xtal;[26];1'd0;R/W;;;;;ENB_SCK_XTAL
+;;;;;N/A;reg_dbg_atten;[25:24];2'b00;R/W;;;;;DBG_ATTEN
+;;;;;;;[23:0];;;;;;;
+0x0021;RTC_REG;dig_clk_rtc_gated;rst_rtc_n;;;reg_rtc_reg_force_pu;[31];1'd1;R/W;;;;;
+;;;;;;reg_rtc_reg_force_pd;[30];1'd0;R/W;;;;;RTC_REG force power down (for RTC_REG power down means decrease the voltage to 0.8v or lower )
+;;;;;;reg_rtc_dboost_force_pu;[29];1'd1;R/W;;;;;RTC_DBOOST force power up
+;;;;;;reg_rtc_dboost_force_pd;[28];1'd0;R/W;;;;;RTC_DBOOST force power down
+;;;;;;reg_rtc_dbias_wak;[27:25];3'd4;R/W;;;;;RTC_DBIAS during wakeup
+;;;;;;reg_rtc_dbias_slp;[24:22];3'd4;R/W;;;;;RTC_DBIAS during sleep
+;;;;;;reg_sck_dcap;[21:14];8'd0;R/W;;;;;SCK_DCAP
+;;;;;;reg_dig_reg_dbias_wak;[13:11];3'd4;R/W;;;;;DIG_REG_DBIAS during wakeup
+;;;;;;reg_dig_reg_dbias_slp;[10:8];3'd4;R/W;;;;;DIG_REG_DBIAS during sleep
+;;;;;N/A;reg_sck_dcap_force;[7];1'd0;R/W;;;;;N/A
+;;;;;;;[6:0];;;;;;;
+0x0022;RTC_PWC;dig_clk_rtc_gated;rst_rtc_n;;;;[31:28];;;;;;;
+;;;;;;reg_rtc_pad_force_hold;[27];1'd0;R/W;;;;;rtc pad force hold
+;;;;;;reg_rtc_pad_force_unhold;[26];1'd1;R/W;;;;;rtc pad force un-hold
+;;;;;;reg_rtc_pad_force_iso;[25];1'd0;R/W;;;;;rtc pad force ISO
+;;;;;;reg_rtc_pad_force_noiso;[24];1'd1;R/W;;;;;rtc pad force no ISO
+;;;;;;reg_rtc_pad_autohold_en;[23];1'd0;R/W;;;;;rtc pad enable auto-hold
+;;;;;;clr_rtc_pad_autohold;[22];1'd0;WO;;;;;wtite only register to clear rtc pad auto-hold
+;;;;;;rtc_pad_autohold;[21];1'd0;RO;;;;;read only register to indicate rtc pad auto-hold status
+;;;;;;reg_rtc_pd_en;[20];1'd0;R/W;;;;;enable power down rtc_peri in sleep 
+;;;;;;reg_rtc_force_pu;[19];1'd0;R/W;;;;;rtc_peri force power up
+;;;;;;reg_rtc_force_pd;[18];1'b0;R/W;;;;;rtc_peri force power down
+;;;;;;reg_rtc_slowmem_pd_en;[17];1'b0;R/W;;;;;enable power down RTC memory in sleep
+;;;;;;reg_rtc_slowmem_force_pu;[16];1'b1;R/W;;;;;RTC memory force power up
+;;;;;;reg_rtc_slowmem_force_pd;[15];1'b0;R/W;;;;;RTC memory force power down
+;;;;;;reg_rtc_fastmem_pd_en;[14];1'b0;R/W;;;;;enable power down fast RTC memory in sleep
+;;;;;;reg_rtc_fastmem_force_pu;[13];1'b1;R/W;;;;;Fast RTC memory force power up
+;;;;;;reg_rtc_fastmem_force_pd;[12];1'b0;R/W;;;;;Fast RTC memory force power down
+;;;;;;reg_rtc_slowmem_force_lpu;[11];1'b1;R/W;;;;;RTC memory force no PD
+;;;;;;reg_rtc_slowmem_force_lpd;[10];1'b0;R/W;;;;;RTC memory force PD
+;;;;;;reg_rtc_slowmem_folw_cpu;[9];1'b0;R/W;;;;;1: RTC memory  PD following CPU, 0: RTC memory PD following RTC state machine
+;;;;;;reg_rtc_fastmem_force_lpu;[8];1'b1;R/W;;;;;Fast RTC memory force no PD
+;;;;;;reg_rtc_fastmem_force_lpd;[7];1'b0;R/W;;;;;Fast RTC memory force PD
+;;;;;;reg_rtc_fastmem_folw_cpu;[6];1'b0;R/W;;;;;1: Fast RTC memory PD following CPU, 0: fast RTC memory PD following RTC state machine
+;;;;;;reg_rtc_force_noiso;[5];1'd1;R/W;;;;;rtc_peri force no ISO
+;;;;;;reg_rtc_force_iso;[4];1'd0;R/W;;;;;rtc_peri force ISO
+;;;;;;reg_rtc_slowmem_force_iso;[3];1'b0;R/W;;;;;RTC memory force ISO
+;;;;;;reg_rtc_slowmem_force_noiso;[2];1'b1;R/W;;;;;RTC memory force no ISO
+;;;;;;reg_rtc_fastmem_force_iso;[1];1'b0;R/W;;;;;Fast RTC memory force ISO
+;;;;;;reg_rtc_fastmem_force_noiso;[0];1'b1;R/W;;;;;Fast RTC memory force no ISO
+0x0023;DIG_PWC;dig_clk_rtc_gated;rst_rtc_n;;;reg_dg_wrap_pd_en;[31];0;R/W;;;;;
+;;;;;;reg_wifi_pd_en;[30];0;R/W;;;;;enable power down wifi in sleep
+;;;;;;reg_inter_ram4_pd_en;[29];0;R/W;;;;;enable power down internal SRAM 4 in sleep
+;;;;;;reg_inter_ram3_pd_en;[28];0;R/W;;;;;enable power down internal SRAM 3 in sleep
+;;;;;;reg_inter_ram2_pd_en;[27];0;R/W;;;;;enable power down internal SRAM 2 in sleep
+;;;;;;reg_inter_ram1_pd_en;[26];0;R/W;;;;;enable power down internal SRAM 1 in sleep
+;;;;;;reg_inter_ram0_pd_en;[25];0;R/W;;;;;enable power down internal SRAM 0 in sleep
+;;;;;;reg_rom0_pd_en;[24];0;R/W;;;;;enable power down ROM in sleep
+;;;;;;reg_dg_dcdc_pd_en;[23];0;R/W;;;;;enable power down digital dcdc in sleep
+;;;;;;reg_dg_dcdc_force_pu;[22];1'd1;R/W;;;;;digital dcdc force power up
+;;;;;;reg_dg_dcdc_force_pd;[21];1'b0;R/W;;;;;digital dcdc force power down
+;;;;;;reg_dg_wrap_force_pu;[20];1'd1;R/W;;;;;digital core force power up
+;;;;;;reg_dg_wrap_force_pd;[19];1'b0;R/W;;;;;digital core force power down
+;;;;;;reg_wifi_force_pu;[18];1'd1;R/W;;;;;wifi force power up
+;;;;;;reg_wifi_force_pd;[17];1'b0;R/W;;;;;wifi force power down
+;;;;;;reg_inter_ram4_force_pu;[16];1'd1;R/W;;;;;internal SRAM 4 force power up
+;;;;;;reg_inter_ram4_force_pd;[15];1'b0;R/W;;;;;internal SRAM 4 force power down
+;;;;;;reg_inter_ram3_force_pu;[14];1'd1;R/W;;;;;internal SRAM 3 force power up
+;;;;;;reg_inter_ram3_force_pd;[13];1'b0;R/W;;;;;internal SRAM 3 force power down
+;;;;;;reg_inter_ram2_force_pu;[12];1'd1;R/W;;;;;internal SRAM 2 force power up
+;;;;;;reg_inter_ram2_force_pd;[11];1'b0;R/W;;;;;internal SRAM 2 force power down
+;;;;;;reg_inter_ram1_force_pu;[10];1'd1;R/W;;;;;internal SRAM 1 force power up
+;;;;;;reg_inter_ram1_force_pd;[9];1'b0;R/W;;;;;internal SRAM 1 force power down
+;;;;;;reg_inter_ram0_force_pu;[8];1'd1;R/W;;;;;internal SRAM 0 force power up
+;;;;;;reg_inter_ram0_force_pd;[7];1'b0;R/W;;;;;internal SRAM 0 force power down
+;;;;;;reg_rom0_force_pu;[6];1'd1;R/W;;;;;ROM force power up
+;;;;;;reg_rom0_force_pd;[5];1'b0;R/W;;;;;ROM force power down
+;;;;;;reg_lslp_mem_force_pu;[4];1'b1;R/W;;;;;memories in digital core force no PD in sleep
+;;;;;;reg_lslp_mem_force_pd;[3];1'b0;R/W;;;;;memories in digital core force PD in sleep
+;;;;;;;[2:0];;;;;;;
+0x0024;DIG_ISO;dig_clk_rtc_gated;rst_rtc_n;;;reg_dg_wrap_force_noiso;[31];1'd1;R/W;;;;;
+;;;;;;reg_dg_wrap_force_iso;[30];1'd0;R/W;;;;;digital core force ISO
+;;;;;;reg_wifi_force_noiso;[29];1'd1;R/W;;;;;wifi force no ISO
+;;;;;;reg_wifi_force_iso;[28];1'd0;R/W;;;;;wifi force ISO
+;;;;;;reg_inter_ram4_force_noiso;[27];1'd1;R/W;;;;;internal SRAM 4 force no ISO
+;;;;;;reg_inter_ram4_force_iso;[26];1'd0;R/W;;;;;internal SRAM 4 force ISO
+;;;;;;reg_inter_ram3_force_noiso;[25];1'd1;R/W;;;;;internal SRAM 3 force no ISO
+;;;;;;reg_inter_ram3_force_iso;[24];1'd0;R/W;;;;;internal SRAM 3 force ISO
+;;;;;;reg_inter_ram2_force_noiso;[23];1'd1;R/W;;;;;internal SRAM 2 force no ISO
+;;;;;;reg_inter_ram2_force_iso;[22];1'd0;R/W;;;;;internal SRAM 2 force ISO
+;;;;;;reg_inter_ram1_force_noiso;[21];1'd1;R/W;;;;;internal SRAM 1 force no ISO
+;;;;;;reg_inter_ram1_force_iso;[20];1'd0;R/W;;;;;internal SRAM 1 force ISO
+;;;;;;reg_inter_ram0_force_noiso;[19];1'd1;R/W;;;;;internal SRAM 0 force no ISO
+;;;;;;reg_inter_ram0_force_iso;[18];1'd0;R/W;;;;;internal SRAM 0 force ISO
+;;;;;;reg_rom0_force_noiso;[17];1'd1;R/W;;;;;ROM force no ISO
+;;;;;;reg_rom0_force_iso;[16];1'd0;R/W;;;;;ROM force ISO
+;;;;;;reg_dg_pad_force_hold;[15];1'd0;R/W;;;;;digital pad force hold
+;;;;;;reg_dg_pad_force_unhold;[14];1'd1;R/W;;;;;digital pad force un-hold
+;;;;;;reg_dg_pad_force_iso;[13];1'd0;R/W;;;;;digital pad force ISO
+;;;;;;reg_dg_pad_force_noiso;[12];1'd1;R/W;;;;;digital pad force no ISO
+;;;;;;reg_dg_pad_autohold_en;[11];1'd0;R/W;;;;;digital pad enable auto-hold
+;;;;;;clr_dg_pad_autohold;[10];1'd0;WO;;;;;wtite only register to clear digital pad auto-hold
+;;;;;;dg_pad_autohold;[9];1'd0;RO;;;;;read only register to indicate digital pad auto-hold status
+;;;;;N/A;reg_dig_iso_force_on;[8];1'd0;R/W;;;;;
+;;;;;N/A;reg_dig_iso_force_off;[7];1'd0;R/W;;;;;
+;;;;;;;[6:0];;;;;;;
+0x0025;RTC_WDTCONFIG0;dig_clk_rtc_gated;rst_rtc_n;;;reg_wdt_en;[31];1'h0;R/W;;;;PROT=wdt_wprotectn;
+;;;;;;reg_wdt_stg0;[30:28];3'h0;R/W;;;;;1: interrupt stage en, 2: CPU reset stage en, 3: system reset stage en, 4: RTC reset stage en
+;;;;;;reg_wdt_stg1;[27:25];3'h0;R/W;;;;;1: interrupt stage en, 2: CPU reset stage en, 3: system reset stage en, 4: RTC reset stage en
+;;;;;;reg_wdt_stg2;[24:22];3'h0;R/W;;;;;1: interrupt stage en, 2: CPU reset stage en, 3: system reset stage en, 4: RTC reset stage en
+;;;;;;reg_wdt_stg3;[21:19];3'h0;R/W;;;;;1: interrupt stage en, 2: CPU reset stage en, 3: system reset stage en, 4: RTC reset stage en
+;;;;;N/A;reg_wdt_edge_int_en;[18];1'h0;R/W;;;;;N/A
+;;;;;N/A;reg_wdt_level_int_en;[17];1'h0;R/W;;;;;N/A
+;;;;;;reg_wdt_cpu_reset_length;[16:14];3'h1;R/W;;;;;CPU reset counter length
+;;;;;;reg_wdt_sys_reset_length;[13:11];3'h1;R/W;;;;;system reset counter length
+;;;;;;reg_wdt_flashboot_mod_en;[10];1'h1;R/W;;;;;enable WDT in flash boot
+;;;;;;reg_wdt_procpu_reset_en;[9];1'd0;R/W;;;;;enable WDT reset PRO CPU
+;;;;;;reg_wdt_appcpu_reset_en;[8];1'd0;R/W;;;;;enable WDT reset APP CPU
+;;;;;;reg_wdt_pause_in_slp;[7];1'd1;R/W;;;;;pause WDT in sleep
+;;;;;;;[6:0];;;;;;;
+0x0026;RTC_WDTCONFIG1;dig_clk_rtc_gated;rst_rtc_n;;;reg_wdt_stg0_hold;[31:0];32'd128000;R/W;;;;PROT=wdt_wprotectn;
+0x0027;RTC_WDTCONFIG2;dig_clk_rtc_gated;rst_rtc_n;;;reg_wdt_stg1_hold;[31:0];32'd80000;R/W;;;;PROT=wdt_wprotectn;
+0x0028;RTC_WDTCONFIG3;dig_clk_rtc_gated;rst_rtc_n;;;reg_wdt_stg2_hold;[31:0];32'hfff;R/W;;;;PROT=wdt_wprotectn;
+0x0029;RTC_WDTCONFIG4;dig_clk_rtc_gated;rst_rtc_n;;;reg_wdt_stg3_hold;[31:0];32'hfff;R/W;;;;PROT=wdt_wprotectn;
+0x002a;RTC_WDTFEED;dig_clk_rtc_gated;rst_rtc_n;;;rtc_wdt_feed;[31];1'd0;WO;;;;;
+;;;;;;;[30:0];;;;;;;
+0x002b;RTC_WDTWPROTECT;dig_clk_rtc_gated;rst_rtc_n;;;reg_wdt_wkey;[31:0];32'h50d83aa1;R/W;;;;IO = I, wdt_wprotectn;
+0x002c;RTC_TEST_MUX;dig_clk_rtc_gated;rst_rtc_n;;;reg_dtest_rtc;[31:30];2'd0;R/W;;;;;
+;;;;;;reg_ent_rtc;[29];1'd0;R/W;;;;;ENT_RTC
+;;;;;;;[28:0];;;;;;;
+0x002d;RTC_SW_CPU_STALL;dig_clk_rtc_gated;rst_rtc_n;;;reg_sw_stall_procpu_c1;[31:26];6'b0;R/W;;;;;
+;;;;;;reg_sw_stall_appcpu_c1;[25:20];6'b0;R/W;;;;;{reg_sw_stall_appcpu_c1[5:0],  reg_sw_stall_appcpu_c0[1:0]} == 0x86 will stall APP CPU
+;;;;;;;[19:0];;;;;;;
+0x002e;RTC_STORE4;dig_clk_rtc_gated;rst_rtc_n;Not;;rtc_scratch4;[31:0];0;R/W;;;;;
+0x002f;RTC_STORE5;dig_clk_rtc_gated;rst_rtc_n;Not;;rtc_scratch5;[31:0];0;R/W;;;;;
+0x0030;RTC_STORE6;dig_clk_rtc_gated;rst_rtc_n;Not;;rtc_scratch6;[31:0];0;R/W;;;;;
+0x0031;RTC_STORE7;dig_clk_rtc_gated;rst_rtc_n;Not;;rtc_scratch7;[31:0];0;R/W;;;;;
+0x0032;RTC_DIAG0;dig_clk_rtc_gated;rst_rtc_n;;N/A;rtc_low_power_diag0;[31:0];0;RO;;;;;
+0x0033;RTC_DIAG1;dig_clk_rtc_gated;rst_rtc_n;;N/A;rtc_low_power_diag1;[31:0];0;RO;;;;;
+0x0034;RTC_HOLD_FORCE;dig_clk_rtc_gated;rst_rtc_n;;;;[31:18];0;RO;;;;;
+;;;;;N/A;reg_x32n_hold_force;[17];1'b0;R/W;;;;;
+;;;;;N/A;reg_x32p_hold_force;[16];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad7_hold_force;[15];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad6_hold_force;[14];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad5_hold_force;[13];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad4_hold_force;[12];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad3_hold_force;[11];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad2_hold_force;[10];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad1_hold_force;[9];1'b0;R/W;;;;;
+;;;;;N/A;reg_touch_pad0_hold_force;[8];1'b0;R/W;;;;;
+;;;;;N/A;reg_sense4_hold_force;[7];1'b0;R/W;;;;;
+;;;;;N/A;reg_sense3_hold_force;[6];1'b0;R/W;;;;;
+;;;;;N/A;reg_sense2_hold_force;[5];1'b0;R/W;;;;;
+;;;;;N/A;reg_sense1_hold_force;[4];1'b0;R/W;;;;;
+;;;;;N/A;reg_pdac2_hold_force;[3];1'b0;R/W;;;;;
+;;;;;N/A;reg_pdac1_hold_force;[2];1'b0;R/W;;;;;
+;;;;;N/A;reg_adc2_hold_force;[1];1'b0;R/W;;;;;
+;;;;;N/A;reg_adc1_hold_force;[0];1'b0;R/W;;;;;
+0x0035;RTC_EXT_WAKEUP1;dig_clk_rtc_gated;rst_rtc_n;;;;[31:19];13'b0;RO;;;;;
+;;;;;;reg_ext_wakeup1_status_clr;[18];1'd0;WO;;;;;clear ext wakeup1 status
+;;;;;;reg_ext_wakeup1_sel;[17:0];18'd0;R/W;;;;;Bitmap to select RTC pads for ext wakeup1
+0x0036;RTC_EXT_WAKEUP1_STATUS;dig_clk_rtc_gated;rst_rtc_n;;;;[31:18];14'b0;RO;;;;;
+;;;;;;reg_ext_wakeup1_status;[17:0];18'd0;RO;;;;;ext wakeup1 status
+0x0037;RTC_BROWN_OUT;dig_clk_rtc_gated;rst_rtc_n;;;rtc_brown_out_det;[31];1'b0;RO;;;;;
+;;;;;;reg_brown_out_ena;[30];1'b0;R/W;;;;;enable brown out
+;;;;;;reg_dbrown_out_thres;[29:27];3'b010;R/W;;;;;brown out threshold
+;;;;;;reg_brown_out_rst_ena;[26];1'b0;R/W;;;;;enable brown out reset
+;;;;;;reg_brown_out_rst_wait;[25:16];10'h3ff;R/W;;;;;brown out reset wait cycles
+;;;;;;reg_brown_out_pd_rf_ena;[15];1'b0;R/W;;;;;enable power down RF when brown out happens
+;;;;;;reg_brown_out_close_flash_ena;[14];1'b0;R/W;;;;;enable close flash when brown out happens
+;;;;;;;[13:0];;;;;;;
+0x004f;RTC_CNTL_DATE;dig_clk_rtc_gated;rst_rtc_n;;;;[31:28];;;;;;;
+;;;;;N/A;rtc_cntl_date;[27:0];28'h1702280;R/W;;;;;

@@ -1,0 +1,23 @@
+﻿生成启动时间为 2/25/2020 6:15:01 PM。
+     1>项目“D:\chip\chip_6.0\ATE_test\read_byte_0509_chip_6.0\read_byte\read_byte.vcxproj”在节点 2 上(rebuild 个目标)。
+     1>_PrepareForClean:
+         正在删除文件“Debug\read_byte.lastbuildstate”。
+       InitializeBuildStatus:
+         正在创建“Debug\read_byte.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W1 /WX- /O2 /Oy- /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt read_byte1.cpp
+         read_byte1.cpp
+     1>d:\chip\chip_6.0\ate_test\read_byte_0509_chip_6.0\read_byte\read_byte1.cpp(245): warning C4715: “get_0x”: 不是所有的控件路径都返回值
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\chip\chip_6.0\ATE_test\read_byte_0509_chip_6.0\Debug\read_byte.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\read_byte.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"D:\chip\chip_6.0\ATE_test\read_byte_0509_chip_6.0\Debug\read_byte.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\chip\chip_6.0\ATE_test\read_byte_0509_chip_6.0\Debug\read_byte.lib" /MACHINE:X86 Debug\read_byte1.obj
+         read_byte.vcxproj -> D:\chip\chip_6.0\ATE_test\read_byte_0509_chip_6.0\Debug\read_byte.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\chip\chip_6.0\ATE_test\read_byte_0509_chip_6.0\Debug\read_byte.exe;#1" /manifest Debug\read_byte.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         正在删除文件“Debug\read_byte.unsuccessfulbuild”。
+         正在对“Debug\read_byte.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“D:\chip\chip_6.0\ATE_test\read_byte_0509_chip_6.0\read_byte\read_byte.vcxproj”(rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.04

@@ -1,0 +1,55 @@
+Address;RegName;Clk;Rst;Port;Signal;BitPos;Default;SW(R/W);HW(W);MCU(W);MISC;Description;Unnamed: 13
+0x0000;MACRATE_SCCKTAB1;pclk;reset_n;;reg_ratetab_lr7;[31:24];8'b11001;R/W;;;;0x400,0.5  BPSK no vierbit;'b1010
+;;;;;reg_ratetab_lr6;[23:16];8'b11001;R/W;;;;0.25 BPSK no vierbit;'b1001
+;;;;;reg_ratetab_lr5;[15:8];8'b10101;R/W;;;;0.5  QPSK vierbit;'b0110
+;;;;;reg_ratetab_lr4;[7:0];8'b10101;R/W;;;;0.25 QPSK vierbit;'b0101
+0x0004;MACRATE_SCCKTAB0;pclk;reset_n;;reg_ratetab_lr3;[31:24];8'b10001;R/W;;;;1ML BPSK viterbit;'b0011
+;;;;;reg_ratetab_lr2;[23:16];8'b10001;R/W;;;;0.5M BPSK viterbit;'b0010
+;;;;;reg_ratetab_lr1;[15:8];8'b10001;R/W;;;;0.25M BPSK viterbit;'b0001
+;;;;;reg_ratetab_lr0;[7:0];8'b10000;R/W;;;;0.125M BPSK viterbit;'b0000
+0x0008;MACRATE_CCKTAB1;pclk;reset_n;;reg_ratetab_cck7;[31:24];8'h5;R/W;;;;11MS;
+;;;;;reg_ratetab_cck6;[23:16];8'h5;R/W;;;;5.5MS;
+;;;;;reg_ratetab_cck5;[15:8];8'h5;R/W;;;;2MS;
+;;;;;reg_ratetab_cck4;[7:0];8'h0;R/W;;;;--;
+0x000C;MACRATE_CCKTAB0;pclk;reset_n;;reg_ratetab_cck3;[31:24];8'h1;R/W;;;;11ML;
+;;;;;reg_ratetab_cck2;[23:16];8'h1;R/W;;;;5.5ML;
+;;;;;reg_ratetab_cck1;[15:8];8'h1;R/W;;;;2ML;
+;;;;;reg_ratetab_cck0;[7:0];8'h0;R/W;;;;1ML;
+0x0010;MACRATE_OFDMTAB1;pclk;reset_n;;reg_ratetab_ofdm7;[31:24];8'b1001;R/W;;;;54;
+;;;;;reg_ratetab_ofdm6;[23:16];8'b1001;R/W;;;;48;
+;;;;;reg_ratetab_ofdm5;[15:8];8'b1001;R/W;;;;36;
+;;;;;reg_ratetab_ofdm4;[7:0];8'b1001;R/W;;;;24;
+0x0014;MACRATE_OFDMTAB0;pclk;reset_n;;reg_ratetab_ofdm3;[31:24];8'b1010;R/W;;;;18;
+;;;;;reg_ratetab_ofdm2;[23:16];8'b1010;R/W;;;;12;
+;;;;;reg_ratetab_ofdm1;[15:8];8'b1011;R/W;;;;9;
+;;;;;reg_ratetab_ofdm0;[7:0];8'b1011;R/W;;;;6;
+0x0018;MACRATE_11NTAB1;pclk;reset_n;;reg_ratetab_11n7;[31:24];8'b1001;R/W;;;;65/72.2;
+;;;;;reg_ratetab_11n6;[23:16];8'b1001;R/W;;;;58.5/65;
+;;;;;reg_ratetab_11n5;[15:8];8'b1001;R/W;;;;52/57.8;
+;;;;;reg_ratetab_11n4;[7:0];8'b1001;R/W;;;;39/43.3;
+0x001C;MACRATE_11NTAB0;pclk;reset_n;;reg_ratetab_11n3;[31:24];8'b1001;R/W;;;;26/28.9;
+;;;;;reg_ratetab_11n2;[23:16];8'b1010;R/W;;;;19.5/21.7;
+;;;;;reg_ratetab_11n1;[15:8];8'b1010;R/W;;;;13/14.4;
+;;;;;reg_ratetab_11n0;[7:0];8'b1011;R/W;;;;6.5/7.2;
+0x0020;MACTXRATE_LIM;pclk;reset_n;;;[31:24];8'h0;RO;;;;;
+;;;;;reg_maxlr;[23:20];4'b0011;R/W;;;;;
+;;;;;reg_maxcck;[19:16];4'b0111;R/W;;;;;
+;;;;;;[15:12];4'h0;RO;;;;;
+;;;;;reg_maxofdm;[11:8];4'b1100;R/W;;;;;
+;;;;;reg_max11n;[7:0];8'h7;R/W;;;;;
+0x0024;MACDIAG8;pclk;reset_n;;mac_tx_diag0;[31:0];32'h0;RO;;;;{ampdu_fistword[18:0], ampdu_frstword_valid, subframe_cnt[5:0], bb_txerror, mac_link_tx_en, tx_state[3:0]};
+0x0028;MACDIAG9;pclk;reset_n;;mac_tx_diag1;[31:0];32'h0;RO;;;;{tx_fifo_rddata_mux[6:0], tx_fifo_unload, tx_fifo_empty_mux, tx_fifo_reset, tx_statrt_read, mac_link_end_mux, Hold_done, bb_txerror_latched, tx_rate[3:0], tick_1us, txend_int, enable_txpath, sec_txsm_rdy, txsm_sec_txdata_valid, bb_txframe_ack, mac_txframe, txsm_sec_txdata[7:0]};
+0x002C;MACDIAG10;pclk;reset_n;;mac_tx_diag2;[31:0];32'h0;RO;;;;{tx_is_40m,tx_is_20m, mac_tx_link_diag[27:0]};
+0x0030;MACDIAG12;pclk;reset_n;;mac_tx_diag3;[31:0];32'h0;RO;;;;;
+0x0034;MACDBG;pclk;reset_n;;;[31:4];28'h0;RO;;;;;
+;;;;;reg_tobb_fifo_clkb_en;[3];1'b0;R/W;;;;;
+;;;;;reg_tobb_fifo_clka_en;[2];1'b0;R/W;;;;;
+;;;; Not;reg_txclk_en;[1];1'b0;R/W;;;;;
+;;;;;reg_always_tx;[0];1'h0;R/W;;;;;
+0x0038;MACTX_TO;pclk;reset_n;;reg_txto_ena;[31];1'h0;R/W;;;;;
+;;;;;;[30:16];15'h0;RO;;;;;
+;;;;;reg_txto_timer;[15:0];16'h0;R/W;;;;ms;
+0x003C;MACTX_AHB;pclk;reset_n;;;[31:4];28'h0;RO;;;;;
+;;;;;reg_txburst_max_len;[3:0];4'h8;R/W;;;;;
+0x03F8;MACTXDATE;pclk;reset_n;;;[31:28];4'h0;RO;;;;;
+;;;;;reg_mactx_date;[27:0];28'h1603201;R/W;;;;;

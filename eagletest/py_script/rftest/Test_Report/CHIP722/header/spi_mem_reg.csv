@@ -1,0 +1,323 @@
+ Address ;RegName;Clk;Rst;Port ; Public ; Signal;BitPos;Default;SW(R/W);HW(W);MCU(W);MISC;Description
+0x000;SPI_MEM_CMD;clk;reset_n;;N/A;spi_mem_flash_read;[31];1'b0;R/W;spi_mem_flash_read_end/1'b0;;;Read flash enable. Read flash operation will be triggered when the bit is set. The bit will be cleared once the operation done. 1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_wren;[30];1'b0;R/W;spi_mem_flash_wren_end/1'b0;;;Write flash enable.  Write enable command will be sent when the bit is set. The bit will be cleared once the operation done. 1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_wrdi;[29];1'b0;R/W;spi_mem_flash_wrdi_end/1'b0;;;Write flash disable. Write disable command will be sent when the bit is set. The bit will be cleared once the operation done. 1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_rdid;[28];1'b0;R/W;spi_mem_flash_rdid_end/1'b0;;;Read JEDEC ID . Read ID command will be sent when the bit is set. The bit will be cleared once the operation done. 1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_rdsr;[27];1'b0;R/W;spi_mem_flash_rdsr_end/1'b0;;;Read status register-1.  Read status operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_wrsr;[26];1'b0;R/W;spi_mem_flash_wrsr_end/1'b0;;;Write status register enable.   Write status operation  will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_pp;[25];1'b0;R/W;spi_mem_flash_pp_end/1'b0;;;Page program enable(1 byte ~256 bytes data to be programmed). Page program operation  will be triggered when the bit is set. The bit will be cleared once the operation done .1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_se;[24];1'b0;R/W;spi_mem_flash_se_end/1'b0;;;Sector erase enable(4KB). Sector erase operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_be;[23];1'b0;R/W;spi_mem_flash_be_end/1'b0;;;Block erase enable(32KB) .  Block erase operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_ce;[22];1'b0;R/W;spi_mem_flash_ce_end/1'b0;;;Chip erase enable. Chip erase operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_dp;[21];1'b0;R/W;spi_mem_flash_dp_end/1'b0;;;Drive Flash into power down.  An operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_res;[20];1'b0;R/W;spi_mem_flash_res_end/1'b0;;;This bit combined with reg_resandres bit releases Flash from the power-down state or high performance mode and obtains the devices ID. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_hpm;[19];1'b0;R/W;spi_mem_flash_hpm_end/1'b0;;;Drive Flash into high performance mode.  The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;;spi_mem_usr;[18];1'b0;R/W;spi_mem_usr_end/1'b0;;;User define command enable.  An operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;N/A;spi_mem_flash_pe;[17];1'b0;R/W;spi_mem_flash_pe_end/1'b0;;;In user mode, it is set to indicate that program/erase operation will be triggered. The bit is combined with spi_mem_usr bit. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;;;[16:0];17'b0;RO;;;;reserved
+0x004;SPI_MEM_ADDR;clk;reset_n;;;spi_mem_usr_addr_value;[31:0];32'h0;R/W;;;;In user mode, it is the memory address. other then the bit0-bit23 is the memory address, the bit24-bit31 are the byte length of a transfer.
+0x008;SPI_MEM_CTRL;clk;reset_n;;;;[31:25];7'h0;RO;;;;reserved
+;;;;;;spi_mem_fread_qio;[24];1'b0;R/W;;;;In the read operations address phase and read-data phase apply 4 signals. 1: enable 0: disable. 
+;;;;;;spi_mem_fread_dio;[23];1'b0;R/W;;;;In the read operations address phase and read-data phase apply 2 signals. 1: enable 0: disable. 
+;;;;;N/A;spi_mem_wrsr_2b;[22];1'b0;R/W;;;;two bytes data will be written to status register when it is set. 1: enable 0: disable. 
+;;;;;;spi_mem_wp_reg;[21];1'b1;R/W;;;;Write protect signal output when SPI is idle.  1: output high, 0: output low. 
+;;;;;;spi_mem_fread_quad;[20];1'b0;R/W;;;;In the read operations read-data phase apply 4 signals. 1: enable 0: disable. 
+;;;;;;spi_mem_d_pol;[19];1'b1;R/W;;;;The bit is used to set MOSI line polarity, 1: high 0, low
+;;;;;;spi_mem_q_pol;[18];1'b1;R/W;;;;The bit is used to set MISO line polarity, 1: high 0, low
+;;;;;;;[17:16];2'h0;RO;;;;reserved
+;;;;;N/A;spi_mem_resandres;[15];1'b1;R/W;;;;The Device ID is read out to SPI_MEM_RD_STATUS register,  this bit combine with spi_mem_flash_res bit. 1: enable 0: disable. 
+;;;;;;spi_mem_fread_dual;[14];1'b0;R/W;;;;In the read operations, read-data phase apply 2 signals. 1: enable 0: disable. 
+;;;;;;spi_mem_fastrd_mode;[13];1'b1;R/W;;;;This bit enable the bits: spi_mem_fread_qio, spi_mem_fread_dio, spi_mem_fread_qout and spi_mem_fread_dout. 1: enable 0: disable. 
+;;;;;;;[12];1'b0;RO;;;;reserved
+;;;;;N/A;spi_mem_tx_crc_en;[11];1'b0;R/W;;;;For SPI1,  enable crc32 when writing encrypted data to flash. 1: enable 0:disable
+;;;;;N/A;spi_mem_fcs_crc_en;[10];1'b0;R/W;;;;For SPI1,  initialize crc32 module before writing encrypted data to flash. Active low.
+;;;;;;;[9];1'b0;RO;;;;reserved
+;;;;;;spi_mem_fcmd_quad;[8];1'b0;R/W;;;;Apply 4 signals during command phase 1:enable 0: disable
+;;;;;;spi_mem_fcmd_dual;[7];1'b0;R/W;;;;Apply 2 signals during command phase 1:enable 0: disable
+;;;;;;;[6:4];3'b0;RO;;;;reserved
+;;;;;;spi_mem_dummy_out;[3];1'b0;R/W;;;;In the dummy phase the signal level of spi is output by the spi controller.
+;;;;;N/A;;[2:0];3'b0;RO;;;;reserved
+0x00C;SPI_MEM_CTRL1;clk;reset_n;;;spi_mem_cs_dly_edge;[31];1'b0;R/W;;;;The bit is used to select the spi clock edge to modify CS line timing.
+;;;;;;spi_mem_cs_dly_mode;[30:28];3'h0;R/W;;;;The cs signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk
+;;;;;;spi_mem_cs_dly_num;[27:26];2'h0;R/W;;;;spi_mem_cs signal is delayed by system clock cycles
+;;;;;;spi_mem_cs_hold_dly;[25:14];12'h1;R/W;;;;SPI fsm is delayed to idle by spi clock cycles. 
+;;;;;N/A;spi_mem_cs_hold_dly_res;[13:2];12'hfff;R/W;;;;Delay cycles of resume Flash when resume Flash from standby mode is enable by spi clock.
+;;;;;;spi_mem_clk_mode;[1:0];2'h0;R/W;;;;SPI clock mode bits. 0: SPI clock is off when CS inactive 1: SPI clock is delayed one cycle after CS inactive 2: SPI clock is delayed two cycles after CS inactive 3: SPI clock is alwasy on.
+0x010;SPI_MEM_CTRL2;clk;reset_n;;;spi_mem_sync_reset;[31];1'b0;R/W;spi_mem_sync_reset_done/1'd0;;;The FSM will be reset.
+;;;;;;;[30:26];5'd0;RO;;;;reserved
+;;;;;;spi_mem_cs_hold_time;[25:13];13'h1;R/W;;;;Spi cs signal is delayed to inactive by spi clock this bits are combined with spi_mem_cs_hold bit.
+;;;;;;spi_mem_cs_setup_time;[12:0];13'h1;R/W;;;;(cycles-1) of prepare phase by spi clock this bits are combined with spi_mem_cs_setup bit.
+0x014;SPI_MEM_CLOCK;clk;reset_n;;;spi_mem_clk_equ_sysclk;[31];1'b0;R/W;;;;reserved
+;;;;;;;[30:24];7'h0;RO;;;;In the master mode it is pre-divider of spi_mem_clk. 
+;;;;;;spi_mem_clkcnt_N;[23:16];8'h3;R/W;;;;In the master mode it is the divider of spi_mem_clk. So spi_mem_clk frequency is system/(spi_mem_clkcnt_N+1)
+;;;;;;spi_mem_clkcnt_H;[15:8];8'h1;R/W;;;;In the master mode it must be floor((spi_mem_clkcnt_N+1)/2-1).
+;;;;;;spi_mem_clkcnt_L;[7:0];8'h3;R/W;;;;In the master mode it must be equal to spi_mem_clkcnt_N. 
+0x018;SPI_MEM_USER;clk;reset_n;;;spi_mem_usr_command;[31];1'b1;R/W;;;;This bit enable the command phase of an operation.
+;;;;;;spi_mem_usr_addr;[30];1'b0;R/W;;;;This bit enable the address phase of an operation.
+;;;;;;spi_mem_usr_dummy;[29];1'b0;R/W;;;;This bit enable the dummy phase of an operation.
+;;;;;;spi_mem_usr_miso;[28];1'b0;R/W;;;;This bit enable the read-data phase of an operation.
+;;;;;;spi_mem_usr_mosi;[27];1'b0;R/W;;;;This bit enable the write-data phase of an operation.
+;;;;;;spi_mem_usr_dummy_idle;[26];1'b0;R/W;;;;spi clock is disable in dummy phase when the bit is enable.
+;;;;;;spi_mem_usr_mosi_highpart;[25];1'b0;R/W;;;;write-data phase only access to high-part of the buffer spi_mem_w8~spi_mem_w15. 1: enable 0: disable. 
+;;;;;;spi_mem_usr_miso_highpart;[24];1'b0;R/W;;;;read-data phase only access to high-part of the buffer spi_mem_w8~spi_mem_w15. 1: enable 0: disable. 
+;;;;;;;[23:16];8'b0;RO;;;;reserved
+;;;;;;spi_mem_fwrite_qio;[15];1'b0;R/W;;;;In the write operations address phase and read-data phase apply 4 signals.
+;;;;;;spi_mem_fwrite_dio;[14];1'b0;R/W;;;;In the write operations address phase and read-data phase apply 2 signals.
+;;;;;;spi_mem_fwrite_quad;[13];1'b0;R/W;;;;In the write operations read-data phase apply 4 signals
+;;;;;;spi_mem_fwrite_dual;[12];1'b0;R/W;;;;In the write operations read-data phase apply 2 signals
+;;;;;;;[11:10];2'b0;RO;;;;reserved
+;;;;;;spi_mem_ck_out_edge;[9];1'b0;R/W;;;;the bit combined with spi_mem_mosi_delay_mode bits to set mosi signal delay mode. 
+;;;;;;;[8];1'b0;RO;;;;reserved
+;;;;;;spi_mem_cs_setup;[7];1'b0;R/W;;;;spi cs is enable when spi is in  prepare  phase. 1: enable 0: disable. 
+;;;;;;spi_mem_cs_hold;[6];1'b0;R/W;;;;spi cs keep low when spi is in  done  phase. 1: enable 0: disable. 
+;;;;;;;[5:0];6'b0;RO;;;;reserved
+0x01C;SPI_MEM_USER1;clk;reset_n;;;spi_mem_usr_addr_bitlen;[31:26];6'd23;R/W;;;;The length in bits of address phase. The register value shall be (bit_num-1).
+;;;;;;;[25:8];18'd0;R/W;;;;reserved
+;;;;;;spi_mem_usr_dummy_cyclelen;[7:0];8'd7;R/W;;;;The length in spi_mem_clk cycles of dummy phase. The register value shall be (cycle_num-1).
+0x020;SPI_MEM_USER2;clk;reset_n;;;spi_mem_usr_command_bitlen;[31:28];4'd7;R/W;;;;The length in bits of command phase. The register value shall be (bit_num-1)
+;;;;;;;[27:16];12'b0;R/W;;;;reserved
+;;;;;;spi_mem_usr_command_value;[15:0];16'b0;R/W;;;;The value of  command.
+0x024;SPI_MEM_MOSI_DLEN;clk;reset_n;;;;[31:11];21'b0;RO;;;;reserved
+;;;;;;spi_mem_usr_mosi_dbitlen;[10:0];11'h0;R/W;;;;The length in bits of write-data. The register value shall be (bit_num-1).
+0x028;SPI_MEM_MISO_DLEN;clk;reset_n;;;;[31:11];21'b0;RO;;;;reserved
+;;;;;;spi_mem_usr_miso_dbitlen;[10:0];11'h0;R/W;;;;The length in bits of  read-data. The register value shall be (bit_num-1).
+0x02C;SPI_MEM_RD_STATUS;clk;reset_n;;;;[31:24];8'h00;RO;;;;reserved
+;;;;;N/A;spi_mem_wb_mode;[23:16];8'h00;R/W;;;;Mode bits in the flash fast read mode  it is combined with spi_mem_fastrd_mode bit.
+;;;;;;spi_mem_status;[15:0];16'b0;R/W;spi_mem_rdsr/spi_mem_status_in[15:0];;IO=I,spi_mem_status_in[15:0];The value is stored when set spi_mem_flash_rdsr bit and spi_mem_flash_res bit.
+0x030;SPI_MEM_EXT_ADDR;clk;reset_n;;;spi_mem_ext_addr;[31:0];32'b0;R/W;;;;The register are the higher 32bits in the 64 bits address mode.
+0x034;SPI_MEM_MISC;clk;reset_n;;;;[31:12];20'b0;RO;;;;reserved
+;;;;;N/A;spi_mem_auto_per;[11];1'b0;R/W;;;;reserved
+;;;;;;spi_mem_cs_keep_active;[10];1'b0;R/W;;;;spi cs line keep low when the bit is set.
+;;;;;;spi_mem_ck_idle_edge;[9];1'b0;R/W;;;;1: spi clk line is high when idle     0: spi clk line is low when idle 
+;;;;;;spi_mem_ssub_pin;[8];1'b0;R/W;;;;For SPI0,  sram is connected to SUBPINs.
+;;;;;;spi_mem_fsub_pin;[7];1'b0;R/W;;;;For SPI0,  flash is connected to SUBPINs.
+;;;;;;spi_mem_cs_pol;[6:5];2'b0;R/W;;;;In the master mode the bits are the polarity of spi cs line, the value is equivalent to spi_mem_cs ^ spi_mem_master_cs_pol.
+;;;;;;spi_mem_trans_end_int_ena;[4];1'b0;R/W;;;;The bit is used to enable the intterrupt of SPI transmitting done.
+;;;;;;spi_mem_trans_end;[3];1'b0;R/W;spi_mem_operation_done/1'd1;;;The bit is used to indicate the transimitting is done.
+;;;;;;;[2];1'b0;RO;;;;reserved
+;;;;;;spi_mem_cs1_dis;[1];1'b1;R/W;;;;SPI CS1 pin enable, 1: disable CS1, 0: spi_mem_cs1 signal is from/to CS1 pin
+;;;;;;spi_mem_cs0_dis;[0];1'b0;R/W;;;;SPI CS0 pin enable, 1: disable CS0, 0: spi_mem_cs0 signal is from/to CS0 pin
+0x038;SPI_MEM_TX_CRC;clk;reset_n;;;spi_mem_tx_crc_data;[31:0];32'b0;RO;;;;For SPI1, the value of crc32.
+0x03C;SPI_MEM_CACHE_FCTRL;clk;reset_n;;;;[31:9];13'h0;RO;;;;reserved
+;;;;;N/A;spi_mem_faddr_quad;[8];1'b0;R/W;;;;For SPI0 flash, address phase apply 4 signals. 1: enable 0: disable.  The bit is the same with spi_mem_fread_qio.
+;;;;;N/A;spi_mem_fdout_quad;[7];1'b0;R/W;;;;For SPI0 flash, dout phase apply 4 signals. 1: enable 0: disable.  The bit is the same with spi_mem_fread_qio.
+;;;;;N/A;spi_mem_fdin_quad ;[6];1'b0;R/W;;;;For SPI0 flash, din phase apply 4 signals. 1: enable 0: disable.  The bit is the same with spi_mem_fread_qio.
+;;;;;N/A;spi_mem_faddr_dual;[5];1'b0;R/W;;;;For SPI0 flash, address phase apply 2 signals. 1: enable 0: disable.  The bit is the same with spi_mem_fread_dio.
+;;;;;N/A;spi_mem_fdout_dual;[4];1'b0;R/W;;;;For SPI0 flash, dout phase apply 2 signals. 1: enable 0: disable. The bit is the same with spi_mem_fread_dio.
+;;;;;N/A;spi_mem_fdin_dual ;[3];1'b0;R/W;;;;For SPI0 flash, din phase apply 2 signals. 1: enable 0: disable. The bit is the same with spi_mem_fread_dio.
+;;;;;N/A;spi_mem_cache_flash_usr_cmd;[2];1'b0;R/W;;;;For SPI0,  cache  read flash for user define command, 1: enable, 0:disable.
+;;;;;N/A;spi_mem_cache_usr_cmd_4byte;[1];1'b0;R/W;;;;For SPI0,  cache  read flash with 4 bytes command, 1: enable, 0:disable.
+;;;;;N/A;spi_mem_cache_req_en;[0];1'b0;R/W;;;;For SPI0, Cache access enable, 1: enable, 0:disable.
+0x040;SPI_MEM_CACHE_SCTRL;clk;reset_n;;N/A;;[31:30];2'h0;RO;;;;reserved
+;;;;;N/A;spi_mem_sram_wdummy_cyclelen;[29:22];8'b1;R/W;;;;For SPI0, In the sram mode, it is the length in bits of write dummy phase. The register value shall be (bit_num-1).
+;;;;;N/A;;[21];1'b0;RO;;;;reserved
+;;;;;N/A;spi_mem_cache_sram_usr_wcmd;[20];1'b1;R/W;;;;For SPI0, In the spi sram mode cache write sram for user define command
+;;;;;N/A;spi_mem_sram_addr_bitlen;[19:14];6'd23;R/W;;;;For SPI0, In the sram mode, it is the length in bits of address phase. The register value shall be (bit_num-1).
+;;;;;N/A;spi_mem_sram_rdummy_cyclelen;[13:6];8'b1;R/W;;;;For SPI0, In the sram mode, it is the length in bits of read dummy phase. The register value shall be (bit_num-1).
+;;;;;N/A;spi_mem_cache_sram_usr_rcmd;[5];1'b1;R/W;;;;For SPI0, In the spi sram mode cache read sram for user define command.
+;;;;;N/A;spi_mem_usr_rd_sram_dummy;[4];1'b1;R/W;;;;For SPI0, In the spi sram mode, it is the enable bit of dummy phase for read operations.
+;;;;;N/A;spi_mem_usr_wr_sram_dummy;[3];1'b0;R/W;;;;For SPI0, In the spi sram mode, it is the enable bit of dummy phase for write operations.
+;;;;;N/A;spi_mem_usr_sram_qio;[2];1'b0;R/W;;;;For SPI0, In the spi sram mode, spi quad I/O mode enable, 1: enable, 0:disable
+;;;;;N/A;spi_mem_usr_sram_dio;[1];1'b0;R/W;;;;For SPI0, In the spi sram mode, spi dual I/O mode enable, 1: enable, 0:disable
+;;;;;N/A;spi_mem_cache_usr_scmd_4byte;[0];1'b0;R/W;;;;For SPI0, In the spi sram mode, cache read flash with 4 bytes command, 1: enable, 0:disable.
+0x044;SPI_MEM_SRAM_CMD;clk;reset_n;;N/A;;[31:18];14'h0;RO;;;;reserved
+;;;;;N/A;spi_mem_scmd_quad ;[17];1'b0;R/W;;;;For SPI0 sram, cmd phase apply 4 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_qio.
+;;;;;N/A;spi_mem_saddr_quad;[16];1'b0;R/W;;;;For SPI0 sram, address phase apply 4 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_qio.
+;;;;;N/A;spi_mem_sdout_quad;[15];1'b0;R/W;;;;For SPI0 sram, dout phase apply 4 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_qio.
+;;;;;N/A;spi_mem_sdin_quad ;[14];1'b0;R/W;;;;For SPI0 sram, din phase apply 4 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_qio.
+;;;;;N/A;spi_mem_scmd_dual ;[13];1'b0;R/W;;;;For SPI0 sram, cmd phase apply 2 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_dio.
+;;;;;N/A;spi_mem_saddr_dual;[12];1'b0;R/W;;;;For SPI0 sram, address phase apply 2 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_dio.
+;;;;;N/A;spi_mem_sdout_dual;[11];1'b0;R/W;;;;For SPI0 sram, dout phase apply 2 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_dio.
+;;;;;N/A;spi_mem_sdin_dual ;[10];1'b0;R/W;;;;For SPI0 sram, din phase apply 2 signals. 1: enable 0: disable. The bit is the same with spi_mem_usr_sram_dio.
+;;;;;N/A;spi_mem_swb_mode;[9:2];8'b0;R/W;;;;Mode bits in the psram fast read mode  it is combined with spi_mem_fastrd_mode bit.
+;;;;;N/A;spi_mem_sclk_mode;[1:0];2'd0;R/W;;;;SPI clock mode bits. 0: SPI clock is off when CS inactive 1: SPI clock is delayed one cycle after CS inactive 2: SPI clock is delayed two cycles after CS inactive 3: SPI clock is alwasy on.
+0x048;SPI_MEM_SRAM_DRD_CMD;clk;reset_n;;N/A;spi_mem_cache_sram_usr_rd_cmd_bitlen;[31:28];4'h0;R/W;;;;For SPI0,When cache mode is enable it is the length in bits of command phase for sram. The register value shall be (bit_num-1).
+;;;;;N/A;;[27:16];12'h0;RO;;;;reserved
+;;;;;N/A;spi_mem_cache_sram_usr_rd_cmd_value;[15:0];16'h0;R/W;;;;For SPI0,When cache mode is enable it is the read command value of command phase for sram.
+0x04C;SPI_MEM_SRAM_DWR_CMD;clk;reset_n;;N/A;spi_mem_cache_sram_usr_wr_cmd_bitlen;[31:28];4'h0;R/W;;;;For SPI0,When cache mode is enable it is the in bits of command phase  for sram. The register value shall be (bit_num-1).
+;;;;;N/A;;[27:16];12'h0;RO;;;;reserved
+;;;;;N/A;spi_mem_cache_sram_usr_wr_cmd_value;[15:0];16'h0;R/W;;;;For SPI0,When cache mode is enable it is the write command value of command phase for sram.
+0x050;SPI_MEM_SRAM_CLK;clk;reset_n;;N/A;spi_mem_sclk_equ_sysclk;[31];1'b0;R/W;;;;For SPI0 sram interface, 1: spi_mem_clk is eqaul to system 0: spi_mem_clk is divided from system clock.
+;;;;;N/A;;[30:24];7'h0;RO;;;;reserved
+;;;;;N/A;spi_mem_sclkcnt_N;[23:16];8'h3;R/W;;;;For SPI0 sram interface, it is the divider of spi_mem_clk. So spi_mem_clk frequency is system/(spi_mem_clkcnt_N+1)
+;;;;;N/A;spi_mem_sclkcnt_H;[15:8];8'h1;R/W;;;;For SPI0 sram interface, it must be floor((spi_mem_clkcnt_N+1)/2-1).
+;;;;;N/A;spi_mem_sclkcnt_L;[7:0];8'h3;R/W;;;;For SPI0 sram interface, it must be equal to spi_mem_clkcnt_N.
+0x054;SPI_MEM_FSM;clk;reset_n;;;;[31:3];29'h0;RO;;;;reserved
+;;;;;;spi_mem_st;[2:0];3'b0;RO;;;;The status of spi state machine. 0: idle state, 1: preparation state, 2: send command state, 3: send data state, 4: red data state, 5:write data state, 6: wait state, 7: done state.
+0x058;SPI_MEM_HOLD;clk;reset_n;;N/A;;[31:2];30'b0;RO;;;;reserved
+;;;;;N/A;spi_mem_hold_ena;[1:0];2'd3;R/W;;;;This register is for two SPI masters to share the same cs clock and data signals. The bits of one SPI are set, if the other SPI is busy, the SPI will be hold. 1(3): hold at  idle  phase 2: hold at  prepare  phase.
+0x05C;SPI_MEM_DMA_CONF;clk;reset_n;;N/A;;[31:17];15'h0;R/W;;;;reserved
+;;;;;;spi_mem_dma_continue;[16];1'b0;R/W;;;;spi dma continue tx/rx data.
+;;;;;;spi_mem_dma_tx_stop;[15];1'b0;R/W;spi_mem_operation_done/1'd0;;;spi dma write data stop when in continue tx/rx mode.
+;;;;;;spi_mem_dma_rx_stop;[14];1'b0;R/W;spi_mem_operation_done/1'd0;;;spi dma read data stop  when in continue tx/rx mode.
+;;;;;;spi_mem_dma_mem_trans_ena;[13];1'b0;R/W;;;;reserved
+;;;;;;spi_mem_out_data_burst_en;[12];1'b0;R/W;;;;spi dma read data from memory in burst mode.
+;;;;;;spi_mem_indscr_burst_en;[11];1'b0;R/W;;;;read descriptor use burst mode when write data to memory.
+;;;;;;spi_mem_outdscr_burst_en;[10];1'b0;R/W;;;;read descriptor use burst mode when read data for memory.
+;;;;;;spi_mem_out_eof_mode;[9];1'b1;R/W;;;;out eof flag generation mode . 1: when dma pop all data from fifo  0:when ahb push all data to fifo.
+;;;;;;spi_mem_out_auto_wrback;[8];1'b0;R/W;;;;when the bit is set, DMA continue to use the next inlink node when the length of inlink is 0.
+;;;;;N/A;spi_mem_out_loop_test;[7];1'b0;R/W;;;;Set bit to test out link.
+;;;;;N/A;spi_mem_in_loop_test;[6];1'b0;R/W;;;;Set bit to test in link.
+;;;;;N/A;spi_mem_ahbm_rst;[5];1'b0;R/W;;;;Reset spi dma ahb master.
+;;;;;;spi_mem_ahbm_fifo_rst;[4];1'b0;R/W;;;;Reset spi dma ahb master fifo pointer.
+;;;;;;spi_mem_out_rst;[3];1'b0;R/W;;;;The bit is used to reset out dma fsm and out data fifo pointer.
+;;;;;;spi_mem_in_rst;[2];1'b0;R/W;;;;The bit is used to reset in dma fsm and in data fifo pointer.
+;;;;;;spi_mem_dma_tx_ena;[1];1'b0;R/W;spi_mem_tx_start/1'd1;spi_mem_operation_done/1'd0;;spi dma tx data enable.
+;;;;;;spi_mem_dma_rx_ena;[0];1'b0;R/W;spi_mem_rx_start/1'd1;spi_mem_operation_done/1'd0;;spi dma rx data enable.
+0x060;SPI_MEM_DMA_OUT_LINK;clk;reset_n;;;;[31];1'b0;RO;;;;reserved
+;;;;;;spi_mem_outlink_restart;[30];1'b0;R/W;spi_mem_outlink_restart_clr/1'd0;;;Set the bit to mount on new outlink descriptors.
+;;;;;;spi_mem_outlink_start;[29];1'b0;R/W;spi_mem_outlink_start_clr/1'd0;;;Set the bit to start to use outlink descriptor.
+;;;;;;spi_mem_outlink_stop;[28];1'b0;R/W;spi_mem_outlink_stop_clr/1'd0;;;Set the bit to stop to use outlink descriptor.
+;;;;;;;[27:20];8'h0;R/W;;;;reserved
+;;;;;;spi_mem_outlink_addr;[19:0];20'h0;R/W;;;;The address of the first outlink descriptor.
+0x064;SPI_MEM_DMA_IN_LINK;clk;reset_n;;;;[31];1'b0;RO;;;;reserved
+;;;;;;spi_mem_inlink_restart;[30];1'b0;R/W;spi_mem_inlink_restart_clr/1'b0;;;Set the bit to mount on new inlink descriptors.
+;;;;;;spi_mem_inlink_start;[29];1'b0;R/W;spi_mem_inlink_start_clr/1'b0;;;Set the bit to start to use inlink descriptor.
+;;;;;;spi_mem_inlink_stop;[28];1'b0;R/W;spi_mem_inlink_stop_clr/1'b0;;;Set the bit to stop to use inlink descriptor.
+;;;;;;;[27:21];7'h0;R/W;;;;reserved
+;;;;;;spi_mem_inlink_auto_ret;[20];1'b0;R/W;;;;when the bit is set, the inlink descriptor returns to the first link node when a packet is error.
+;;;;;;spi_mem_inlink_addr;[19:0];20'h0;R/W;;;;The address of the first inlink descriptor.
+0x068;SPI_MEM_DMA_INT_ENA;clk;reset_n;;;;[31:9];23'h0;RO;;;;reserved
+;;;;Not;;spi_mem_out_total_eof_int_ena;[8];1'b0;R/W;;;;The enable bit for sending all the packets to host done.
+;;;;Not;;spi_mem_out_eof_int_ena;[7];1'b0;R/W;;;;The enable bit for sending a packet to host done.
+;;;;Not;;spi_mem_out_done_int_ena;[6];1'b0;R/W;;;;The enable bit for completing usage of a outlink descriptor .
+;;;;Not;;spi_mem_in_suc_eof_int_ena;[5];1'b0;R/W;;;;The enable bit for completing receiving all the packets from host.
+;;;;Not;;spi_mem_in_err_eof_int_ena;[4];1'b0;R/W;;;;The enable bit for receiving error.
+;;;;Not;;spi_mem_in_done_int_ena;[3];1'b0;R/W;;;;The enable bit for completing usage of a inlink descriptor.
+;;;;Not;;spi_mem_inlink_dscr_error_int_ena;[2];1'b0;R/W;;;;The enable bit for inlink descriptor error.
+;;;;Not;;spi_mem_outlink_dscr_error_int_ena;[1];1'b0;R/W;;;;The enable bit for outlink descriptor error.
+;;;;Not;;spi_mem_inlink_dscr_empty_int_ena;[0];1'b0;R/W;;;;The enable bit for lack of enough inlink descriptors.
+0x06C;SPI_MEM_DMA_INT_RAW;clk;reset_n;Not;;;[31:9];23'h0;RO;;;INT_RAW;reserved
+;;;;Not;;spi_mem_out_total_eof_int_raw;[8];1'b0;RO;spi_mem_out_total_eof/1'd1;spi_mem_out_total_eof_int_clr/1'd0;;The raw bit for sending all the packets to host done.
+;;;;Not;;spi_mem_out_eof_int_raw;[7];1'b0;RO;spi_mem_out_eof/1'd1;spi_mem_out_eof_int_clr/1'd0;;The raw bit for sending a packet to host done.
+;;;;Not;;spi_mem_out_done_int_raw;[6];1'b0;RO;spi_mem_out_done/1'd1;spi_mem_out_done_int_clr/1'd0;;The raw bit for completing usage of a outlink descriptor.
+;;;;Not;;spi_mem_in_suc_eof_int_raw;[5];1'b0;RO;spi_mem_in_suc_eof/1'd1;spi_mem_in_suc_eof_int_clr/1'd0;;The raw bit for completing receiving all the packets from host.
+;;;;Not;;spi_mem_in_err_eof_int_raw;[4];1'b0;RO;spi_mem_in_err_eof/1'd1;spi_mem_in_err_eof_int_clr/1'd0;;The raw bit for receiving error.
+;;;;Not;;spi_mem_in_done_int_raw;[3];1'b0;RO;spi_mem_in_done/1'd1;spi_mem_in_done_int_clr/1'd0;;The raw bit for completing usage of a inlink descriptor.
+;;;;Not;;spi_mem_inlink_dscr_error_int_raw;[2];1'b0;RO;spi_mem_dma_inlink_dscr_error/1'd1;spi_mem_inlink_dscr_error_int_clr/1'd0;;The raw bit for inlink descriptor error.
+;;;;Not;;spi_mem_outlink_dscr_error_int_raw;[1];1'b0;RO;spi_mem_dma_outlink_dscr_error/1'd1;spi_mem_outlink_dscr_error_int_clr/1'd0;;The raw bit for outlink descriptor error.
+;;;;Not;;spi_mem_inlink_dscr_empty_int_raw;[0];1'b0;RO;spi_mem_dma_inlink_dscr_empty/1'd1;spi_mem_inlink_dscr_empty_int_clr/1'd0;;The raw bit for lack of enough inlink descriptors.
+0x070;SPI_MEM_DMA_INT_ST;clk;reset_n;Not;;;[31:9];23'h0;RO;;;INT_ST;reserved
+;;;;Not;;spi_mem_out_total_eof_int_st;[8];1'b0;RO;;;;The status bit for sending all the packets to host done.
+;;;;Not;;spi_mem_out_eof_int_st;[7];1'b0;RO;;;;The status bit for sending a packet to host done.
+;;;;Not;;spi_mem_out_done_int_st;[6];1'b0;RO;;;;The status bit for completing usage of a outlink descriptor.
+;;;;Not;;spi_mem_in_suc_eof_int_st;[5];1'b0;RO;;;;The status bit for completing receiving all the packets from host.
+;;;;Not;;spi_mem_in_err_eof_int_st;[4];1'b0;RO;;;;The status bit for receiving error.
+;;;;Not;;spi_mem_in_done_int_st;[3];1'b0;RO;;;;The status bit for completing usage of a inlink descriptor.
+;;;;Not;;spi_mem_inlink_dscr_error_int_st;[2];1'b0;RO;;;;The status bit for inlink descriptor error.
+;;;;Not;;spi_mem_outlink_dscr_error_int_st;[1];1'b0;RO;;;;The status bit for outlink descriptor error.
+;;;;Not;;spi_mem_inlink_dscr_empty_int_st;[0];1'b0;RO;;;;The status bit for lack of enough inlink descriptors.
+0x074;SPI_MEM_DMA_INT_CLR;clk;reset_n;Not;;;[31:9];23'h0;RO;;;;reserved
+;;;;Not;;spi_mem_out_total_eof_int_clr;[8];1'b0;R/W;;;;The clear bit for sending all the packets to host done.
+;;;;Not;;spi_mem_out_eof_int_clr;[7];1'b0;R/W;;;;The clear bit for sending a packet to host done.
+;;;;Not;;spi_mem_out_done_int_clr;[6];1'b0;R/W;;;;The clear bit for completing usage of a outlink descriptor.
+;;;;Not;;spi_mem_in_suc_eof_int_clr;[5];1'b0;R/W;;;;The clear bit for completing receiving all the packets from host.
+;;;;Not;;spi_mem_in_err_eof_int_clr;[4];1'b0;R/W;;;;The clear bit for receiving error.
+;;;;Not;;spi_mem_in_done_int_clr;[3];1'b0;R/W;;;;The clear bit for completing usage of a inlink descriptor.
+;;;;Not;;spi_mem_inlink_dscr_error_int_clr;[2];1'b0;R/W;;;;The clear bit for inlink descriptor error.
+;;;;Not;;spi_mem_outlink_dscr_error_int_clr;[1];1'b0;R/W;;;;The clear bit for outlink descriptor error.
+;;;;Not;;spi_mem_inlink_dscr_empty_int_clr;[0];1'b0;R/W;;;;The clear bit for lack of enough inlink descriptors.
+0x078;SPI_MEM_IN_ERR_EOF_DES_ADDR;clk;reset_n;;;spi_mem_dma_in_err_eof_des_addr;[31:0];32'b0;RO;;;;The inlink descriptor address when spi dma produce receiving error.
+0x07C;SPI_MEM_IN_SUC_EOF_DES_ADDR;clk;reset_n;;;spi_mem_dma_in_suc_eof_des_addr;[31:0];32'b0;RO;;;;The last inlink descriptor address when spi dma produce from_suc_eof.
+0x080;SPI_MEM_INLINK_DSCR;clk;reset_n;;;spi_mem_dma_inlink_dscr;[31:0];32'b0;RO;;;;The content of current in descriptor pointer.
+0x084;SPI_MEM_INLINK_DSCR_BF0;clk;reset_n;;;spi_mem_dma_inlink_dscr_bf0;[31:0];32'b0;RO;;;;The content of next in descriptor pointer.
+0x088;SPI_MEM_INLINK_DSCR_BF1;clk;reset_n;;;spi_mem_dma_inlink_dscr_bf1;[31:0];32'b0;RO;;;;The content of current in descriptor data buffer pointer.
+0x08C;SPI_MEM_OUT_EOF_BFR_DES_ADDR;clk;reset_n;;;spi_mem_dma_out_eof_bfr_des_addr;[31:0];32'b0;RO;;;;The address of buffer relative to the outlink descriptor that produce eof.
+0x090;SPI_MEM_OUT_EOF_DES_ADDR;clk;reset_n;;;spi_mem_dma_out_eof_des_addr;[31:0];32'b0;RO;;;;The last outlink descriptor address when spi dma produce to_eof.
+0x094;SPI_MEM_OUTLINK_DSCR;clk;reset_n;;;spi_mem_dma_outlink_dscr;[31:0];32'b0;RO;;;;The content of current out descriptor pointer.
+0x098;SPI_MEM_OUTLINK_DSCR_BF0;clk;reset_n;;;spi_mem_dma_outlink_dscr_bf0;[31:0];32'b0;RO;;;;The content of next out descriptor pointer.
+0x09C;SPI_MEM_OUTLINK_DSCR_BF1;clk;reset_n;;;spi_mem_dma_outlink_dscr_bf1;[31:0];32'b0;RO;;;;The content of current out descriptor data buffer pointer.
+0x0A0;SPI_MEM_DMA_OUTSTATUS;clk;reset_n;;;spi_mem_dma_outfifo_empty;[31];1'b1;RO;;;;SPI dma outfifo is empty.
+;;;;;;spi_mem_dma_outfifo_full;[30];1'b0;RO;;;;SPI dma outfifo is full.
+;;;;;;spi_mem_dma_outfifo_cnt;[29:23];7'b0;RO;;;;The remains of SPI dma outfifo data.
+;;;;;;spi_mem_dma_out_state;[22:20];3'b0;RO;;;;SPI dma out data state.
+;;;;;;spi_mem_dma_outdscr_state;[19:18];2'b0;RO;;;;SPI dma out descriptor state.
+;;;;;;spi_mem_dma_outdscr_addr;[17:0];18'b0;RO;;;;SPI dma out descriptor address.
+0x0A4;SPI_MEM_DMA_INSTATUS;clk;reset_n;;;spi_mem_dma_infifo_empty;[31];1'b1;RO;;;;SPI dma infifo is empty.
+;;;;;;spi_mem_dma_infifo_full;[30];1'b0;RO;;;;SPI dma infifo is full.
+;;;;;;spi_mem_dma_infifo_cnt;[29:23];7'b0;RO;;;;The remains of SPI dma infifo data.
+;;;;;;spi_mem_dma_in_state;[22:20];3'b0;RO;;;;SPI dma in data state.
+;;;;;;spi_mem_dma_indscr_state;[19:18];2'b0;RO;;;;SPI dma in descriptor state.
+;;;;;;spi_mem_dma_indscr_addr;[17:0];18'b0;RO;;;;SPI dma in descriptor address.
+0x0A8;SPI_MEM_W0;clk;reset_n;;;spi_mem_buf0;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w0;data buffer
+0x0AC;SPI_MEM_W1;clk;reset_n;;;spi_mem_buf1;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w1;data buffer
+0x0B0;SPI_MEM_W2;clk;reset_n;;;spi_mem_buf2;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w2;data buffer
+0x0B4;SPI_MEM_W3;clk;reset_n;;;spi_mem_buf3;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w3;data buffer
+0x0B8;SPI_MEM_W4;clk;reset_n;;;spi_mem_buf4;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w4;data buffer
+0x0BC;SPI_MEM_W5;clk;reset_n;;;spi_mem_buf5;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w5;data buffer
+0x0C0;SPI_MEM_W6;clk;reset_n;;;spi_mem_buf6;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w6;data buffer
+0x0C4;SPI_MEM_W7;clk;reset_n;;;spi_mem_buf7;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w7;data buffer
+0x0C8;SPI_MEM_W8;clk;reset_n;;;spi_mem_buf8;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w8;data buffer
+0x0CC;SPI_MEM_W9;clk;reset_n;;;spi_mem_buf9;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w9;data buffer
+0x0D0;SPI_MEM_W10;clk;reset_n;;;spi_mem_buf10;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w10;data buffer
+0x0D4;SPI_MEM_W11;clk;reset_n;;;spi_mem_buf11;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w11;data buffer
+0x0D8;SPI_MEM_W12;clk;reset_n;;;spi_mem_buf12;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w12;data buffer
+0x0DC;SPI_MEM_W13;clk;reset_n;;;spi_mem_buf13;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w13;data buffer
+0x0E0;SPI_MEM_W14;clk;reset_n;;;spi_mem_buf14;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w14;data buffer
+0x0E4;SPI_MEM_W15;clk;reset_n;;;spi_mem_buf15;[31:0];32'b0;SRW;;;IO=O,hwr_spi_mem_w15;data buffer
+0x0E8;SPI_MEM_FLASH_WAITI_CTRL;clk;reset_n;;;;[31:18];14'h0;RO;;;;reserved
+;;;;;;spi_mem_waiti_dummy_cyclelen;[17:10];8'h0;R/W;;;;The dummy cycle length when auto wait flash idle 
+;;;;;;spi_mem_waiti_cmd;[9:2];8'h05;R/W;;;;The command to auto wait idle
+;;;;;;spi_mem_waiti_dummy;[1];1'b0;R/W;;;;The dummy phase enable when auto wait flash idle
+;;;;;N/A;spi_mem_waiti_en;[0];1'b0;R/W;;;;auto-waiting flash idle operation when program flash or erase flash. 1: enable 0: disable. 
+0x0EC;SPI_MEM_FLASH_SUS_CMD;clk;reset_n;;;;[31:2];30'h0;RO;;;;
+;;;;;;spi_mem_flash_pes;[1];1'b0;R/W;spi_mem_flash_pes_end/1'd0;spi_mem_pes_req/1'b1;IO=I,spi_mem_pes_req;program erase suspend bit, program erase suspend operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+;;;;;;spi_mem_flash_per;[0];1'b0;R/W;spi_mem_flash_per_end/1'd0;spi_mem_per_req/1'b1;IO=I,spi_mem_per_req;program erase resume bit, program erase suspend operation will be triggered when the bit is set. The bit will be cleared once the operation done.1: enable 0: disable. 
+0x0F0;SPI_MEM_FLASH_SUS_CTRL;clk;reset_n;;;;[31:17];15'h0;RO;;;;
+;;;;;;spi_mem_flash_pes_command;[16:9];8'h75;R/W;;;;Program/Erase suspend command.
+;;;;;;spi_mem_flash_per_command;[8:1];8'h7a;R/W;;;;Program/Erase resume command.
+;;;;;;spi_mem_flash_pes_en;[0];1'b0;R/W;;;;Auto-suspending enable
+0x0F4;SPI_MEM_SUS_STATUS;clk;reset_n;;;;[31:1];31'h0;RO;;;;
+;;;;;;spi_mem_flash_sus;[0];1'h0;R/W;spi_mem_flash_pes_cmd_end/1'd1;spi_mem_flash_per_cmd_end/1'd0;IO=I,spi_mem_flash_per_cmd_end;The status of flash suspend, only used in SPI1.
+0x0F8;SPI_MEM_TIMING_CALI;clk;reset_n;;;;[31:4];28'h0;RO;;;;
+;;;;;;spi_mem_extra_dummy_cyclelen;[3:2];2'd0;R/W;;;;add extra dummy spi clock cycle length for spi clock calibration.
+;;;;;;spi_mem_timing_cali;[1];1'b0;R/W;;;;The bit is used to enable timing auto-calibration for all reading operations.
+;;;;;;spi_mem_timing_clk_ena;[0];1'b1;R/W;;;;The bit is used to enable timing adjust clock for all reading operations.
+0x0FC;SPI_MEM_DIN_MODE;clk;reset_n;;;;[31:12];20'b0;RO;;;;reserved
+;;;;;;spi_mem_din3_mode;[11:9];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+;;;;;;spi_mem_din2_mode;[8:6];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+;;;;;;spi_mem_din1_mode;[5:3];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+;;;;;;spi_mem_din0_mode;[2:0];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+0x100;SPI_MEM_DIN_NUM;clk;reset_n;;;;[31:8];24'b0;RO;;;;reserved
+;;;;;;spi_mem_din3_num;[7:6];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_mem_din2_num;[5:4];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_mem_din1_num;[3:2];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_mem_din0_num;[1:0];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+0x104;SPI_MEM_DOUT_MODE;clk;reset_n;;;;[31:12];20'b0;RO;;;;reserved
+;;;;;;spi_mem_dout3_mode;[11:9];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+;;;;;;spi_mem_dout2_mode;[8:6];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+;;;;;;spi_mem_dout1_mode;[5:3];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+;;;;;;spi_mem_dout0_mode;[2:0];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+0x108;SPI_MEM_DOUT_NUM;clk;reset_n;;;;[31:8];24'b0;RO;;;;reserved
+;;;;;;spi_mem_dout3_num;[7:6];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_mem_dout2_num;[5:4];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_mem_dout1_num;[3:2];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_mem_dout0_num;[1:0];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+0x10C;SPI_SMEM_TIMING_CALI;clk;reset_n;;;;[31:4];28'h0;RO;;;;
+;;;;;;spi_smem_extra_dummy_cyclelen;[3:2];2'd0;R/W;;;;For sram, add extra dummy spi clock cycle length for spi clock calibration.
+;;;;;;spi_smem_timing_cali;[1];1'b0;R/W;;;;For sram, the bit is used to enable timing auto-calibration for all reading operations.
+;;;;;;spi_smem_timing_clk_ena;[0];1'b1;R/W;;;;For sram, the bit is used to enable timing adjust clock for all reading operations.
+0x110;SPI_SMEM_DIN_MODE;clk;reset_n;;;;[31:12];20'b0;RO;;;;reserved
+;;;;;;spi_smem_din3_mode;[11:9];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+;;;;;;spi_smem_din2_mode;[8:6];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+;;;;;;spi_smem_din1_mode;[5:3];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+;;;;;;spi_smem_din0_mode;[2:0];3'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: input without delayed, 1: input with the posedge of clk_apb,2 input with the negedge of clk_apb,  3: input with the posedge of clk_160, 4 input with the negedge of clk_160, 5: input with the spi_clk high edge,  6: input with the spi_clk low edge
+0x114;SPI_SMEM_DIN_NUM;clk;reset_n;;;;[31:8];24'b0;RO;;;;reserved
+;;;;;;spi_smem_din3_num;[7:6];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_smem_din2_num;[5:4];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_smem_din1_num;[3:2];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_smem_din0_num;[1:0];2'h0;R/W;;;;the input signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+0x118;SPI_SMEM_DOUT_MODE;clk;reset_n;;;;[31:12];20'b0;RO;;;;reserved
+;;;;;;spi_smem_dout3_mode;[11:9];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+;;;;;;spi_smem_dout2_mode;[8:6];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+;;;;;;spi_smem_dout1_mode;[5:3];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+;;;;;;spi_smem_dout0_mode;[2:0];3'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: output without delayed, 1: output with the posedge of clk_apb,2 output with the negedge of clk_apb, 3: output with the posedge of clk_160,4 output with the negedge of clk_160,5: output with the spi_clk high edge ,6: output with the spi_clk low edge
+0x11C;SPI_SMEM_DOUT_NUM;clk;reset_n;;;;[31:8];24'b0;RO;;;;reserved
+;;;;;;spi_smem_dout3_num;[7:6];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_smem_dout2_num;[5:4];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_smem_dout1_num;[3:2];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+;;;;;;spi_smem_dout0_num;[1:0];2'h0;R/W;;;;the output signals are delayed by system clock cycles, 0: delayed by 1 cycle, 1: delayed by 2 cycles,...
+0x120;CLOCK_GATE_REG;clk;reset_n;;;;[31:1];31'h0;RO;;;;
+;;;;Not;;reg_clk_en;[0];1'b1;R/W;;;;
+0x3FC;SPI_MEM_REG_DATE;clk;reset_n;;;;[31:28];4'h0;RO;;;;reserved
+;;;;Not;;reg_spi_mem_date;[27:0];28'h1810250;R/W;;;;SPI register version.

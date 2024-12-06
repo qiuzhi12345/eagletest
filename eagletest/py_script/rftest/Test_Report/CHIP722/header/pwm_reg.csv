@@ -1,0 +1,525 @@
+Address;RegName;Clk;Rst;Port ; Public ; Signal;BitPos;Default;SW(R/W);HW(W);MCU(W);MISC;Description
+0x0000;PWM_CLK_CFG;pclk;reset_n;;;;[31:8];;;;;;
+;;;;;;reg_clk_prescale;[7:0];8'h0;R/W;;;;
+0x0004;PWM_TIMER0_CFG0;pclk;reset_n;;;;[31:26];;;;;;
+;;;;;;reg_timer0_period_upmethod;[25:24];2'd0;R/W;;;;0: immediate, 1: eqz, 2: sync, 3: eqz | sync
+;;;;;;reg_timer0_period;[23:8];16'h00ff;R/W;;;;
+;;;;;;reg_timer0_prescale;[7:0];8'h0;R/W;;;;
+0x0008;PWM_TIMER0_CFG1;pclk;reset_n;;;;[31:5];;;;;;
+;;;;;;reg_timer0_mod;[4:3];2'h0;R/W;;;; 0: freeze, 1: inc, 2: dec, 3: up-down
+;;;;;;reg_timer0_start;[2:0];3'h0;R/W;pwm_timer0_stop_int/3'd0;;;0: stop @ eqz, 1: stop @ eqp, 2: free run, 3: start and stop @ next eqz, 4: start and stop @ next eqp,
+0x000c;PWM_TIMER0_SYNC;pclk;reset_n;;;;[31:21];;;;;;
+;;;;;;reg_timer0_phase;[20:4];17'd0;R/W;;;;
+;;;;;;reg_timer0_synco_sel;[3:2];2'd0;R/W;;;;
+;;;;;;reg_timer0_sync_sw;[1];1'h0;R/W;;;;write the negate value will trigger a sw sync
+;;;;;;reg_timer0_synci_en;[0];1'h0;R/W;;;;
+0x0010;PWM_TIMER0_STATUS;pclk;reset_n;;;;[31:17];;;;;;
+;;;;;;timer0_direction;[16];1'd0;RO;;;;
+;;;;;;timer0_value;[15:0];16'd0;RO;;;;
+0x0014;PWM_TIMER1_CFG0;pclk;reset_n;;;;[31:26];;;;;;
+;;;;;;reg_timer1_period_upmethod;[25:24];2'd0;R/W;;;;
+;;;;;;reg_timer1_period;[23:8];16'h00ff;R/W;;;;
+;;;;;;reg_timer1_prescale;[7:0];8'h0;R/W;;;;
+0x0018;PWM_TIMER1_CFG1;pclk;reset_n;;;;[31:5];;;;;;
+;;;;;;reg_timer1_mod;[4:3];2'h0;R/W;;;; 0: freeze, 1: inc, 2: dec, 3: up-down
+;;;;;;reg_timer1_start;[2:0];3'h0;R/W;pwm_timer1_stop_int/3'd0;;;
+0x001c;PWM_TIMER1_SYNC;pclk;reset_n;;;;[31:21];;;;;;
+;;;;;;reg_timer1_phase;[20:4];17'd0;R/W;;;;
+;;;;;;reg_timer1_synco_sel;[3:2];2'd0;R/W;;;;0: synci, 1: tez, 2: tep, else 0
+;;;;;;reg_timer1_sync_sw;[1];1'h0;R/W;;;;write the negate value will trigger a sw sync
+;;;;;;reg_timer1_synci_en;[0];1'h0;R/W;;;;
+0x0020;PWM_TIMER1_STATUS;pclk;reset_n;;;;[31:17];;;;;;
+;;;;;;timer1_direction;[16];1'd0;RO;;;;
+;;;;;;timer1_value;[15:0];16'd0;RO;;;;
+0x0024;PWM_TIMER2_CFG0;pclk;reset_n;;;;[31:26];;;;;;
+;;;;;;reg_timer2_period_upmethod;[25:24];2'd0;R/W;;;;
+;;;;;;reg_timer2_period;[23:8];16'h00ff;R/W;;;;
+;;;;;;reg_timer2_prescale;[7:0];8'h0;R/W;;;;
+0x0028;PWM_TIMER2_CFG1;pclk;reset_n;;;;[31:5];;;;;;
+;;;;;;reg_timer2_mod;[4:3];2'h0;R/W;;;;
+;;;;;;reg_timer2_start;[2:0];3'h0;R/W;pwm_timer2_stop_int/3'd0;;;
+0x002c;PWM_TIMER2_SYNC;pclk;reset_n;;;;[31:21];;;;;;
+;;;;;;reg_timer2_phase;[20:4];17'd0;R/W;;;;
+;;;;;;reg_timer2_synco_sel;[3:2];2'd0;R/W;;;;
+;;;;;;reg_timer2_sync_sw;[1];1'h0;R/W;;;;write the negate value will trigger a sw sync
+;;;;;;reg_timer2_synci_en;[0];1'h0;R/W;;;;
+0x0030;PWM_TIMER2_STATUS;pclk;reset_n;;;;[31:17];;;;;;
+;;;;;;timer2_direction;[16];1'd0;RO;;;;
+;;;;;;timer2_value;[15:0];16'd0;RO;;;;
+0x0034;PWM_TIMER_SYNCI_CFG;pclk;reset_n;;;;[31:12];;;;;;
+;;;;;;reg_external_synci2_invert;[11];1'd0;R/W;;;;
+;;;;;;reg_external_synci1_invert;[10];1'd0;R/W;;;;
+;;;;;;reg_external_synci0_invert;[9];1'd0;R/W;;;;
+;;;;;;reg_timer2_syncisel;[8:6];3'd0;R/W;;;;
+;;;;;;reg_timer1_syncisel;[5:3];3'd0;R/W;;;;
+;;;;;;reg_timer0_syncisel;[2:0];3'd0;R/W;;;;
+0x0038;PWM_OPERATOR_TIMERSEL;pclk;reset_n;;;;[31:6];;;;;;
+;;;;;;reg_operator2_timersel;[5:4];2'd0;R/W;;;;0: timer0, 1: timer1, 2: timer2
+;;;;;;reg_operator1_timersel;[3:2];2'd0;R/W;;;;0: timer0, 1: timer1, 2: timer2
+;;;;;;reg_operator0_timersel;[1:0];2'd0;R/W;;;;0: timer0, 1: timer1, 2: timer2
+0x003c;PWM_CMPR0_CFG;pclk;reset_n;;;;[31:10];;;;;;
+;;;;Not;;cmpr0_b_shdw_full;[9];1'd0;R/W;pwm_cmpr0_b_up_int/1'd0;hwr_pwm_cmpr0_value1/1'd1;;
+;;;;Not;;cmpr0_a_shdw_full;[8];1'd0;R/W;pwm_cmpr0_a_up_int/1'd0;hwr_pwm_cmpr0_value0/1'd1;;
+;;;;;;reg_cmpr0_b_upmethod;[7:4];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+;;;;;;reg_cmpr0_a_upmethod;[3:0];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+0x0040;PWM_CMPR0_VALUE0;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_cmpr0_a;[15:0];16'd0;R/W;;;;
+0x0044;PWM_CMPR0_VALUE1;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_cmpr0_b;[15:0];16'd0;R/W;;;;
+0x0048;PWM_GEN0_CFG0;pclk;reset_n;;;;[31:10];;;;;;
+;;;;;;reg_gen0_t1_sel;[9:7];3'd0;R/W;;;;take effect immediately, 0: extra0, 1: extra1, 2: extra2, 3: sync_taken, 4: none
+;;;;;;reg_gen0_t0_sel;[6:4];3'd0;R/W;;;;take effect immediately, 0: extra0, 1: extra1, 2: extra2, 3: sync_taken, 4: none
+;;;;;;reg_gen0_cfg_upmethod;[3:0];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync. bit3: freeze
+0x004c;PWM_GEN0_FORCE;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_gen0_b_nciforce_mode;[15:14];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen0_b_nciforce;[13];1'd0;R/W;;;;non-continuous immediate sw force, a toggle will trigger a force event
+;;;;;;reg_gen0_a_nciforce_mode;[12:11];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen0_a_nciforce;[10];1'd0;R/W;;;;non-continuous immediate sw force, a toggle will trigger a force event
+;;;;;;reg_gen0_b_cntuforce_mode;[9:8];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen0_a_cntuforce_mode;[7:6];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen0_cntuforce_upmethod;[5:0];6'h20;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: tea, bit3: teb, bit4: sync, bit5: freeze
+0x0050;PWM_GEN0_A;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_gen0_a_dt1;[23:22];2'd0;R/W;;;;0: no change, 1: low, 2: high, 3: toggle
+;;;;;;reg_gen0_a_dt0;[21:20];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_dteb;[19:18];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_dtea;[17:16];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_dtep;[15:14];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_dtez;[13:12];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_ut1;[11:10];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_ut0;[9:8];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_uteb;[7:6];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_utea;[5:4];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_utep;[3:2];2'd0;R/W;;;;
+;;;;;;reg_gen0_a_utez;[1:0];2'd0;R/W;;;;
+0x0054;PWM_GEN0_B;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_gen0_b_dt1;[23:22];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_dt0;[21:20];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_dteb;[19:18];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_dtea;[17:16];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_dtep;[15:14];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_dtez;[13:12];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_ut1;[11:10];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_ut0;[9:8];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_uteb;[7:6];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_utea;[5:4];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_utep;[3:2];2'd0;R/W;;;;
+;;;;;;reg_gen0_b_utez;[1:0];2'd0;R/W;;;;
+0x0058;PWM_DB0_CFG;pclk;reset_n;;;;[31:18];;;;;;
+;;;;;;reg_db0_clk_sel;[17];1'd0;R/W;;;;
+;;;;;;reg_db0_b_outbypass;[16];1'd1;R/W;;;;
+;;;;;;reg_db0_a_outbypass;[15];1'd1;R/W;;;;
+;;;;;;reg_db0_fed_outinvert;[14];1'd0;R/W;;;;
+;;;;;;reg_db0_red_outinvert;[13];1'd0;R/W;;;;
+;;;;;;reg_db0_fed_insel;[12];1'd0;R/W;;;;
+;;;;;;reg_db0_red_insel;[11];1'd0;R/W;;;;
+;;;;;;reg_db0_b_outswap;[10];1'd0;R/W;;;;
+;;;;;;reg_db0_a_outswap;[9];1'd0;R/W;;;;
+;;;;;;reg_db0_deb_mode;[8];1'd0;R/W;;;;immediate, dual-edge B mode, 0: fed/red take effect on different path separately, 1: fed/red take effect on B path, A out is in bypass or dulpB mode
+;;;;;;reg_db0_red_upmethod;[7:4];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+;;;;;;reg_db0_fed_upmethod;[3:0];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+0x005c;PWM_DB0_FED_CFG;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_db0_fed;[15:0];16'd0;R/W;;;;
+0x0060;PWM_DB0_RED_CFG;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_db0_red;[15:0];16'd0;R/W;;;;
+0x0064;PWM_CHOPPER0_CFG;pclk;reset_n;;;;[31:14];;;;;;
+;;;;;;reg_chopper0_in_invert;[13];1'd0;R/W;;;;
+;;;;;;reg_chopper0_out_invert;[12];1'd0;R/W;;;;
+;;;;;;reg_chopper0_oshtwth;[11:8];4'd0;R/W;;;;
+;;;;;;reg_chopper0_duty;[7:5];3'd0;R/W;;;;
+;;;;;;reg_chopper0_prescale;[4:1];4'd0;R/W;;;;
+;;;;;;reg_chopper0_en;[0];1'd0;R/W;;;;
+0x0068;PWM_TZ0_CFG0;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_tz0_b_ost_u;[23:22];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_b_ost_d;[21:20];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_b_cbc_u;[19:18];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_b_cbc_d;[17:16];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_a_ost_u;[15:14];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_a_ost_d;[13:12];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_a_cbc_u;[11:10];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_a_cbc_d;[9:8];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz0_f0_ost;[7];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz0_f1_ost;[6];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz0_f2_ost;[5];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz0_sw_ost;[4];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz0_f0_cbc;[3];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz0_f1_cbc;[2];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz0_f2_cbc;[1];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz0_sw_cbc;[0];1'd0;R/W;;;;0: disable, 1: enable
+0x006c;PWM_TZ0_CFG1;pclk;reset_n;;;;[31:5];;;;;;
+;;;;;;reg_tz0_force_ost;[4];1'd0;R/W;;;;a toggle trigger a oneshot tripping
+;;;;;;reg_tz0_force_cbc;[3];1'd0;R/W;;;;a toggle trigger a cycle-by-cycle tripping
+;;;;;;reg_tz0_cbcpulse;[2:1];2'd0;R/W;;;;bit0: tez, bit1: tep
+;;;;;;reg_tz0_clr_ost;[0];1'd0;R/W;;;;a toggle will clear oneshot tripping
+0x0070;PWM_TZ0_STATUS;pclk;reset_n;;;;[31:2];;;;;;
+;;;;;;tz0_ost_on;[1];1'd0;RO;;;;
+;;;;;;tz0_cbc_on;[0];1'd0;RO;;;;
+0x0074;PWM_CMPR1_CFG;pclk;reset_n;;;;[31:10];;;;;;
+;;;;Not;;cmpr1_b_shdw_full;[9];1'd0;R/W;pwm_cmpr1_b_up_int/1'd0;hwr_pwm_cmpr1_value1/1'd1;;
+;;;;Not;;cmpr1_a_shdw_full;[8];1'd0;R/W;pwm_cmpr1_a_up_int/1'd0;hwr_pwm_cmpr1_value0/1'd1;;
+;;;;;;reg_cmpr1_b_upmethod;[7:4];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+;;;;;;reg_cmpr1_a_upmethod;[3:0];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+0x0078;PWM_CMPR1_VALUE0;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_cmpr1_a;[15:0];16'd0;R/W;;;;
+0x007c;PWM_CMPR1_VALUE1;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_cmpr1_b;[15:0];16'd0;R/W;;;;
+0x0080;PWM_GEN1_CFG0;pclk;reset_n;;;;[31:10];;;;;;
+;;;;;;reg_gen1_t1_sel;[9:7];3'd0;R/W;;;;take effect immediately, 0: extra0, 1: extra1, 2: extra2, 3: sync_taken, 4: none
+;;;;;;reg_gen1_t0_sel;[6:4];3'd0;R/W;;;;take effect immediately, 0: extra0, 1: extra1, 2: extra2, 3: sync_taken, 4: none
+;;;;;;reg_gen1_cfg_upmethod;[3:0];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync. bit3: freeze
+0x0084;PWM_GEN1_FORCE;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_gen1_b_nciforce_mode;[15:14];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen1_b_nciforce;[13];1'd0;R/W;;;;non-continuous immediate sw force, a toggle will trigger a force event
+;;;;;;reg_gen1_a_nciforce_mode;[12:11];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen1_a_nciforce;[10];1'd0;R/W;;;;non-continuous immediate sw force, a toggle will trigger a force event
+;;;;;;reg_gen1_b_cntuforce_mode;[9:8];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen1_a_cntuforce_mode;[7:6];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen1_cntuforce_upmethod;[5:0];6'h20;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: tea, bit3: teb, bit4: sync, bit5: freeze
+0x0088;PWM_GEN1_A;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_gen1_a_dt1;[23:22];2'd0;R/W;;;;0: no change, 1: low, 2: high, 3: toggle
+;;;;;;reg_gen1_a_dt0;[21:20];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_dteb;[19:18];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_dtea;[17:16];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_dtep;[15:14];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_dtez;[13:12];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_ut1;[11:10];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_ut0;[9:8];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_uteb;[7:6];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_utea;[5:4];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_utep;[3:2];2'd0;R/W;;;;
+;;;;;;reg_gen1_a_utez;[1:0];2'd0;R/W;;;;
+0x008c;PWM_GEN1_B;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_gen1_b_dt1;[23:22];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_dt0;[21:20];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_dteb;[19:18];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_dtea;[17:16];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_dtep;[15:14];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_dtez;[13:12];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_ut1;[11:10];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_ut0;[9:8];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_uteb;[7:6];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_utea;[5:4];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_utep;[3:2];2'd0;R/W;;;;
+;;;;;;reg_gen1_b_utez;[1:0];2'd0;R/W;;;;
+0x0090;PWM_DB1_CFG;pclk;reset_n;;;;[31:18];;;;;;
+;;;;;;reg_db1_clk_sel;[17];1'd0;R/W;;;;
+;;;;;;reg_db1_b_outbypass;[16];1'd1;R/W;;;;
+;;;;;;reg_db1_a_outbypass;[15];1'd1;R/W;;;;
+;;;;;;reg_db1_fed_outinvert;[14];1'd0;R/W;;;;
+;;;;;;reg_db1_red_outinvert;[13];1'd0;R/W;;;;
+;;;;;;reg_db1_fed_insel;[12];1'd0;R/W;;;;
+;;;;;;reg_db1_red_insel;[11];1'd0;R/W;;;;
+;;;;;;reg_db1_b_outswap;[10];1'd0;R/W;;;;
+;;;;;;reg_db1_a_outswap;[9];1'd0;R/W;;;;
+;;;;;;reg_db1_deb_mode;[8];1'd0;R/W;;;;
+;;;;;;reg_db1_red_upmethod;[7:4];4'd0;R/W;;;;
+;;;;;;reg_db1_fed_upmethod;[3:0];4'd0;R/W;;;;
+0x0094;PWM_DB1_FED_CFG;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_db1_fed;[15:0];16'd0;R/W;;;;
+0x0098;PWM_DB1_RED_CFG;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_db1_red;[15:0];16'd0;R/W;;;;
+0x009c;PWM_CHOPPER1_CFG;pclk;reset_n;;;;[31:14];;;;;;
+;;;;;;reg_chopper1_in_invert;[13];1'd0;R/W;;;;
+;;;;;;reg_chopper1_out_invert;[12];1'd0;R/W;;;;
+;;;;;;reg_chopper1_oshtwth;[11:8];4'd0;R/W;;;;
+;;;;;;reg_chopper1_duty;[7:5];3'd0;R/W;;;;
+;;;;;;reg_chopper1_prescale;[4:1];4'd0;R/W;;;;
+;;;;;;reg_chopper1_en;[0];1'd0;R/W;;;;
+0x00a0;PWM_TZ1_CFG0;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_tz1_b_ost_u;[23:22];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_b_ost_d;[21:20];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_b_cbc_u;[19:18];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_b_cbc_d;[17:16];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_a_ost_u;[15:14];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_a_ost_d;[13:12];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_a_cbc_u;[11:10];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_a_cbc_d;[9:8];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz1_f0_ost;[7];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz1_f1_ost;[6];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz1_f2_ost;[5];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz1_sw_ost;[4];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz1_f0_cbc;[3];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz1_f1_cbc;[2];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz1_f2_cbc;[1];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz1_sw_cbc;[0];1'd0;R/W;;;;0: disable, 1: enable
+0x00a4;PWM_TZ1_CFG1;pclk;reset_n;;;;[31:5];;;;;;
+;;;;;;reg_tz1_force_ost;[4];1'd0;R/W;;;;a toggle trigger a oneshot tripping
+;;;;;;reg_tz1_force_cbc;[3];1'd0;R/W;;;;a toggle trigger a cycle-by-cycle tripping
+;;;;;;reg_tz1_cbcpulse;[2:1];2'd0;R/W;;;;bit0: tez, bit1: tep
+;;;;;;reg_tz1_clr_ost;[0];1'd0;R/W;;;;a toggle will clear oneshot tripping
+0x00a8;PWM_TZ1_STATUS;pclk;reset_n;;;;[31:2];;;;;;
+;;;;;;tz1_ost_on;[1];1'd0;RO;;;;
+;;;;;;tz1_cbc_on;[0];1'd0;RO;;;;
+0x00ac;PWM_CMPR2_CFG;pclk;reset_n;;;;[31:10];;;;;;
+;;;;Not;;cmpr2_b_shdw_full;[9];1'd0;R/W;pwm_cmpr2_b_up_int/1'd0;hwr_pwm_cmpr2_value1/1'd1;;
+;;;;Not;;cmpr2_a_shdw_full;[8];1'd0;R/W;pwm_cmpr2_a_up_int/1'd0;hwr_pwm_cmpr2_value0/1'd1;;
+;;;;;;reg_cmpr2_b_upmethod;[7:4];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+;;;;;;reg_cmpr2_a_upmethod;[3:0];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync, bit3: freeze
+0x00b0;PWM_CMPR2_VALUE0;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_cmpr2_a;[15:0];16'd0;R/W;;;;
+0x00b4;PWM_CMPR2_VALUE1;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_cmpr2_b;[15:0];16'd0;R/W;;;;
+0x00b8;PWM_GEN2_CFG0;pclk;reset_n;;;;[31:10];;;;;;
+;;;;;;reg_gen2_t1_sel;[9:7];3'd0;R/W;;;;take effect immediately, 0: extra0, 1: extra1, 2: extra2, 3: sync_taken, 4: none
+;;;;;;reg_gen2_t0_sel;[6:4];3'd0;R/W;;;;take effect immediately, 0: extra0, 1: extra1, 2: extra2, 3: sync_taken, 4: none
+;;;;;;reg_gen2_cfg_upmethod;[3:0];4'd0;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: sync. bit3: freeze
+0x00bc;PWM_GEN2_FORCE;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_gen2_b_nciforce_mode;[15:14];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen2_b_nciforce;[13];1'd0;R/W;;;;non-continuous immediate sw force, a toggle will trigger a force event
+;;;;;;reg_gen2_a_nciforce_mode;[12:11];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen2_a_nciforce;[10];1'd0;R/W;;;;non-continuous immediate sw force, a toggle will trigger a force event
+;;;;;;reg_gen2_b_cntuforce_mode;[9:8];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen2_a_cntuforce_mode;[7:6];2'd0;R/W;;;;0: disabled, 1: low, 2: high, 3: disabled
+;;;;;;reg_gen2_cntuforce_upmethod;[5:0];6'h20;R/W;;;;0: immediate, bit0: tez, bit1: tep, bit2: tea, bit3: teb, bit4: sync, bit5: freeze
+0x00c0;PWM_GEN2_A;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_gen2_a_dt1;[23:22];2'd0;R/W;;;;0: no change, 1: low, 2: high, 3: toggle
+;;;;;;reg_gen2_a_dt0;[21:20];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_dteb;[19:18];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_dtea;[17:16];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_dtep;[15:14];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_dtez;[13:12];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_ut1;[11:10];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_ut0;[9:8];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_uteb;[7:6];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_utea;[5:4];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_utep;[3:2];2'd0;R/W;;;;
+;;;;;;reg_gen2_a_utez;[1:0];2'd0;R/W;;;;
+0x00c4;PWM_GEN2_B;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_gen2_b_dt1;[23:22];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_dt0;[21:20];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_dteb;[19:18];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_dtea;[17:16];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_dtep;[15:14];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_dtez;[13:12];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_ut1;[11:10];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_ut0;[9:8];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_uteb;[7:6];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_utea;[5:4];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_utep;[3:2];2'd0;R/W;;;;
+;;;;;;reg_gen2_b_utez;[1:0];2'd0;R/W;;;;
+0x00c8;PWM_DB2_CFG;pclk;reset_n;;;;[31:18];;;;;;
+;;;;;;reg_db2_clk_sel;[17];1'd0;R/W;;;;
+;;;;;;reg_db2_b_outbypass;[16];1'd1;R/W;;;;
+;;;;;;reg_db2_a_outbypass;[15];1'd1;R/W;;;;
+;;;;;;reg_db2_fed_outinvert;[14];1'd0;R/W;;;;
+;;;;;;reg_db2_red_outinvert;[13];1'd0;R/W;;;;
+;;;;;;reg_db2_fed_insel;[12];1'd0;R/W;;;;
+;;;;;;reg_db2_red_insel;[11];1'd0;R/W;;;;
+;;;;;;reg_db2_b_outswap;[10];1'd0;R/W;;;;
+;;;;;;reg_db2_a_outswap;[9];1'd0;R/W;;;;
+;;;;;;reg_db2_deb_mode;[8];1'd0;R/W;;;;
+;;;;;;reg_db2_red_upmethod;[7:4];4'd0;R/W;;;;
+;;;;;;reg_db2_fed_upmethod;[3:0];4'd0;R/W;;;;
+0x00cc;PWM_DB2_FED_CFG;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_db2_fed;[15:0];16'd0;R/W;;;;
+0x00d0;PWM_DB2_RED_CFG;pclk;reset_n;;;;[31:16];;;;;;
+;;;;;;reg_db2_red;[15:0];16'd0;R/W;;;;
+0x00d4;PWM_CHOPPER2_CFG;pclk;reset_n;;;;[31:14];;;;;;
+;;;;;;reg_chopper2_in_invert;[13];1'd0;R/W;;;;
+;;;;;;reg_chopper2_out_invert;[12];1'd0;R/W;;;;
+;;;;;;reg_chopper2_oshtwth;[11:8];4'd0;R/W;;;;
+;;;;;;reg_chopper2_duty;[7:5];3'd0;R/W;;;;
+;;;;;;reg_chopper2_prescale;[4:1];4'd0;R/W;;;;
+;;;;;;reg_chopper2_en;[0];1'd0;R/W;;;;
+0x00d8;PWM_TZ2_CFG0;pclk;reset_n;;;;[31:24];;;;;;
+;;;;;;reg_tz2_b_ost_u;[23:22];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_b_ost_d;[21:20];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_b_cbc_u;[19:18];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_b_cbc_d;[17:16];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_a_ost_u;[15:14];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_a_ost_d;[13:12];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_a_cbc_u;[11:10];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_a_cbc_d;[9:8];2'd0;R/W;;;;0: do nothing, 1: force lo, 2: force hi, 3: toggle
+;;;;;;reg_tz2_f0_ost;[7];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz2_f1_ost;[6];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz2_f2_ost;[5];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz2_sw_ost;[4];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz2_f0_cbc;[3];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz2_f1_cbc;[2];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz2_f2_cbc;[1];1'd0;R/W;;;;0: disable, 1: enable
+;;;;;;reg_tz2_sw_cbc;[0];1'd0;R/W;;;;0: disable, 1: enable
+0x00dc;PWM_TZ2_CFG1;pclk;reset_n;;;;[31:5];;;;;;
+;;;;;;reg_tz2_force_ost;[4];1'd0;R/W;;;;a toggle trigger a oneshot tripping
+;;;;;;reg_tz2_force_cbc;[3];1'd0;R/W;;;;a toggle trigger a cycle-by-cycle tripping
+;;;;;;reg_tz2_cbcpulse;[2:1];2'd0;R/W;;;;bit0: tez, bit1: tep
+;;;;;;reg_tz2_clr_ost;[0];1'd0;R/W;;;;a toggle will clear oneshot tripping
+0x00e0;PWM_TZ2_STATUS;pclk;reset_n;;;;[31:2];;;;;;
+;;;;;;tz2_ost_on;[1];1'd0;RO;;;;
+;;;;;;tz2_cbc_on;[0];1'd0;RO;;;;
+0x00e4;PWM_FAULT_DETECT;pclk;reset_n;;;;[31:9];;;;;;
+;;;;;;event_f2;[8];1'd0;RO;;;;
+;;;;;;event_f1;[7];1'd0;RO;;;;
+;;;;;;event_f0;[6];1'd0;RO;;;;
+;;;;;;reg_f2_pole;[5];1'd0;R/W;;;;
+;;;;;;reg_f1_pole;[4];1'd0;R/W;;;;
+;;;;;;reg_f0_pole;[3];1'd0;R/W;;;;
+;;;;;;reg_f2_en;[2];1'd0;R/W;;;;
+;;;;;;reg_f1_en;[1];1'd0;R/W;;;;
+;;;;;;reg_f0_en;[0];1'd0;R/W;;;;
+0x00e8;PWM_CAP_TIMER_CFG;pclk;reset_n;;;;[31:6];;;;;;
+;;;;;;reg_cap_sync_sw;[5];1'd0;WO;;;;Write 1 will force a timer sync
+;;;;;;reg_cap_synci_sel;[4:2];3'd0;R/W;;;;
+;;;;;;reg_cap_synci_en;[1];1'd0;R/W;;;;
+;;;;;;reg_cap_timer_en;[0];1'd0;R/W;;;;
+0x00ec;PWM_CAP_TIMER_PHASE;pclk;reset_n;;;reg_cap_phase;[31:0];32'd0;R/W;;;;
+0x00f0;PWM_CAP_CH0_CFG;pclk;reset_n;;;;[31:13];;;;;;
+;;;;;;reg_cap0_sw;[12];1'd0;WO;;;;Write 1 will trigger a sw capture
+;;;;;;reg_cap0_in_invert;[11];1'd0;R/W;;;;
+;;;;;;reg_cap0_prescale;[10:3];8'd0;R/W;;;;
+;;;;;;reg_cap0_mode;[2:1];2'd0;R/W;;;;bit0: negedge cap en, bit1: posedge cap en
+;;;;;;reg_cap0_en;[0];1'd0;R/W;;;;
+0x00f4;PWM_CAP_CH1_CFG;pclk;reset_n;;;;[31:13];;;;;;
+;;;;;;reg_cap1_sw;[12];1'd0;WO;;;;Write 1 will trigger a sw capture
+;;;;;;reg_cap1_in_invert;[11];1'd0;R/W;;;;
+;;;;;;reg_cap1_prescale;[10:3];8'd0;R/W;;;;
+;;;;;;reg_cap1_mode;[2:1];2'd0;R/W;;;;
+;;;;;;reg_cap1_en;[0];1'd0;R/W;;;;
+0x00f8;PWM_CAP_CH2_CFG;pclk;reset_n;;;;[31:13];;;;;;
+;;;;;;reg_cap2_sw;[12];1'd0;WO;;;;Write 1 will trigger a sw capture
+;;;;;;reg_cap2_in_invert;[11];1'd0;R/W;;;;
+;;;;;;reg_cap2_prescale;[10:3];8'd0;R/W;;;;
+;;;;;;reg_cap2_mode;[2:1];2'd0;R/W;;;;
+;;;;;;reg_cap2_en;[0];1'd0;R/W;;;;
+0x00fc;PWM_CAP_CH0;pclk;reset_n;;;cap0_value;[31:0];32'd0;RO;;;;
+0x0100;PWM_CAP_CH1;pclk;reset_n;;;cap1_value;[31:0];32'd0;RO;;;;
+0x0104;PWM_CAP_CH2;pclk;reset_n;;;cap2_value;[31:0];32'd0;RO;;;;
+0x0108;PWM_CAP_STATUS;pclk;reset_n;;;;[31:3];;;;;;
+;;;;;;cap2_edge;[2];1'd0;RO;;;;cap trigger's edge, 0: posedge, 1: negedge
+;;;;;;cap1_edge;[1];1'd0;RO;;;;
+;;;;;;cap0_edge;[0];1'd0;RO;;;;
+0x010c;PWM_UPDATE_CFG;pclk;reset_n;;;;[31:8];;;;;;
+;;;;;;reg_op2_force_up;[7];1'd0;R/W;;;;a toggle will trigger a force update
+;;;;;;reg_op2_up_en;[6];1'd1;R/W;;;;reg update local enable
+;;;;;;reg_op1_force_up;[5];1'd0;R/W;;;;a toggle will trigger a force update
+;;;;;;reg_op1_up_en;[4];1'd1;R/W;;;;
+;;;;;;reg_op0_force_up;[3];1'd0;R/W;;;;a toggle will trigger a force update
+;;;;;;reg_op0_up_en;[2];1'd1;R/W;;;;
+;;;;;;reg_global_force_up;[1];1'd0;R/W;;;;a toggle will trigger a force update, all timers and operators will update their active regs
+;;;;;;reg_global_up_en;[0];1'd1;R/W;;;;
+0x0110;INT_ENA_PWM; pclk; reset_n; Not;;; [31:30]; 2'h0; RO;;;;
+;;;;Not;;cap2_int_ena;[29];1'd0; R/W;;;;
+;;;;Not;;cap1_int_ena;[28];1'd0; R/W;;;;
+;;;;Not;;cap0_int_ena;[27];1'd0; R/W;;;;
+;;;;Not;;tz2_ost_int_ena;[26];1'd0; R/W;;;;
+;;;;Not;;tz1_ost_int_ena;[25];1'd0; R/W;;;;
+;;;;Not;;tz0_ost_int_ena;[24];1'd0; R/W;;;;
+;;;;Not;;tz2_cbc_int_ena;[23];1'd0; R/W;;;;
+;;;;Not;;tz1_cbc_int_ena;[22];1'd0; R/W;;;;
+;;;;Not;;tz0_cbc_int_ena;[21];1'd0; R/W;;;;
+;;;;Not;;cmpr2_teb_int_ena;[20];1'd0; R/W;;;;
+;;;;Not;;cmpr1_teb_int_ena;[19];1'd0; R/W;;;;
+;;;;Not;;cmpr0_teb_int_ena;[18];1'd0; R/W;;;;
+;;;;Not;;cmpr2_tea_int_ena;[17];1'd0; R/W;;;;
+;;;;Not;;cmpr1_tea_int_ena;[16];1'd0; R/W;;;;
+;;;;Not;;cmpr0_tea_int_ena;[15];1'd0; R/W;;;;
+;;;; Not;;fault2_clr_int_ena;[14];1'd0; R/W;;;;
+;;;; Not;;fault1_clr_int_ena;[13];1'd0; R/W;;;;
+;;;; Not;;fault0_clr_int_ena;[12];1'd0; R/W;;;;
+;;;; Not;;fault2_int_ena;[11];1'd0; R/W;;;;
+;;;; Not;;fault1_int_ena;[10];1'd0; R/W;;;;
+;;;; Not;;fault0_int_ena;[9];1'd0; R/W;;;;
+;;;; Not;;timer2_tep_int_ena;[8]; 1'h0; R/W;;;;
+;;;; Not;;timer1_tep_int_ena;[7]; 1'h0; R/W;;;;
+;;;; Not;;timer0_tep_int_ena;[6]; 1'h0; R/W;;;;
+;;;; Not;;timer2_tez_int_ena;[5]; 1'h0; R/W;;;;
+;;;; Not;;timer1_tez_int_ena;[4]; 1'h0; R/W;;;;
+;;;; Not;;timer0_tez_int_ena;[3]; 1'h0; R/W;;;;
+;;;; Not;;timer2_stop_int_ena; [2]; 1'h0; R/W;;;;
+;;;; Not;;timer1_stop_int_ena; [1]; 1'h0; R/W;;;;
+;;;; Not;;timer0_stop_int_ena; [0]; 1'h0; R/W;;;;
+0x0114;INT_RAW_PWM; pclk; reset_n; Not;;; [31:30]; 2'h0; RO;;;;
+;;;;Not;;cap2_int_raw;[29];1'd0; RO;cap2_int/1'd1;cap2_int_clr/1'd0;;
+;;;;Not;;cap1_int_raw;[28];1'd0; RO;cap1_int/1'd1;cap1_int_clr/1'd0;;
+;;;;Not;;cap0_int_raw;[27];1'd0; RO;cap0_int/1'd1;cap0_int_clr/1'd0;;
+;;;;Not;;tz2_ost_int_raw;[26];1'd0; RO;tz2_ost_int/1'd1;tz2_ost_int_clr/1'd0;;
+;;;;Not;;tz1_ost_int_raw;[25];1'd0; RO;tz1_ost_int/1'd1;tz1_ost_int_clr/1'd0;;
+;;;;Not;;tz0_ost_int_raw;[24];1'd0; RO;tz0_ost_int/1'd1;tz0_ost_int_clr/1'd0;;
+;;;;Not;;tz2_cbc_int_raw;[23];1'd0; RO;tz2_cbc_int/1'd1;tz2_cbc_int_clr/1'd0;;
+;;;;Not;;tz1_cbc_int_raw;[22];1'd0; RO;tz1_cbc_int/1'd1;tz1_cbc_int_clr/1'd0;;
+;;;;Not;;tz0_cbc_int_raw;[21];1'd0; RO;tz0_cbc_int/1'd1;tz0_cbc_int_clr/1'd0;;
+;;;;Not;;cmpr2_teb_int_raw;[20];1'd0; RO;cmpr2_teb_int/1'd1;cmpr2_teb_int_clr/1'd0;;
+;;;;Not;;cmpr1_teb_int_raw;[19];1'd0; RO;cmpr1_teb_int/1'd1;cmpr1_teb_int_clr/1'd0;;
+;;;;Not;;cmpr0_teb_int_raw;[18];1'd0; RO;cmpr0_teb_int/1'd1;cmpr0_teb_int_clr/1'd0;;
+;;;;Not;;cmpr2_tea_int_raw;[17];1'd0; RO;cmpr2_tea_int/1'd1;cmpr2_tea_int_clr/1'd0;;
+;;;;Not;;cmpr1_tea_int_raw;[16];1'd0; RO;cmpr1_tea_int/1'd1;cmpr1_tea_int_clr/1'd0;;
+;;;;Not;;cmpr0_tea_int_raw;[15];1'd0; RO;cmpr0_tea_int/1'd1;cmpr0_tea_int_clr/1'd0;;
+;;;; Not;;fault2_clr_int_raw;[14];1'd0; RO;fault2_clr_int/1'd1;fault2_clr_int_clr/1'd0;;
+;;;; Not;;fault1_clr_int_raw;[13];1'd0; RO;fault1_clr_int/1'd1;fault1_clr_int_clr/1'd0;;
+;;;; Not;;fault0_clr_int_raw;[12];1'd0; RO;fault0_clr_int/1'd1;fault0_clr_int_clr/1'd0;;
+;;;; Not;;fault2_int_raw;[11];1'd0; RO;fault2_int/1'd1;fault2_int_clr/1'd0;;
+;;;; Not;;fault1_int_raw;[10];1'd0; RO;fault1_int/1'd1;fault1_int_clr/1'd0;;
+;;;; Not;;fault0_int_raw;[9];1'd0; RO;fault0_int/1'd1;fault0_int_clr/1'd0;;
+;;;; Not;;timer2_tep_int_raw;[8]; 1'h0; RO;timer2_tep_int/1'd1;timer2_tep_int_clr/1'd0;;
+;;;; Not;;timer1_tep_int_raw;[7]; 1'h0; RO;timer1_tep_int/1'd1;timer1_tep_int_clr/1'd0;;
+;;;; Not;;timer0_tep_int_raw;[6]; 1'h0; RO;timer0_tep_int/1'd1;timer0_tep_int_clr/1'd0;;
+;;;; Not;;timer2_tez_int_raw;[5]; 1'h0; RO;timer2_tez_int/1'd1;timer2_tez_int_clr/1'd0;;
+;;;; Not;;timer1_tez_int_raw;[4]; 1'h0; RO;timer1_tez_int/1'd1;timer1_tez_int_clr/1'd0;;
+;;;; Not;;timer0_tez_int_raw;[3]; 1'h0; RO;timer0_tez_int/1'd1;timer0_tez_int_clr/1'd0;;
+;;;; Not;;timer2_stop_int_raw; [2]; 1'h0; RO; pwm_timer2_stop_int/1'd1; timer2_stop_int_clr/1'd0;;
+;;;; Not;;timer1_stop_int_raw; [1]; 1'h0; RO; pwm_timer1_stop_int/1'd1; timer1_stop_int_clr/1'd0;;
+;;;; Not;;timer0_stop_int_raw; [0]; 1'h0; RO; pwm_timer0_stop_int/1'd1; timer0_stop_int_clr/1'd0;;
+0x0118;INT_ST_PWM; pclk; reset_n; Not;;; [31:30]; 2'h0; RO;;;INT_ST;
+;;;;Not;;cap2_int_st;[29];1'd0; RO;;;;
+;;;;Not;;cap1_int_st;[28];1'd0; RO;;;;
+;;;;Not;;cap0_int_st;[27];1'd0; RO;;;;
+;;;;Not;;tz2_ost_int_st;[26];1'd0; RO;;;;
+;;;;Not;;tz1_ost_int_st;[25];1'd0; RO;;;;
+;;;;Not;;tz0_ost_int_st;[24];1'd0; RO;;;;
+;;;;Not;;tz2_cbc_int_st;[23];1'd0; RO;;;;
+;;;;Not;;tz1_cbc_int_st;[22];1'd0; RO;;;;
+;;;;Not;;tz0_cbc_int_st;[21];1'd0; RO;;;;
+;;;;Not;;cmpr2_teb_int_st;[20];1'd0; RO;;;;
+;;;;Not;;cmpr1_teb_int_st;[19];1'd0; RO;;;;
+;;;;Not;;cmpr0_teb_int_st;[18];1'd0; RO;;;;
+;;;;Not;;cmpr2_tea_int_st;[17];1'd0; RO;;;;
+;;;;Not;;cmpr1_tea_int_st;[16];1'd0; RO;;;;
+;;;;Not;;cmpr0_tea_int_st;[15];1'd0; RO;;;;
+;;;; Not;;fault2_clr_int_st;[14];1'd0; RO;;;;
+;;;; Not;;fault1_clr_int_st;[13];1'd0; RO;;;;
+;;;; Not;;fault0_clr_int_st;[12];1'd0; RO;;;;
+;;;; Not;;fault2_int_st;[11];1'd0; RO;;;;
+;;;; Not;;fault1_int_st;[10];1'd0; RO;;;;
+;;;; Not;;fault0_int_st;[9];1'd0; RO;;;;
+;;;; Not;;timer2_tep_int_st;[8]; 1'h0; RO;;;;
+;;;; Not;;timer1_tep_int_st;[7]; 1'h0; RO;;;;
+;;;; Not;;timer0_tep_int_st;[6]; 1'h0; RO;;;;
+;;;; Not;;timer2_tez_int_st;[5]; 1'h0; RO;;;;
+;;;; Not;;timer1_tez_int_st;[4]; 1'h0; RO;;;;
+;;;; Not;;timer0_tez_int_st;[3]; 1'h0; RO;;;;
+;;;; Not;;timer2_stop_int_st; [2]; 1'h0; RO;;;;
+;;;; Not;;timer1_stop_int_st; [1]; 1'h0; RO;;;;
+;;;; Not;;timer0_stop_int_st; [0]; 1'h0; RO;;;;
+0x011c;INT_CLR_PWM; pclk; reset_n; Not;;; [31:30]; 2'h0; RO;;;;
+;;;;Not;;cap2_int_clr;[29];1'd0; WO;;;;
+;;;;Not;;cap1_int_clr;[28];1'd0; WO;;;;
+;;;;Not;;cap0_int_clr;[27];1'd0; WO;;;;
+;;;;Not;;tz2_ost_int_clr;[26];1'd0; WO;;;;
+;;;;Not;;tz1_ost_int_clr;[25];1'd0; WO;;;;
+;;;;Not;;tz0_ost_int_clr;[24];1'd0; WO;;;;
+;;;;Not;;tz2_cbc_int_clr;[23];1'd0; WO;;;;
+;;;;Not;;tz1_cbc_int_clr;[22];1'd0; WO;;;;
+;;;;Not;;tz0_cbc_int_clr;[21];1'd0; WO;;;;
+;;;;Not;;cmpr2_teb_int_clr;[20];1'd0; WO;;;;
+;;;;Not;;cmpr1_teb_int_clr;[19];1'd0; WO;;;;
+;;;;Not;;cmpr0_teb_int_clr;[18];1'd0; WO;;;;
+;;;;Not;;cmpr2_tea_int_clr;[17];1'd0; WO;;;;
+;;;;Not;;cmpr1_tea_int_clr;[16];1'd0; WO;;;;
+;;;;Not;;cmpr0_tea_int_clr;[15];1'd0; WO;;;;
+;;;; Not;;fault2_clr_int_clr;[14];1'd0; WO;;;;
+;;;; Not;;fault1_clr_int_clr;[13];1'd0; WO;;;;
+;;;; Not;;fault0_clr_int_clr;[12];1'd0; WO;;;;
+;;;; Not;;fault2_int_clr;[11];1'd0; WO;;;;
+;;;; Not;;fault1_int_clr;[10];1'd0; WO;;;;
+;;;; Not;;fault0_int_clr;[9];1'd0; WO;;;;
+;;;; Not;;timer2_tep_int_clr;[8]; 1'h0; WO;;;;
+;;;; Not;;timer1_tep_int_clr;[7]; 1'h0; WO;;;;
+;;;; Not;;timer0_tep_int_clr;[6]; 1'h0; WO;;;;
+;;;; Not;;timer2_tez_int_clr;[5]; 1'h0; WO;;;;
+;;;; Not;;timer1_tez_int_clr;[4]; 1'h0; WO;;;;
+;;;; Not;;timer0_tez_int_clr;[3]; 1'h0; WO;;;;
+;;;; Not;;timer2_stop_int_clr; [2]; 1'h0; WO;;;;
+;;;; Not;;timer1_stop_int_clr; [1]; 1'h0; WO;;;;
+;;;; Not;;timer0_stop_int_clr; [0]; 1'h0; WO;;;;
+0x0120;PWM_REG_CLK;pclk;reset_n;;;;[31:1];;;;;;
+;;;;Not;;reg_clk_en;[0];1'd0;R/W;;;;
+0x0124;PWM_VERSION;pclk;reset_n;;;;[31:28];;;;;;
+;;;;Not;;reg_date;[27:0];28'h1509110;R/W;;;;

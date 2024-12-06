@@ -1,0 +1,409 @@
+reg_addr,reg_msb,reg_lsb,RW,reg_name,description,value_default,value_present_2021-04-25 17:37:57
+0xa0421000L,30,30,RW,SX_VCO_LDO_FC_OW,Manual control of VCO LDO fast charge; 0 – auto; 1 – manual,0x0,0x0L
+0xa0421000L,29,29,RW,SX_VCO_LDO_EN_OW,Manual control of VCO LDO enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,28,28,RW,SX_VCO_BIAS _FC_OW,Manual control of VCO Bias fast charge; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,27,27,RW,SX_VCO_BIAS_EN_OW,Manual control of VCO Bias enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,26,20,RW,SX_VCO_EN_OW,Manual control of VCO enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,25,25,RW,SX_PFD_EN _OW,Manual control of PFD enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,24,24,RW,SX_MMD_EN_OW,Manual control of MMD enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,23,23,RW,SX_MMD_DSM_RESETN_OW,Manual control of MMD DSM reset; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,22,22,RW,SX_LOOP_LDO_FC_OW,Manual control of Loop LDO fast charge; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,21,21,RW,SX_LOOP_LDO_EN_OW,Manual control of Loop LDO enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,20,20,RW,SX_CP_EN_OW,Manual control of SX CP enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,19,19,RW,SX_AFC_START_OW,Manual control of AFC start; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,18,18,RW,SX_AFC_RESETN_OW,Manual control of AFC reset; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,17,17,RW,ADC_REFBUF_EN_OW,Manual control of Rx ADC enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,16,16,RW,FLT_DCCAL_EN_OW,Manual control of Rx filter DCOC enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,15,15,RW,FLT_RSTN_OW,Manual control of Rx Filter reset; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,14,14,RW,FLT_PKD_EN_OW,Manual control of Peak Detector enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,13,13,RW,PU_DAC_OW,Manual control of DAC enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,12,12,RW,PU_TMX_OW,Manual control of Tx Mixer enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,11,11,RW,PU_PADRV_OW,Manual control of Tx PA enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,10,10,RW,PU_ADC_OW,Manual control of Rx ADC enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,9,9,RW,PU_RCCAL_OW,Manual control of RC Calibration enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,8,8,RW,PU_FLT_OW,Manual control of Rx Filter enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,7,7,RW,PU_LO_REG_OW,Manual control of LO enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,6,6,RW,PU_RMX_OW,Manual control of Rx Mixer enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,5,5,RW,PU_LNA_OW,Manual control of Rx LNA enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,4,4,RW,PU_BG_OW,Manual control of bandgap power up; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,3,3,RW,RCCAL_RUN_OW,Manual control of RC Calibration run; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,2,2,RW,TXDCOC_RUN_OW,Manual control of Tx DC Calibration run; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,1,1,RW,RXDCOC_RUN_OW,Manual control of Rx DC Calibration run; 0 – auto; 1 – manual,0x0,0x0
+0xa0421000L,0,0,RW,AFC_RUN_OW,Manual control of AFC Calibration run; 0 – auto; 1 – manual,0x0,0x0
+0xa0421004L,30,30,RW,SX_VCO_LDO_FC_VAL,Manual value of VCO LDO fast charge; 0 – disable; 1 – enable,0x0,0x0L
+0xa0421004L,29,29,RW,SX_VCO_LDO_EN_VAL,Manual value of VCO LDO enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,28,28,RW,SX_VCO_BIAS _FC_VAL,Manual value of VCO Bias fast charge; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,27,27,RW,SX_VCO_BIAS_EN_VAL,Manual value of VCO Bias enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,26,20,RW,SX_VCO_EN_VAL,Manual value of VCO enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,25,25,RW,SX_PFD_EN _VAL,Manual value of PFD enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,24,24,RW,SX_MMD_EN_VAL,Manual value of MMD enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,23,23,RW,SX_MMD_DSM_RESETN_VAL,Manual value of MMD DSM reset; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,22,22,RW,SX_LOOP_LDO_FC_VAL,Manual value of Loop LDO fast charge; 0 – auto; 1 – manual,0x0,0x0
+0xa0421004L,21,21,RW,SX_LOOP_LDO_EN_VAL,Manual value of Loop LDO enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,20,20,RW,SX_CP_EN_VAL,Manual value of SX CP enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,19,19,RW,SX_AFC_START_VAL,Manual value of AFC start; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,18,18,RW,SX_AFC_RESETN_VAL,Manual value of AFC reset; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,17,17,RW,ADC_REFBUF_EN_VAL,Manual value of Rx ADC enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,16,16,RW,FLT_DCCAL_EN_VAL,Manual value of Rx filter DCOC enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,15,15,RW,FLT_RSTN_VAL,Manual value of Rx Filter reset; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,14,14,RW,FLT_PKD_EN_VAL,Manual value of Peak Detector enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,13,13,RW,PU_DAC_VAL,Manual value of DAC enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,12,12,RW,PU_TMX_VAL,Manual value of Tx Mixer enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,11,11,RW,PU_PADRV_VAL,Manual value of Tx PA enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,10,10,RW,PU_ADC_VAL,Manual value of Rx ADC enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,9,9,RW,PU_RCCAL_VAL,Manual value of RC Calibration enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,8,8,RW,PU_FLT_VAL,Manual value of Rx Filter enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,7,7,RW,PU_LO_REG_VAL,Manual value of LO enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,6,6,RW,PU_RMX_VAL,Manual value of Rx Mixer enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,5,5,RW,PU_LNA_VAL,Manual value of Rx LNA enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421004L,4,4,RW,PU_BG_VAL,Manual value of bandgap power up; 0 – off; 1 – on,0x0,0x0
+0xa0421004L,3,3,RW,RCCAL_RUN_VAL,Manual value of RC Calibration run; 0 – off; 1 – on,0x0,0x0
+0xa0421004L,2,2,RW,TXDCOC_RUN_VAL,Manual value of Tx DC Calibration run; 0 – off; 1 – on,0x0,0x0
+0xa0421004L,1,1,RW,RXDCOC_RUN_VAL,Manual value of Rx DC Calibration run; 0 – off; 1 – on,0x0,0x0
+0xa0421004L,0,0,RW,AFC_RUN_VAL,Manual value of AFC Calibration run; 0 – off; 1 – on,0x0,0x0
+0xa0421008L,31,31,RW,AFC_START_DSRT_SEL,AFC start de-assert select; 0 – after AFC calibration done; 1 – after PLL settle,0x0,0x0L
+0xa0421008L,30,30,RW,BYPASS_RX_WAIT,Bypass Rx Wait state; 0 – add Rx wait state for possible settle time needed by RF circuit; 1 – bypass Rx wait state,0x0,0x0L
+0xa0421008L,29,29,RW,BYPASS_TX_WAIT,Bypass Tx Wait state; 0 – add Tx wait state for possible settle time needed by RF circuit; 1 – bypass Tx wait state,0x0,0x0
+0xa0421008L,28,24,RW,CNT_TX_OFF,Tx off wait time for ramp down; (CNT_TX_OFF+1)/2 (unit: us),0x7,0x7
+0xa0421008L,23,19,RW,CNT_PRE_IDLE,Wait time for RF LDO/Bias fast charge; (CNT_PRE_IDLE+1)/2 (unit: us),0x13,0x13
+0xa0421008L,18,11,RW,CNT_AFC_WAIT2,Wait time for PLL settle after AFC calibration; (CNT_AFC_WAIT2+1)/2 (unit: us),0x1f,0x1f
+0xa0421008L,10,3,RW,CNT_AFC_WAIT1,Wait time for AFC calibration; (CNT_AFC_WAIT1+1)/2 (unit: us),0x3f,0x3f
+0xa0421008L,2,0,RW,CNT_FLT_RST,Wait time for Rx Filter reset; (CNT_FLT_RST+1)/2 (unit: us),0x1,0x1
+0xa042100cL,31,30,RW,RF_DBG_SEL,RF debug signal select; 0 – rf_ctrl_dbg0[15:0]; 1 – rf_ctrl_dbg1[15:0]; 2 – rf_cal_dbg[15:0]; 3 – rf_agc_dbg[15:0],0x0,0x0L
+0xa042100cL,29,29,RW,RF_TEST_MODE,RF test mode enable; 0 – normal mode; 1 – RF test (sub-board) mode,0x0,0x0
+0xa042100cL,28,28,RW,FLT_BT_2M_AUTO,Rx Filter 2M mode enable control; 0 – manual select using register; 1 – auto select using signal from bb,0x1,0x1
+0xa042100cL,27,27,RW,ADC_EDGE_SEL,Rx ADC sampling edge select; 0 – negative edge; 1 – positive edge,0x0,0x0
+0xa042100cL,26,26,RW,AFC_WAIT1_END_SEL,AFC calibration end select; 0 – use counter; 1 – use finish indicator from RF,0x0,0x0
+0xa042100cL,25,25,RW,TXDCOC_PADRV_ON,Enable PA during TX DC Calibration; 0 – disable; 1 – enable,0x0,0x0
+0xa042100cL,24,24,RW,AFC_RESETN_AUTO,Reset value for AFC; 0 – low; 1 – high,0x0,0x0
+0xa042100cL,23,23,RW,ADC_CLK_SEL_VAL,Rx ADC clock select manual control; 0 – 24MHz for 1Mbps mode; 1 – 48MHz for 2Mbps mode,0x0,0x0
+0xa042100cL,22,22,RW,ADC_CLK_SEL_OW,Rx ADC clock select manual enable; 0 – auto; 1 – manual,0x0,0x0
+0xa042100cL,21,17,RW,RF_CTRL_CLK_ON,RF clock manual control; 0 – off; 1 – on,0x0,0x0
+0xa042100cL,16,12,RW,RF_CTRL_CLK_AUTO,RF clock auto/manual select; 0 – manual; 1 – auto,0x1f,0x1f
+0xa042100cL,11,9,RW,CNT_AFC_ASRT,Wait time for AFC assert; (CNT_AFC_ASRT+1)/2 (unit: us),0x1,0x1
+0xa042100cL,8,6,RW,CNT_AFC_RESET,Wait time for AFC reset; (CNT_AFC_RESET+1)/2 (unit: us),0x1,0x1
+0xa042100cL,5,3,RW,CNT_TX_WAIT,Wait time for Tx wait state; (CNT_TX_WAIT+1)/2 (unit: us),0x1,0x1
+0xa042100cL,2,0,RW,CNT_RX_WAIT,Wait time for Rx wait state; (CNT_RX_WAIT+1)/2 (unit: us),0x1,0x1
+0xa0421010L,12,12,RW,TXDCOC_POL,TX DC Calibration polarity,0x0,0x0
+0xa0421010L,11,8,RW,TXDCOC_POS_INIT,TX DC Calibration initial position,0x6,0x6
+0xa0421010L,7,7,RW,TXDCOC_SW_MODE,TX DC Calibration mode; 0 – auto mode; 1 – manual mode,0x0,0x0
+0xa0421010L,6,0,RW,TXDCOC_WAIT_CNT,Wait time for each TX DC Calibration round; (TXDCOC_WAIT_CNT+1)/2 (unit: us),0x2f,0x2f
+0xa0421014L,26,16,RW,TX_DCOC_GAIN_I_1,Manual TX DCOC value for I-path gain index 0,0x0,0x0
+0xa0421014L,10,0,RW,TX_DCOC_GAIN_I_0,Manual TX DCOC value for I-path gain index 1,0x0,0x0
+0xa0421018L,26,16,RW,TX_DCOC_GAIN_I_3,Manual TX DCOC value for I-path gain index 3,0x0,0x0
+0xa0421018L,10,0,RW,TX_DCOC_GAIN_I_2,Manual TX DCOC value for I-path gain index 2,0x0,0x0
+0xa042101cL,26,16,RW,TX_DCOC_GAIN_I_5,Manual TX DCOC value for I-path gain index 5,0x0,0x0
+0xa042101cL,10,0,RW,TX_DCOC_GAIN_I_4,Manual TX DCOC value for I-path gain index 4,0x0,0x0
+0xa0421020L,26,16,RW,TX_DCOC_GAIN_I_7,Manual TX DCOC value for I-path gain index 7,0x0,0x0
+0xa0421020L,10,0,RW,TX_DCOC_GAIN_I_6,Manual TX DCOC value for I-path gain index 6,0x0,0x0
+0xa0421024L,26,16,RW,TX_DCOC_GAIN_Q_1,Manual TX DCOC value for Q-path gain index 1,0x0,0x0
+0xa0421024L,10,0,RW,TX_DCOC_GAIN_Q_0,Manual TX DCOC value for Q-path gain index 0,0x0,0x0
+0xa0421028L,26,16,RW,TX_DCOC_GAIN_Q_3,Manual TX DCOC value for Q-path gain index 3,0x0,0x0
+0xa0421028L,10,0,RW,TX_DCOC_GAIN_Q_2,Manual TX DCOC value for Q-path gain index 2,0x0,0x0
+0xa042102cL,26,16,RW,TX_DCOC_GAIN_Q_5,Manual TX DCOC value for Q-path gain index 5,0x0,0x0
+0xa042102cL,10,0,RW,TX_DCOC_GAIN_Q_4,Manual TX DCOC value for Q-path gain index 4,0x0,0x0
+0xa0421030L,26,16,RW,TX_DCOC_GAIN_Q_7,Manual TX DCOC value for Q-path gain index 7,0x0,0x0
+0xa0421030L,10,0,RW,TX_DCOC_GAIN_Q_6,Manual TX DCOC value for Q-path gain index 6,0x0,0x0
+0xa0421034L,31,24,RW,RX_DCOC_GAIN_I_3,Manual RX DCOC value for I-path gain index 3,0x0,0x83L
+0xa0421034L,23,16,RW,RX_DCOC_GAIN_I_2,Manual RX DCOC value for I-path gain index 2,0x0,0x83L
+0xa0421034L,15,8,RW,RX_DCOC_GAIN_I_1,Manual RX DCOC value for I-path gain index 1,0x0,0x83L
+0xa0421034L,7,0,RW,RX_DCOC_GAIN_I_0,Manual RX DCOC value for I-path gain index 0,0x0,0x83L
+0xa0421038L,31,24,RW,RX_DCOC_GAIN_I_7,Manual RX DCOC value for I-path gain index 7,0x0,0x83L
+0xa0421038L,23,16,RW,RX_DCOC_GAIN_I_6,Manual RX DCOC value for I-path gain index 6,0x0,0x83L
+0xa0421038L,15,8,RW,RX_DCOC_GAIN_I_5,Manual RX DCOC value for I-path gain index 5,0x0,0x83L
+0xa0421038L,7,0,RW,RX_DCOC_GAIN_I_4,Manual RX DCOC value for I-path gain index 4,0x0,0x83L
+0xa042103cL,31,24,RW,RX_DCOC_GAIN_I_b,Manual RX DCOC value for I-path gain index 11,0x0,0x83L
+0xa042103cL,23,16,RW,RX_DCOC_GAIN_I_a,Manual RX DCOC value for I-path gain index 10,0x0,0x83L
+0xa042103cL,15,8,RW,RX_DCOC_GAIN_I_9,Manual RX DCOC value for I-path gain index 9,0x0,0x83L
+0xa042103cL,7,0,RW,RX_DCOC_GAIN_I_8,Manual RX DCOC value for I-path gain index 8,0x0,0x83L
+0xa0421040L,31,24,RW,RX_DCOC_GAIN_I_f,Manual RX DCOC value for I-path gain index 15,0x0,0x91L
+0xa0421040L,23,16,RW,RX_DCOC_GAIN_I_e,Manual RX DCOC value for I-path gain index 14,0x0,0x83L
+0xa0421040L,15,8,RW,RX_DCOC_GAIN_I_d,Manual RX DCOC value for I-path gain index 13,0x0,0x83L
+0xa0421040L,7,0,RW,RX_DCOC_GAIN_I_c,Manual RX DCOC value for I-path gain index 12,0x0,0x83L
+0xa0421044L,31,24,RW,RX_DCOC_GAIN_Q_3,Manual RX DCOC value for Q-path gain index 3,0x0,0x83L
+0xa0421044L,23,16,RW,RX_DCOC_GAIN_Q_2,Manual RX DCOC value for Q-path gain index 2,0x0,0x83L
+0xa0421044L,15,8,RW,RX_DCOC_GAIN_Q_1,Manual RX DCOC value for Q-path gain index 1,0x0,0x83L
+0xa0421044L,7,0,RW,RX_DCOC_GAIN_Q_0,Manual RX DCOC value for Q-path gain index 0,0x0,0x83L
+0xa0421048L,31,24,RW,RX_DCOC_GAIN_Q_7,Manual RX DCOC value for Q-path gain index 7,0x0,0x83L
+0xa0421048L,23,16,RW,RX_DCOC_GAIN_Q_6,Manual RX DCOC value for Q-path gain index 6,0x0,0x83L
+0xa0421048L,15,8,RW,RX_DCOC_GAIN_Q_5,Manual RX DCOC value for Q-path gain index 5,0x0,0x83L
+0xa0421048L,7,0,RW,RX_DCOC_GAIN_Q_4,Manual RX DCOC value for Q-path gain index 4,0x0,0x83L
+0xa042104cL,31,24,RW,RX_DCOC_GAIN_Q_b,Manual RX DCOC value for Q-path gain index 11,0x0,0x83L
+0xa042104cL,23,16,RW,RX_DCOC_GAIN_Q_a,Manual RX DCOC value for Q-path gain index 10,0x0,0x83L
+0xa042104cL,15,8,RW,RX_DCOC_GAIN_Q_9,Manual RX DCOC value for Q-path gain index 9,0x0,0x83L
+0xa042104cL,7,0,RW,RX_DCOC_GAIN_Q_8,Manual RX DCOC value for Q-path gain index 8,0x0,0x83L
+0xa0421050L,31,24,RW,RX_DCOC_GAIN_Q_f,Manual RX DCOC value for I-path gain index 15,0x0,0x91L
+0xa0421050L,23,16,RW,RX_DCOC_GAIN_Q_e,Manual RX DCOC value for I-path gain index 14,0x0,0x83L
+0xa0421050L,15,8,RW,RX_DCOC_GAIN_Q_d,Manual RX DCOC value for I-path gain index 13,0x0,0x83L
+0xa0421050L,7,0,RW,RX_DCOC_GAIN_Q_c,Manual RX DCOC value for I-path gain index 12,0x0,0x83L
+0xa0421054L,31,24,RW,RXDCOC_Q_INIT,RX DC Calibration Q-path initial value,0x80,0x80L
+0xa0421054L,23,16,RW,RXDCOC_I_INIT,RX DC Calibration I-path initial value,0x80,0x80L
+0xa0421054L,9,9,RW,RXDCOC_POL,RX DC Calibration polarity,0x0,0x0L
+0xa0421054L,8,8,RW,RX_DCCAL_EDGE_SEL,RX DC Calibration clock edge select; 0 – positive; 1 – negative,0x0,0x0L
+0xa0421054L,7,7,RW,RXDCOC_SW_MODE,RX DC Calibration mode; 0 – auto mode; 1 – manual mode,0x0,0x1L
+0xa0421054L,6,0,RW,RXDCOC_WAIT_CNT,Wait time for each RX DC Calibration round; (RXDCOC_WAIT_CNT+1)/2 (unit: us),0x2f,0x2fL
+0xa0421058L,31,24,RW,RCCAL_CNT_SAMP,RC Calibration sample wait time; (RCCAL_CNT_SAMP+1)/24 (unit: us),0x2f,0x2fL
+0xa0421058L,23,16,RW,RCCAL_CNT_RST2,RC Calibration reset2 wait time; (RCCAL_CNT_RST2+1)/24 (unit: us),0x8f,0x8f
+0xa0421058L,15,8,RW,RCCAL_CNT_RST1,RC Calibration reset1 wait time; (RCCAL_CNT_RST1+1)/24 (unit: us),0x47,0x47
+0xa0421058L,4,4,RW,RCCAL_T2_POL,RX DC Calibration t2 polarity,0x0,0x0
+0xa0421058L,3,3,RW,RCCAL_T1_POL,RX DC Calibration t1 polarity,0x0,0x0
+0xa0421058L,2,2,RW,RCCAL_SWAP,Manual control of RC Calibration swap,0x0,0x0
+0xa0421058L,1,1,RW,RCCAL_RESET,Manual control of RC Calibration reset,0x0,0x0
+0xa0421058L,0,0,RW,RCCAL_SW_MODE,RC Calibration mode; 0 – auto mode; 1 – manual mode,0x0,0x0
+0xa042105cL,31,8,RW,MMD_DIVRATIO_K,Fraction part of PLL divide ratio,0x155555,0x155555L
+0xa042105cL,7,0,RW,MMD_DIVRATIO_N,Integer part of PLL divide ratio,0x64,0x64
+0xa0421060L,15,15,RW,XTL_SEL,Crystal frequency select; 0 – 24MHz; 1 – 26MHz,0x0,0x0
+0xa0421060L,14,14,RW,DIVRATIO_SEL,PLL divide ratio select; 0 – latched result; 1 – combinational result,0x0,0x0
+0xa0421060L,13,13,RW,DIVRATIO_MAN,PLL divide ratio auto/manual select; 0 – auto; 1 – manual,0x0,0x0
+0xa0421060L,12,12,RW,FREQ_MAN_EN,Frequency value manual enable; 0 – auto; 1 – manual,0x0,0x0
+0xa0421060L,11,0,RW,FREQ_MAN,Manual value of frequency (unit: MHz),0x962,0x962
+0xa0421064L,30,28,RW,AGC_ITER_NUM,Maximum AGC iteration number for Rx filter gain adjustment,0x5,0x5L
+0xa0421064L,27,26,RW,AGC_POW_AVG_MODE,AGC power average mode; 0 – 1us; 1 – 2us; 2 – 4us; 3 – 8us,0x0,0x0
+0xa0421064L,25,25,RW,AGC_SWCH_SIGN,AGC ADC data sign/unsign select; 0 – unsigned; 1 – signed,0x0,0x0
+0xa0421064L,24,19,RW,AGC_T_FLT_STL,AGC Rx Filter settle time; (AGC_T_FLT_STL+1)/24 (unit: us),0xc,0xc
+0xa0421064L,18,13,RW,AGC_T_LNA_STL,AGC LNA settle time; (AGC_T_LNA_STL+1)/24 (unit: us),0xc,0xc
+0xa0421064L,12,9,RW,AGC_T_PKD_RSTN,AGC Peak Detector reset time; (AGC_T_PKD_RSTN+1)/24 (unit: us),0x2,0x2
+0xa0421064L,8,5,RW,AGC_T_PKD_SAT_SAMP,AGC Peak Detector saturation sample time; (AGC_T_PKD_SAT_SAMP+1)/24 (unit: us),0x3,0x3
+0xa0421064L,4,1,RW,AGC_T_PKD_SAT_SRCH,AGC Peak Detector saturation search time; (AGC_T_PKD_SAT_SRCH+1)/24 (unit: us),0x3,0x3
+0xa0421064L,0,0,RW,AGC_OFF,AGC ; 0 – enable agc; 1 – disable agc,0x0,0x0
+0xa0421068L,31,31,RW,AGC_TGT_UNIT_SEL,Power target diff unit select; 0 – dB; 1 – amplitude,0x0,0x0L
+0xa0421068L,30,19,RW,AGC_TGT_POW_ERR,Error between target and actual power,0x64,0x64L
+0xa0421068L,18,10,RW,AGC_TGT_DB_ERR,Error between target and actual power (in dB),0x3,0x3
+0xa0421068L,9,0,RW,AGC_TGT,AGC target power,0x143,0x197
+0xa042106cL,28,28,RW,AGC_DBG_SEL,AGC debug select,0x0,0x0
+0xa042106cL,27,27,RW,AGC_ACCS_MAT_VAL,AGC access match value for debug,0x0,0x0
+0xa042106cL,26,26,RW,AGC_ACCS_MAT_OW,AGC access match manual enable for debug; 0 – auto; 1 – manual,0x0,0x0
+0xa042106cL,25,16,RW,AGC_FLT_SAT_POW,Rx Filter saturation power threshold,0x1ff,0x244
+0xa042106cL,15,14,RW,AGC_FLT_SAT_DEC,AGC index decrease step for Rx Filter saturation ,0x2,0x2
+0xa042106cL,13,13,RW,AGC_FLT_SAT_EN,AGC Rx Filter saturation enable,0x1,0x1
+0xa042106cL,12,12,RW,AGC_AMP_CAL_SEL,"AGC power amplitude calculation select; 0 – max(I,Q)+min(I,Q)/4; 1 – alpha*max(I,Q) + beta*max(I,Q)",0x0,0x0
+0xa042106cL,11,6,RW,AGC_AMP_BETA,AGC power amplitude calculation parameter beta,0x1a,0x1a
+0xa042106cL,5,0,RW,AGC_AMP_ALPHA,AGC power amplitude calculation parameter alpha,0x3d,0x3d
+0xa0421070L,15,10,RW,AGC_T_RST_GAIN_STL,AGC reset gain settle time; (AGC_T_RST_GAIN_STL+1)/24 (unit: us),0xc,0xc
+0xa0421070L,9,7,RW,AGC_POW_CHG_TH,AGC power change threshold; 20*lg(AGC_POW_CHG_TH) (unit: dB),0x4,0x4
+0xa0421070L,6,6,RW,AGC_POW_CHG_DET_EN,AGC power change detection enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421070L,5,5,RW,AGC_SLOW_POW_TEST,AGC slow power test enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421070L,4,4,RW,AGC_SLOW_POW_COMP_SEL,AGC slow power comparison select; 0 – 1 slow power valid delay; 1 – 2 slow power valid delay,0x0,0x0
+0xa0421070L,3,2,RW,AGC_SLOW_POW_MODE,AGC slow power mode; 0 – 3 sample; 1 – average by 2 over 6 sample; 2 – average by 4 over 12 sample; 3 – average by 8 over 24 sample,0x1,0x1
+0xa0421070L,1,1,RW,AGC_FAST_POW_TEST,AGC fast power test enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421070L,0,0,RW,AGC_FAST_POW_MODE,AGC fast power mode; 0 – average over 4 amplitude sample; 1 – instant amplitude,0x0,0x0
+0xa0421074L,31,30,RW,LNA_ATTEN_CBIT_7,LNA attenuation cap bit for AGC index 7,0x0,0x0L
+0xa0421074L,29,28,RW,LNA_ATTEN_CBIT_6,LNA attenuation cap bit for AGC index 6,0x0,0x0
+0xa0421074L,27,26,RW,LNA_ATTEN_CBIT_5,LNA attenuation cap bit for AGC index 5,0x0,0x0
+0xa0421074L,25,24,RW,LNA_ATTEN_CBIT_4,LNA attenuation cap bit for AGC index 4,0x1,0x1
+0xa0421074L,23,22,RW,LNA_ATTEN_CBIT_3,LNA attenuation cap bit for AGC index 3,0x3,0x3
+0xa0421074L,21,20,RW,LNA_ATTEN_CBIT_2,LNA attenuation cap bit for AGC index 2,0x3,0x3
+0xa0421074L,19,18,RW,LNA_ATTEN_CBIT_1,LNA attenuation cap bit for AGC index 1,0x3,0x3
+0xa0421074L,17,16,RW,LNA_ATTEN_CBIT_0,LNA attenuation cap bit for AGC index 0,0x3,0x3
+0xa0421074L,15,14,RW,LNA_GAIN_7,LNA gain bit for AGC index 7,0x3,0x3
+0xa0421074L,13,12,RW,LNA_GAIN_6,LNA gain bit for AGC index 6,0x3,0x3
+0xa0421074L,11,10,RW,LNA_GAIN_5,LNA gain bit for AGC index 5,0x1,0x1
+0xa0421074L,9,8,RW,LNA_GAIN_4,LNA gain bit for AGC index 4,0x0,0x0
+0xa0421074L,7,6,RW,LNA_GAIN_3,LNA gain bit for AGC index 3,0x0,0x0
+0xa0421074L,5,4,RW,LNA_GAIN_2,LNA gain bit for AGC index 2,0x0,0x0
+0xa0421074L,3,2,RW,LNA_GAIN_1,LNA gain bit for AGC index 1,0x0,0x0
+0xa0421074L,1,0,RW,LNA_GAIN_0,LNA gain bit for AGC index 0,0x0,0x0
+0xa0421078L,31,30,RW,FLT_GAIN1_BIT_7,Filter Stage 1 gain bit for AGC index 7,0x3,0x3L
+0xa0421078L,29,28,RW,FLT_GAIN1_BIT_6,Filter Stage 1 gain bit for AGC index 6,0x3,0x3L
+0xa0421078L,27,26,RW,FLT_GAIN1_BIT_5,Filter Stage 1 gain bit for AGC index 5,0x3,0x3L
+0xa0421078L,25,24,RW,FLT_GAIN1_BIT_4,Filter Stage 1 gain bit for AGC index 4,0x3,0x3L
+0xa0421078L,23,22,RW,FLT_GAIN1_BIT_3,Filter Stage 1 gain bit for AGC index 3,0x2,0x2L
+0xa0421078L,21,20,RW,FLT_GAIN1_BIT_2,Filter Stage 1 gain bit for AGC index 2,0x2,0x2L
+0xa0421078L,19,18,RW,FLT_GAIN1_BIT_1,Filter Stage 1 gain bit for AGC index 1,0x1,0x1L
+0xa0421078L,17,16,RW,FLT_GAIN1_BIT_0,Filter Stage 1 gain bit for AGC index 0,0x0,0x0L
+0xa0421078L,15,14,RW,LNA_ATTEN_RBIT_7,LNA attenuation res bit for AGC index 7,0x0,0x0L
+0xa0421078L,13,12,RW,LNA_ATTEN_RBIT_6,LNA attenuation res bit for AGC index 6,0x0,0x0L
+0xa0421078L,11,10,RW,LNA_ATTEN_RBIT_5,LNA attenuation res bit for AGC index 5,0x0,0x0L
+0xa0421078L,9,8,RW,LNA_ATTEN_RBIT_4,LNA attenuation res bit for AGC index 4,0x0,0x0L
+0xa0421078L,7,6,RW,LNA_ATTEN_RBIT_3,LNA attenuation res bit for AGC index 3,0x0,0x0L
+0xa0421078L,5,4,RW,LNA_ATTEN_RBIT_2,LNA attenuation res bit for AGC index 2,0x2,0x2L
+0xa0421078L,3,2,RW,LNA_ATTEN_RBIT_1,LNA attenuation res bit for AGC index 1,0x3,0x3L
+0xa0421078L,1,0,RW,LNA_ATTEN_RBIT_0,LNA attenuation res bit for AGC index 0,0x3,0x3L
+0xa042107cL,30,30,RW,FLT_GAIN2_BIT_OW,Manual Rx Filter stage 2 gain control; 0 – auto; 1 – manual,0x0,0x0L
+0xa042107cL,29,29,RW,FLT_GAIN1_BIT_OW,Manual Rx Filter stage 1 gain control; 0 – auto; 1 – manual,0x0,0x0
+0xa042107cL,28,28,RW,LNA_ATTEN_RBIT_OW,Manual LNA attenuation resistor control; 0 – auto; 1 – manual,0x0,0x0
+0xa042107cL,27,27,RW,LNA_ATTEN_CBIT_OW,Manual LNA attenuation resistor control; 0 – auto; 1 – manual,0x0,0x0
+0xa042107cL,26,26,RW,LNA_GAIN_OW,Manual LNA gain enable; 0 – auto; 1 – manual,0x0,0x0
+0xa042107cL,25,24,RW,FLT_GAIN2_BIT_VAL,Manual Rx Filter stage 2 gain bit value,0x3,0x3
+0xa042107cL,23,22,RW,FLT_GAIN1_BIT_VAL,Manual Rx Filter stage 1 gain bit value,0x3,0x3
+0xa042107cL,21,20,RW,LNA_ATTEN_RBIT_VAL,Manual LNA attenuation resistor bit value,0x0,0x0
+0xa042107cL,19,18,RW,LNA_ATTEN_CBIT_VAL,Manual LNA attenuation cap bit value,0x0,0x0
+0xa042107cL,17,16,RW,LNA_GAIN_VAL,Manual LNA gain bit value,0x3,0x3
+0xa042107cL,15,14,RW,FLT_GAIN2_BIT_7,Filter Stage 2 gain bit for AGC index 7,0x3,0x3
+0xa042107cL,13,12,RW,FLT_GAIN2_BIT_6,Filter Stage 2 gain bit for AGC index 6,0x2,0x2
+0xa042107cL,11,10,RW,FLT_GAIN2_BIT_5,Filter Stage 2 gain bit for AGC index 5,0x1,0x1
+0xa042107cL,9,8,RW,FLT_GAIN2_BIT_4,Filter Stage 2 gain bit for AGC index 4,0x0,0x0
+0xa042107cL,7,6,RW,FLT_GAIN2_BIT_3,Filter Stage 2 gain bit for AGC index 3,0x1,0x1
+0xa042107cL,5,4,RW,FLT_GAIN2_BIT_2,Filter Stage 2 gain bit for AGC index 2,0x0,0x0
+0xa042107cL,3,2,RW,FLT_GAIN2_BIT_1,Filter Stage 2 gain bit for AGC index 1,0x0,0x0
+0xa042107cL,1,0,RW,FLT_GAIN2_BIT_0,Filter Stage 2 gain bit for AGC index 0,0x0,0x0
+0xa0421080L,31,31,RW,PA_GAIN_AUTO,Manual Tx PA gain control; 1 – auto; 0 – manual,0x1,0x1L
+0xa0421080L,30,30,RW,TMX_GAIN_AUTO,Manual Tx Mixer gain control; 1 – auto; 0 – manual,0x1,0x0L
+0xa0421080L,29,28,RW,GFSK_PA_GAIN_5,PA gain of index 5 for Tx GFSK part,0x3,0x3L
+0xa0421080L,27,25,RW,GFSK_TMX_GAIN_5,Tx Mixer gain of index 5 for Tx GFSK part,0x3,0x3L
+0xa0421080L,24,23,RW,GFSK_PA_GAIN_4,PA gain of index 4 for Tx GFSK part,0x3,0x3L
+0xa0421080L,22,20,RW,GFSK_TMX_GAIN_4,Tx Mixer gain of index 4 for Tx GFSK part,0x3,0x3L
+0xa0421080L,19,18,RW,GFSK_PA_GAIN_3,PA gain of index 3 for Tx GFSK part,0x3,0x3L
+0xa0421080L,17,15,RW,GFSK_TMX_GAIN_3,Tx Mixer gain of index 3 for Tx GFSK part,0x3,0x3L
+0xa0421080L,14,13,RW,GFSK_PA_GAIN_2,PA gain of index 2 for Tx GFSK part,0x3,0x3L
+0xa0421080L,12,10,RW,GFSK_TMX_GAIN_2,Tx Mixer gain of index 2 for Tx GFSK part,0x3,0x3L
+0xa0421080L,9,8,RW,GFSK_PA_GAIN_1,PA gain of index 1 for Tx GFSK part,0x3,0x3L
+0xa0421080L,7,5,RW,GFSK_TMX_GAIN_1,Tx Mixer gain of index 1 for Tx GFSK part,0x3,0x3L
+0xa0421080L,4,3,RW,GFSK_PA_GAIN_0,PA gain of index 0 for Tx GFSK part,0x3,0x3L
+0xa0421080L,2,0,RW,GFSK_TMX_GAIN_0,Tx Mixer gain of index 0 for Tx GFSK part,0x3,0x3L
+0xa0421084L,29,28,RW,DPSK_PA_GAIN_3,PA gain of index 3 for Tx DPSK part,0x3,0x3
+0xa0421084L,27,25,RW,DPSK_TMX_GAIN_3,Tx Mixer gain of index 3 for Tx DPSK part,0x3,0x3
+0xa0421084L,24,23,RW,DPSK_PA_GAIN_2,PA gain of index 2 for Tx DPSK part,0x3,0x3
+0xa0421084L,22,20,RW,DPSK_TMX_GAIN_2,Tx Mixer gain of index 2 for Tx DPSK part,0x3,0x3
+0xa0421084L,19,18,RW,DPSK_PA_GAIN_1,PA gain of index 1 for Tx DPSK part,0x3,0x3
+0xa0421084L,17,15,RW,DPSK_TMX_GAIN_1,Tx Mixer gain of index 1 for Tx DPSK part,0x3,0x3
+0xa0421084L,14,13,RW,DPSK_PA_GAIN_0,PA gain of index 0 for Tx DPSK part,0x3,0x3
+0xa0421084L,12,10,RW,DPSK_TMX_GAIN_0,Tx Mixer gain of index 0 for Tx DPSK part,0x3,0x3
+0xa0421084L,9,8,RW,GFSK_PA_GAIN_7,PA gain of index 7 for Tx GFSK part,0x3,0x3
+0xa0421084L,7,5,RW,GFSK_TMX_GAIN_7,Tx Mixer gain of index 7 for Tx GFSK part,0x3,0x3
+0xa0421084L,4,3,RW,GFSK_PA_GAIN_6,PA gain of index 6 for Tx GFSK part,0x3,0x3
+0xa0421084L,2,0,RW,GFSK_TMX_GAIN_6,Tx Mixer gain of index 6 for Tx GFSK part,0x3,0x3
+0xa0421088L,19,18,RW,DPSK_PA_GAIN_7,PA gain of index 7 for Tx DPSK part,0x3,0x3
+0xa0421088L,17,15,RW,DPSK_TMX_GAIN_7,Tx Mixer gain of index 7 for Tx DPSK part,0x3,0x3
+0xa0421088L,14,13,RW,DPSK_PA_GAIN_6,PA gain of index 6 for Tx DPSK part,0x3,0x3
+0xa0421088L,12,10,RW,DPSK_TMX_GAIN_6,Tx Mixer gain of index 6 for Tx DPSK part,0x3,0x3
+0xa0421088L,9,8,RW,DPSK_PA_GAIN_5,PA gain of index 5 for Tx DPSK part,0x3,0x3
+0xa0421088L,7,5,RW,DPSK_TMX_GAIN_5,Tx Mixer gain of index 5 for Tx DPSK part,0x3,0x3
+0xa0421088L,4,3,RW,DPSK_PA_GAIN_4,PA gain of index 4 for Tx DPSK part,0x3,0x3
+0xa0421088L,2,0,RW,DPSK_TMX_GAIN_4,Tx Mixer gain of index 4 for Tx DPSK part,0x3,0x3
+0xa042108cL,22,19,RW,LO_REG_VBIT,LO regulator output control,0x7,0xf
+0xa042108cL,18,18,RW,LO_REG_TEST_EN,DC test enable for LO regulator,0x0,0x0
+0xa042108cL,17,17,RW,RMX_TEST_EN,DC test enable for LO bias,0x0,0x0
+0xa042108cL,16,14,RW,RMX_LO_BIAS,LO bias voltage control,0x3,0x3
+0xa042108cL,13,11,RW,LNA_VBCG_BIT,LNA cascade stage vbias control,0x5,0x5
+0xa042108cL,10,10,RW,LNA_TEST_EN,DC test enable for regulator out,0x0,0x0
+0xa042108cL,9,6,RW,LNA_REG_VBIT,Regulator output control,0x5,0x5
+0xa042108cL,5,5,RW,LNA_REG_BYPASS,Regulator bypass control,0x0,0x0
+0xa042108cL,4,4,RW,LNA_LG_MODE,LNA low gain path mode,0x0,0x0
+0xa042108cL,3,0,RW,LNA_IBIAS_BIT,LNA ibias bit,0xa,0xa
+0xa0421090L,30,26,RW,FLT_CAP_BIT,Rx filter cap tuning bits,0x10,0x10L
+0xa0421090L,25,24,RW,FLT_BT_IF_CTRL,"Rx filter complex filter mode, IF control bits:; 00 – lowpass; 01 – 900k@1M mode; 1.85M@2M mode; 10 – 1M@1M mode; 2M@2M mode; 11 – 1.1M@1M mode; 2.15M@2M mode",0x2,0x2
+0xa0421090L,23,23,RW,FLT_BT_2M_EN,Rx Filter 2M mode manual enable; 0 – disable; 1 – enable,0x0,0x0
+0xa0421090L,22,21,RW,FLT_VCOM_BIT,"Rx filter common mode voltage control bits, given power=1.2V; 00 – 550mV; 01 – 600mV; 10 – 650mV; 11 – 700mV",0x1,0x1
+0xa0421090L,20,14,RW,FLT_PKD_REF_BIT,"Rx filter peak detector saturation threshold control, proportional to this value (default about -10dBm, maximum about 200mV)",0x20,0x40
+0xa0421090L,13,12,RW,FLT_PKD_HYS,Rx filter peak detector comparator hysteresis value control,0x0,0x0
+0xa0421090L,11,11,RW,FLT_PKD_COMP_LP,Rx filter peak detector comparator low power mode,0x0,0x0
+0xa0421090L,10,8,RW,FLT_IREF_OP1_BIT,Rx filter first stage current bias bits:; 000 – 2.5uA; 010 – 5uA; 100 – 6.25uA; 111 – 10uA,0x2,0x2
+0xa0421090L,7,6,RW,FLT_IREF_BIT,00 – 3uA; 01 – 3.6uA; 10 – 5uA; 11 – 7.2uA,0x2,0x2
+0xa0421090L,5,5,RW,FLT_IQSWAP,Rx filter IQ swap,0x0,0x0
+0xa0421090L,4,4,RW,FLT_DCCAL_MODE,Rx filter DC offset calibration mode select; 0 – under LPF (low pass filter) mode; 1 – under CPBF (complex band pass filter) mode,0x0,0x0
+0xa0421090L,3,1,RW,FLT_DCCAL_DAC_IBIT,Rx filter DC offset cal DAC ibias control bits,0x4,0x4
+0xa0421090L,0,0,RW,FLT_DCCAL_CLK_EDGE_SEL,Rx filter DC offset cal clock edge sel; 0 – positive; 1 – negative,0x0,0x0
+0xa0421094L,27,27,RW,DAC_DATA_RSTN,"Tx DAC data reset signal, 0 effective",0x1,0x1
+0xa0421094L,26,24,RW,PA_VB2P5_BIT,PA 2.5V bias control bits,0x3,0x3
+0xa0421094L,23,21,RW,PA_VB1P4_BIT,PA 1.4V bias control bits,0x3,0x7
+0xa0421094L,20,20,RW,PALDO_BYPASS,PA LDO bypass mode,0x0,0x0
+0xa0421094L,19,19,RW,PALDO_ANTI_OVERSHOOT,PA LDO anti overshoot function enable signal; 0 – disable; 1 – enable,0x1,0x1
+0xa0421094L,18,18,RW,PALDO_ADB_EN,PA LDO adaptive bias mode enable; 0 – disable; 1 – enable,0x1,0x1
+0xa0421094L,17,15,RW,PADRV_S_IBIAS,PA slave cell bias control bits,0x4,0x4
+0xa0421094L,14,12,RW,PADRV_M_IBIAS,PA main cell bias control bits,0x4,0x4
+0xa0421094L,11,10,RW,PADRV_CELL_BIT,PA drive ability control bits,0x3,0x1
+0xa0421094L,9,6,RW,PADRV_CAPBIT,PA load capacitance tuning bits,0x8,0xf
+0xa0421094L,5,3,RW,ADC_REF_VBIT,Rx SAR ADC refbuf output tuning bits,0x2,0x2
+0xa0421094L,2,1,RW,ADC_REF_IBIT,Rx SAR ADC refbuf bias current tuning bits,0x2,0x2
+0xa0421094L,0,0,RW,ADC_DEL_SEL,"Rx SAR ADC clock delay tuning bit, to compensate deviation of PVT",0x0,0x0
+0xa0421098L,31,30,RW,DAC_VHIGH_CTRL_BIT,Tx DAC logic high voltage control bits,0x1,0x1L
+0xa0421098L,29,28,RW,DAC_ICAS_BIT,Tx DAC cell cascade bias control bits,0x2,0x2
+0xa0421098L,27,26,RW,DAC_IBIAS_BIT,Tx DAC bias current control,0x2,0x2
+0xa0421098L,25,25,RW,DAC_CLK_EDGE_SEL,Tx DAC clock edge sel,0x1,0x1
+0xa0421098L,24,24,RW,TMX_TEST_MODE,Tx IF part test mode enable,0x0,0x0
+0xa0421098L,23,23,RW,TMX_PLL_TEST,Tx PLL test mode enable,0x0,0x0
+0xa0421098L,22,17,RW,TMX_LOBIAS_BIT,Tx Mixer LO bias voltage control bits,0x20,0x20
+0xa0421098L,16,15,RW,TMX_GMCOM_BIT,No use,0x2,0x2
+0xa0421098L,14,13,RW,TMX_GMBIAS_BIT,Tx Mixer gm cell bias control bits,0x2,0x2
+0xa0421098L,12,10,RW,TMX_GAIN,Manual Tx Mixer gain setting,0x7,0x2
+0xa0421098L,9,7,RW,TMX_DIV_BIAS,Tx Mixer LO divider bias,0x3,0x6
+0xa0421098L,6,3,RW,TMX_CAP_BIT,Tx Mixer capbank,0x8,0x9
+0xa0421098L,2,0,RW,TMX_CAL_VCOM_BIT,Tx Mixer calibration output common mode voltage,0x4,0x4
+0xa042109cL,30,30,RW,SX_MMD_DSMDITHER_EN,SX MMD dither enable signal; 0 – disable; 1 – enable,0x1,0x1L
+0xa042109cL,29,29,RW,SX_LOOP_LDO_VOUT_TEST_EN,SX LOOP LDO output test switch enable signal; 0 – disable; 1 – enable,0x0,0x0
+0xa042109cL,28,26,RW,SX_LOOP_LDO_VOUT_CONTROL,SX LOOP LDO output control code:; Vout = 0.9 + 0.33*controlbits,0x3,0x4
+0xa042109cL,25,25,RW,SX_LOOP_LDO_BYPASSH,SX LOOP LDO bypass signal,0x0,0x0
+0xa042109cL,24,23,RW,SX_LF_VAFC_CONTROL,SX VCO vctrl voltage when doing AFC:; 627.5m+26m*SX_LF_VAFC_CONTROL[1:0],0x1,0x1
+0xa042109cL,22,19,RW,SX_LF_R1,SX LF R1 code,0x8,0x8
+0xa042109cL,18,16,RW,SX_LF_C3,SX LF C3 code,0x4,0x4
+0xa042109cL,15,13,RW,SX_LF_C2,SX LF C2 code,0x4,0x4
+0xa042109cL,12,10,RW,SX_LF_C1,SX LF C1 code,0x4,0x4
+0xa042109cL,9,5,RW,SX_CP_OFFCURRENTP,SX CP offset current code,0x5,0x5
+0xa042109cL,4,0,RW,SX_CP_CURRENT,SX CP current code,0xf,0xf
+0xa04210a0L,28,28,RW,SX_OPEN_LOOP_MAN,SX open loop mode control; 0 – auto; 1 – manual,0x0,0x0
+0xa04210a0L,27,27,RW,SX_OPEN_LOOP,SX open loop control value,0x0,0x0
+0xa04210a0L,26,26,RW,SX_MMD_DSM_EN,SX MMD mode select signal; 0 – integer mode; 1 – fractional mode,0x1,0x1
+0xa04210a0L,25,24,RW,SX_AFC_CHARGE_DEALY,SX AFC charge time for vctrl settling to VDD/2; 00 – 2^5*Tref; 01 – 2^6*Tref; 10 – 2^7*Tref; 11 – 2^8*Tref,0x2,0x2
+0xa04210a0L,23,22,RW,SX_VCO_STABLE_TIME,SX VCO stable time when switching cap code; 00 – 2^1*Tref; 01 – 2^2*Tref; 10 – 2^3*Tref; 11 – 2^4*Tref,0x2,0x2
+0xa04210a0L,21,21,RW,SX_MMD_CK_TESTEN,PLL divider feedback clock test enable; 0 – disable; 1 – enable,0x0,0x0
+0xa04210a0L,20,18,RW,SX_VCO_VAR_BIAS,VCO varactor bias control,0x4,0x4
+0xa04210a0L,17,17,RW,SX_VCO_LDO_VOUT_TEST_EN,DC test enable for VCO LDO output,0x0,0x0
+0xa04210a0L,16,14,RW,SX_VCO_LDO_VOUT_CONTROL,VCO LDO output control,0x3,0x6
+0xa04210a0L,13,13,RW,SX_VCO_LDO_BYPASH,VCO LDO bypass,0x0,0x0
+0xa04210a0L,12,10,RW,SX_VCO_GAIN_CONTROL,KVCO control,0x7,0x7
+0xa04210a0L,9,7,RW,SX_VCO_DIV2_VB_CONTROL,10G divider bias control,0x6,0x6
+0xa04210a0L,6,3,RW,SX_VCO_BIAS,VCO bias current control,0x6,0x6
+0xa04210a0L,2,2,RW,SX_AFC_RESETN_MODE,SX AFC delay control for counter; 0 – no delay; 1 – 2 ref clock cycles delay,0x1,0x1
+0xa04210a0L,1,0,RW,SX_PFD_DELAY,SX PFD reset delay control signal,0x1,0x1
+0xa04210a4L,9,8,RW,SX_VCO_COUNT_TIME,SX AFC count time for one bit calibration; 00 – 2^5*Tref; 01 – 2^6*Tref; 10 – 2^7*Tref; 11 – 2^8*Tref,0x1,0x1
+0xa04210a4L,7,7,RW,SX_VCO_CAP_MAN,SX VCO cap control mode; 0 – auto; 1 – manual,0x0,0x0
+0xa04210a4L,6,0,RW,SX_VCO_CAP,SX VCO cap manual control code,0x40,0x40
+0xa04210a8L,21,21,RW,DAC_SWCH_SIGN,Tx DAC sign/unsign select; 0 – unsigned; 1 – signed,0x0,0x0
+0xa04210a8L,20,20,RW,SOFT_RSTN,Not used,0x1,0x1
+0xa04210a8L,19,16,RW,RSVD_VCO_IN,Reserved register under AVDD_VCO,0x5,0x5
+0xa04210a8L,15,12,RW,RSVD_RF_IN,Reserved register under AVDD_RF,0x5,0x5
+0xa04210a8L,11,8,RW,RSVD_CLK_IN,Reserved register under AVDD_CLK,0x5,0x5
+0xa04210a8L,6,6,RW,TEST_RX_SW_EN,Rx filter output test enable signal,0x0,0x0
+0xa04210a8L,5,5,RW,TEST_DC_SW_EN,"LDO’s outputs test enable signal, use with SX_VCO_LKDO_TEST_EN, SX_LOOP_LDO_TEST_EN, LO_REG_TEST_EN, RMX_TEST_EN",0x0,0x0
+0xa04210a8L,4,4,RW,TEST_DAC_SW_EN,Tx DAC output test enable signal,0x0,0x0
+0xa04210a8L,3,2,RW,TEST_BUF_VCM_BIT,Test buffer output common voltage control bits,0x1,0x1
+0xa04210a8L,1,1,RW,TEST_BUF_RSTN,"Test buffer reset signal, low effective",0x1,0x1
+0xa04210a8L,0,0,RW,PU_TEST_BUF,Test buffer enable signal,0x0,0x0
+0xa04210acL,23,23,RW,RX_IF_SEL,Rx IF select; 0 – negative IF ; 1 – positve IF,0x1,0x1
+0xa04210acL,21,0,RW,RX_1M_IF_VAL,1Mbps mode Rx IF value,0x155556,0x155556
+0xa04210b0L,21,0,RW,RX_2M_IF_VAL,2Mbps mode Rx IF value,0x155556,0x2aaaac
+0xa04210b4L,23,23,RW,TX_IF_EN,Tx IF enable; 0 – Tx zero-IF; 1 – enable Tx IF ,0x0,0x0
+0xa04210b4L,22,22,RW,TX_IF_SEL,Tx IF select; 0 – negative IF ; 1 – positive IF,0x1,0x1
+0xa04210b4L,21,0,RW,TX_1M_IF_VAL,1Mbps mode Tx IF value,0x155556,0x155556
+0xa04210b8L,21,0,RW,TX_2M_IF_VAL,2Mbps mode Tx IF value,0x2aaaac,0x2aaaac
+0xa04210bcL,22,22,RW,FAST_STL_EN,Fast settle enable for tws; 0 – disable; 1 - enable,0x0,0x0
+0xa04210bcL,21,20,RW,SX_VCO_COUNT_TIME_FAST,SX AFC count time for one bit calibration when fast settle enabled; 00 – 2^5*Tref; 01 – 2^6*Tref; 10 – 2^7*Tref; 11 – 2^8*Tref,0x0,0x0
+0xa04210bcL,19,18,RW,SX_AFC_CHARGE_DELAY_FAST,SX AFC charge time for vctrl settling to VDD/2 when fast settle enabled; 00 – 2^5*Tref; 01 – 2^6*Tref; 10 – 2^7*Tref; 11 – 2^8*Tref,0x1,0x1
+0xa04210bcL,17,16,RW,SX_VCO_STABLE_TIME_FAST,SX VCO stable time when switching cap code when fast settle enabled; 00 – 2^1*Tref; 01 – 2^2*Tref; 10 – 2^3*Tref; 11 – 2^4*Tref,0x1,0x1
+0xa04210bcL,15,8,RW,CNT_AFC_WAIT2_FAST,Wait time for PLL settle after AFC calibration when fast settle enabled; (CNT_AFC_WAIT2_FAST+1)/2 (unit: us),0x1f,0x1f
+0xa04210bcL,7,0,RW,CNT_AFC_WAIT1_FAST,Wait time for AFC calibration when fast settle enabled; (CNT_AFC_WAIT1_FAST+1)/2 (unit: us),0x1f,0x1f
+0xa04210c0L,31,24,RW,RX_GAIN1_3,LNA gain signed value in dB for AGC index 3,0x4,0x4L
+0xa04210c0L,23,16,RW,RX_GAIN1_2,LNA gain signed value in dB for AGC index 2,0xfe,0xfe
+0xa04210c0L,15,8,RW,RX_GAIN1_1,LNA gain signed value in dB for AGC index 1,0xfe,0xfe
+0xa04210c0L,7,0,RW,RX_GAIN1_0,LNA gain signed value in dB for AGC index 0,0xfe,0xfe
+0xa04210c4L,31,24,RW,RX_GAIN1_7,LNA gain signed value in dB for AGC index 7,0x39,0x39L
+0xa04210c4L,23,16,RW,RX_GAIN1_6,LNA gain signed value in dB for AGC index 6,0x2e,0x2e
+0xa04210c4L,15,8,RW,RX_GAIN1_5,LNA gain signed value in dB for AGC index 5,0x1e,0x1d
+0xa04210c4L,7,0,RW,RX_GAIN1_4,LNA gain signed value in dB for AGC index 4,0x12,0x12
+0xa04210c8L,31,24,RW,RX_GAIN2_3,Rx Filter gain signed value in dB for AGC index 3,0x9,0x9L
+0xa04210c8L,23,16,RW,RX_GAIN2_2,Rx Filter gain signed value in dB for AGC index 2,0x6,0x6
+0xa04210c8L,15,8,RW,RX_GAIN2_1,Rx Filter gain signed value in dB for AGC index 1,0x3,0x3
+0xa04210c8L,7,0,RW,RX_GAIN2_0,Rx Filter gain signed value in dB for AGC index 0,0x0,0x0
+0xa04210ccL,31,24,RW,RX_GAIN2_7,Rx Filter gain signed value in dB for AGC index 7,0x18,0x18L
+0xa04210ccL,23,16,RW,RX_GAIN2_6,Rx Filter gain signed value in dB for AGC index 6,0x12,0x12
+0xa04210ccL,15,8,RW,RX_GAIN2_5,Rx Filter gain signed value in dB for AGC index 5,0xf,0xf
+0xa04210ccL,7,0,RW,RX_GAIN2_4,Rx Filter gain signed value in dB for AGC index 4,0xc,0xc
+0xa04210d0L,31,16,R,RO_SX_AFC_MINERR,SX AFC calibration error,-,0x0L
+0xa04210d0L,15,15,R,RO_SX_LOCKH,"SX lock indication, equal to 1 when locked",-,0x0
+0xa04210d0L,14,5,R,RO_RCCAL_COUNTER,RC calibration counter out value,-,0x0
+0xa04210d0L,4,4,R,RO_RCCAL_COMP,RC calibration comparator output,-,0x0
+0xa04210d0L,3,3,R,RO_FLT_Q_DCCAL_OUT,RX DC calibration Q-path comparator output,-,0x0
+0xa04210d0L,2,2,R,RO_FLT_I_DCCAL_OUT,RX DC calibration I-path comparator output,-,0x0
+0xa04210d0L,1,1,R,RO_TX_Q_CALOUT,TX DC calibration Q-path comparator output,-,0x0
+0xa04210d0L,0,0,R,RO_TX_I_CALOUT,TX DC calibration I-path comparator output,-,0x0
+0xa04210d4L,27,21,R,RO_SX_VCO_CAP,SX AFC calibration cap code output,-,0x0
+0xa04210d4L,20,20,R,RO_SX_AFC_FINISH,SX AFC calibration finish indicator,-,0x0
+0xa04210d4L,19,10,R,RO_RCCAL_T2,RC calibration 1st round counter result,-,0x0
+0xa04210d4L,9,0,R,RO_RCCAL_T1,RC calibration 2nd round counter result,-,0x0
+0xa04210d8L,30,0,R,RO1_AGC,Group 1 of AGC signals for debug,-,0xcb8cc00L
+0xa04210dcL,30,0,R,RO2_AGC,Group 2 of AGC signals for debug,-,0x0L
+0xa04210e0L,21,11,R,RO_TXQ_MID_CODE,TX DC calibration Q-path result,-,0x400
+0xa04210e0L,10,0,R,RO_TXI_MID_CODE,TX DC calibration I-path result,-,0x400
+0xa04210e4L,15,8,R,RO_FLT_Q_DCCAL_BIT,RX DC calibration Q-path result,-,0x91
+0xa04210e4L,7,0,R,RO_FLT_I_DCCAL_BIT,RX DC calibration I-path result,-,0x91

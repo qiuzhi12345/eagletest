@@ -1,0 +1,24 @@
+rftest: 1, ccd088f, Jan 14 2020, 20:14:08
+CHIP_ID: 0x34724de4, 0x18fe
+
+param_flag: 0x1ff46e0
+vdd33=3443, temp_code=0, offset=0
+rc_dout, 29; wifi: 30, 8, 0, 0, bt: 0, 0
+cal_rf_ana_gain, rf_gain=0x4f, ana_gain=0xa0
+RX_NOISEFLOOR, -371
+RX_NOISEFLOOR, -375
+RX_NOISEFLOOR, -372
+TXCAP_TMX2G_CCT_LOAD, 7, 7, 6, 6, 
+TXCAP_PA2G_CCT_STG1, 11, 10, 9, 9, 
+TXCAP_PA2G_CCT_STG2, 3, 3, 10, 10, 
+TX_POWER_BACKOFF, 0, 0, 0, 0, 
+TX_PWRCTRL_ATTEN, -17, -11, -7, -3, 1, 7, -15, -9, -5, -1, 3, 9, -11, -5, -1, 3, 7, 13, -11, -5, -1, 3, 7, 13, 
+TXIQ,-1, 1; -1, 1; 
+TXDC, 217, 252, 256, 256; 224, 255, 258, 253; 229, 255, 256, 257; 231, 257, 256, 255; 235, 258, 256, 254; 
+RXIQ, -5, -3; -5, -3; -4, -2; -2, -2; 
+RXDC_RFRX_WIFI, 239, 283; 238, 284; 234, 285; 234, 285; 234, 285; 234, 285; 234, 286; 231, 288; 234, 288; 234, 288; 234, 288; 232, 293; 
+217, 292; 217, 293; 217, 294; 216, 294; 216, 294; 217, 296; 216, 298; 217, 298; 217, 298; 216, 299; 217, 299; 217, 299; 217, 301; 219, 304; 
+RXDC_RXBB_WIFI, 253, 256; 
+TX_VDD33=3443
+sar_dc_code=1368, sar_ref_code=2348
+print end

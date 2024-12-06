@@ -1,0 +1,44 @@
+Address;RegName;Clk;Rst;Port ; Public ; Signal;BitPos;Default;SW(R/W);HW(W);MCU(W);MISC;Description
+0x0000;SYSTIMER_CONF;pclk;reset_n;Not;;reg_clk_en;[31];1'b0;R/W;;;;register file clk gating
+;;;;;;;[30:1];;;;;;
+;;;;;N/A;reg_systimer_clk_fo;[0];1'b0;R/W;;;;systimer clock force on
+0x0004;SYSTIMER_LOAD;pclk;reset_n;;;reg_timer_load;[31];1'b0;WO;;;;timer load value
+;;;;;;;[30:0];31'd0;RO;;;;
+0x0008;SYSTIMER_LOAD_HI;pclk;reset_n;;;reg_timer_load_hi;[31:0];32'd0;R/W;;;;timer load high 32 bit
+0x000C;SYSTIMER_LOAD_LO;pclk;reset_n;;;reg_timer_load_lo;[31:0];32'd0;R/W;;;;timer load low 32 bit
+0x0010;SYSTIMER_STEP;pclk;reset_n;;;;[31:20];12'd0;RO;;;;
+;;;;;;reg_timer_pll_step;[19:10];10'd1;R/W;;;;timer accumulate step for pll
+;;;;;;reg_timer_xtal_step;[9:0];10'd80;R/W;;;;timer accumulate step for xtal
+0x0014;SYSTIMER_TARGET0_HI;pclk;reset_n;;;reg_timer_target0_hi;[31:0];32'd0;R/W;;;;timer taget0 high 32 bit
+0x0018;SYSTIMER_TARGET0_LO;pclk;reset_n;;;reg_timer_target0_lo;[31:0];32'd0;R/W;;;;timer taget0 low 32 bit
+0x001C;SYSTIMER_TARGET1_HI;pclk;reset_n;;;reg_timer_target1_hi;[31:0];32'd0;R/W;;;;timer taget1 high 32 bit
+0x0020;SYSTIMER_TARGET1_LO;pclk;reset_n;;;reg_timer_target1_lo;[31:0];32'd0;R/W;;;;timer taget1 low 32 bit
+0x0024;SYSTIMER_TARGET2_HI;pclk;reset_n;;;reg_timer_target2_hi;[31:0];32'd0;R/W;;;;timer taget2 high 32 bit
+0x0028;SYSTIMER_TARGET2_LO;pclk;reset_n;;;reg_timer_target2_lo;[31:0];32'd0;R/W;;;;timer taget2 low 32 bit
+0x002C;SYSTIMER_TARGET0_CONF;pclk;reset_n;;;reg_target0_work_en;[31];1'b0;R/W;;;;target0 work enable
+;;;;;;reg_target0_period_mode;[30];1'b0;R/W;;;;Set target0 to period mode
+;;;;;;reg_target0_period;[29:0];30'h0;R/W;;;;target0 period
+0x0030;SYSTIMER_TARGET1_CONF;pclk;reset_n;;;reg_target1_work_en;[31];1'b0;R/W;;;;target1 work enable
+;;;;;;reg_target1_period_mode;[30];1'b0;R/W;;;;Set target1 to period mode
+;;;;;;reg_target1_period;[29:0];30'h0;R/W;;;;target1 period
+0x0034;SYSTIMER_TARGET2_CONF;pclk;reset_n;;;reg_target2_work_en;[31];1'b0;R/W;;;;target2 work enable
+;;;;;;reg_target2_period_mode;[30];1'b0;R/W;;;;Set target2 to period mode
+;;;;;;reg_target2_period;[29:0];30'h0;R/W;;;;target2 period
+0x0038;SYSTIMER_UPDATE;pclk;reset_n;;;reg_timer_update;[31];1'b0;WO;;;;update timer
+;;;;Not;;reg_timer_value_valid;[30];1'b0;RO;timer_value_valid/1'd1;reg_timer_update/1'd0;;timer value is sync and valid
+;;;;;;;[29:0];31'd0;RO;;;;
+0x003C;SYSTIMER_VALUE_HI;pclk;reset_n;;;reg_timer_value_hi;[31:0];32'd0;RO;;;;timer read value high 32bit
+0x0040;SYSTIMER_VALUE_LO;pclk;reset_n;;;reg_timer_value_lo;[31:0];32'd0;RO;;;;timer read value low 32bit
+0x0044;SYSTIMER_INT_ENA;pclk;reset_n;;;;[31:3];29'd0;RO;;;;
+;;;;;;systimer_int2_ena;[2];1'b0;R/W;;;;interupt2 enable
+;;;;;;systimer_int1_ena;[1];1'b0;R/W;;;;interupt1 enable
+;;;;;;systimer_int0_ena;[0];1'b0;R/W;;;;interupt0 enable
+0x0048;SYSTIMER_INT_RAW;pclk;reset_n;;;;[31:3];29'd0;RO;;;;
+;;;;Not;;systimer_int2_raw;[2];1'b0;RO;systimer_int2/1'd1;systimer_int2_clr/1'd0;;interupt2 raw
+;;;;Not;;systimer_int1_raw;[1];1'b0;RO;systimer_int1/1'd1;systimer_int1_clr/1'd0;;interupt1 raw
+;;;;Not;;systimer_int0_raw;[0];1'b0;RO;systimer_int0/1'd1;systimer_int0_clr/1'd0;;interupt0 raw
+0x004C;SYSTIMER_INT_CLR;pclk;reset_n;;;;[31:3];29'd0;RO;;;;
+;;;;Not;;systimer_int2_clr;[2];1'b0;WO;;;;interupt2 clear
+;;;;Not;;systimer_int1_clr;[1];1'b0;WO;;;;interupt1 clear
+;;;;Not;;systimer_int0_clr;[0];1'b0;WO;;;;interupt0 clear
+0x00fc;SYSTIMER_DATE;pclk;reset_n;Not;;reg_systimer_date;[31:0];28'h1807160;R/W;;;;

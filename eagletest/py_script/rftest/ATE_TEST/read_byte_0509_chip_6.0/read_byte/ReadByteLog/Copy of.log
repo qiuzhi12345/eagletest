@@ -1,0 +1,87 @@
+
+CHIP_VERSION: 0xf0
+CHIP_ID_3: 0xf0f0f0f0
+CHIP_ID_2: 0x30000000
+CHIP_ID_1: 0x0
+CHIP_ID_0: 0x0
+rc_cal_dout=0
+rx_para_cal, 0, 0, 0, 0, 0, 0, 0, 
+rx_para_cal, 0, 0, 0, 0, 0, 0, 0, 
+rx_para_cal, 0, 0, 0, 0, 0, 0, 0, 
+VDD33=3312, temp_code=48, offset=12336
+cal_rf_ana_gain, rf_gain=0xd, ana_gain=0xca, bb_atten=48
+TXBB_TXIQ, 48, 0; 48, 0; 48, 0; 48, 0; 
+RX_GAIN_CHECK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+RX_GAIN_CHECK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+RX_GAIN_CHECK, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+rx_para_cal_tone, 0, 0x0, 0x0, 0, 0, 0, 0
+rx_para_cal_tone_sig_pwr_db_1, 0, 0, 0, 0, 0, 0, 0, 0, 
+rx_para_cal_tone_sig_pwr_db_2, 0, 0, 0, 0, 0, 0, 0, 0, 
+rx_para_cal_tone_sig_pwr_db_3, 0, 0, 0, 0, 0, 0, 0, 0, 
+rx_para_cal_tone_sig_pwr_db_4, 0, 0, 0, 0, 0, 0, 0, 0, 
+RX_GAIN_CHECK_POWER_hdb, 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 
+BBRX2_RXIQ, 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 
+RX_NOISEFLOOR, 0
+RX_NOISEFLOOR, 0
+TXCAP_TMX2G_CCT_LOAD, 0, 0, 0, 
+TXCAP_PA2G_CCT_STG1, 0, 0, 0, 
+TXCAP_PA2G_CCT_STG2, 0, 0, 0, 
+TX_PWRCTRL_ATTEN, 0, 0, 0, 0, 0, 0, 
+TX_PWCTRL_CHAN_OFFSET, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+TXIQ, 0, 0
+TXDC, 0, 0; 0, 0; 0, 0; 0, 0; 
+RXIQ_TEST_-5M: 0, 0
+RXIQ_TEST_5M: 0, 0
+RXIQ, 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 
+RXIQ_tot_power, 0dB
+rxiq_cover_fail_num=0
+rxiq_compute_num: 0,0,0,0,0,0,0,0,0,0,0,0,0,
+RXDC, 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 
+freq_offset_cal, bb_gain=0, total_pwr=0
+RX_PATH_GAIN, 0dB
+FREQ_OFFSET, 0PPM
+RX_PATH_SNR, 0dB
+RXIQ_REMAIN, 0dB
+adc_dac_snr_2tone, bbrx1=0x0, bbrx2=0x0, tone_atten=0: total_pwr=0
+ADC_DAC_SNR, 0dB
+rx_switch_gain_check: 0x0, 0x0, 0, 0, 0; 0x0, 0x0, 0, 0, 0; 0x0, 0x0, 0, 0, 0; 0x0, 0x0, 0, 0, 0; 0x0, 0x0, 0, 0, 0; 
+RX_SWITCH_GAIN: 0, 0, 0
+dco_sweep_test_ADC_STEP, 0, 0; 0, 0
+dco_sweep_test_DCO, 0, 0; 0, 0
+rombist_rslt=0
+timeout_fail=0, check_fail=0, chip_id_crc_fail=0
+txp_pwctrl_atten, 0
+site_num, 0; req_suc, 0; req_times, 0; dut_txseq, 0
+fb_rxrssi, 0, 0, 0, 0, 0, 0, 
+dut_rxrssi, 0, 0, 0, 0, 0, 0, 
+fb_rx_num, 0, 0, 0, 0, 0, 0, 
+dut_rx_num, 0, 0, 0, 0, 0, 0, 
+txp_state: 0x000000000000000000000000, 0x000000000000000000000000;
+fb_rx_num_sum=0, dut_rx_lost=0
+txreq_start_time=0x0
+check_result_t=0x0, ate_check_result=0x2d1366d8
+RTC_freq_170khz=0
+RTC_freq_70khz=0
+io_test_result=0
+wifi_init_time: 0us
+WIFI_INIT_ITEM: 0x0
+SVN_Version: 0
+
+
+--------------------------------------------------------
+---------------CHECK BOARD FAIL----------------
+Because:TXDC FAIL, RXDC FAIL, RX_NOISEFLOOR FAIL, ADC_DAC_SNR FAIL, RX_PATH_SNR FAIL, RXIQ_REMAIN FAIL, FB_RXRSSI FAIL, DUT_RXRSSI FAIL, TXBB_TXIQ FAIL, RX_PATH_GAIN FAIL, RX_SWITCH_GAIN FAIL, RC_CAL FAIL, FB_RX_NUM FAIL, FB_RX_NUM_SUM FAIL, CHIP_ID_CRC FAIL, RTC_FREQ FAIL, 
+--------------------------------------------------------
+
+
+DVDD_testV1 = 0.000000
+VDD_RTC_testV1 = 0.000000
+DVDD_testV2 = 0.000000
+VDD_RTC_testV2 = 0.000000
+LightSleep_IDD_VBAT = 0.000000
+LightSleep_IDD_DVDD_IO = 0.000000
+Chip_PD_IDD_VBAT = 0.000000
+Chip_PD_IDD_DVDD_IO = 0.000000
+AnaWorkIDD_VBAT = 0.000000
+AnaWorkIDD_DVDD_IO = 0.000000
+

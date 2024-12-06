@@ -1,0 +1,42 @@
+0
+channel
+rate
+TP/TRM-LE/CA/BV-01-C - Output power  - Average Power
+ - Peak Power
+- Peak - Average Power
+- leakage Power
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -10
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -9
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -8
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -7
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -6
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -5
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -4
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -3
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -2
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   -1
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -    Ptx
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   1
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   2
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   3
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   4
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   5
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   6
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   7
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   8
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   9
+TP/TRM-LE/CA/BV-03-C - In-Band Emissions -   10
+TP/TRM-LE/CA/BV-05-C - Modulation Characteristics - Fre Accuracy
+- Delta F1 Avg
+ - Delta F1 Min
+ - Delta F1Max
+ - Fre Accuracy- Delta F2 Avg
+- Delta F2 Min
+- Delta F2Max
+ - Delta F2 Max 99%
+- Delta F2 Avg/Delta F1 Avg
+- Frequency Accuracy
+ - Frequency Offset
+- Frequency Drift
+- Max Drift Rate - 50us
+- Intial Frequency Drift

@@ -1,0 +1,4 @@
+rate,blocking_level,freq_blocking_1,freq_blocking_2,per(%)
+LE1M,-30,290,NA,100.00,
+LE1M,-30,2490,NA,100.00,
+LE1M,-30,2775,NA,100.00,

@@ -1,0 +1,132 @@
+ Address ; RegName ; Clk ; Rst ; Port ; Public ; Signal ; BitPos ; Default ; SW(R/W) ; HW(W) ; MCU(W) ; MISC ; Description 
+ 0x0000 ; RTC_I2C_SCL_LOW; pclk ; reset_n ;;;; [31:20] ; 12'h0 ; RO ;;;;
+;;;;;; scl_low_period_reg; [19:0]; 20'h100; R/W ;;;;time period that scl = 0
+ 0x0004 ; RTC_I2C_CTRL; pclk ; reset_n ; Not ;; reg_i2cclk_en; [31] ; 1'b0; R/W ;;;;rtc i2c reg clk gating
+;;;;;; reg_i2c_reset; [30] ; 1'b0; R/W ;;;;rtc i2c sw reset
+;;;;;;; [29:6]; 24'b0; RO;;;;
+;;;;;; rx_lsb_first; [5] ; 1'b0; R/W ;;;;receive lsb first
+;;;;;; tx_lsb_first; [4] ; 1'b0; R/W ;;;;transit lsb first
+;;;;;; trans_start; [3] ; 1'b0; R/W ;;;;force start
+;;;;;; ms_mode; [2]; 1'b0; R/W ;;;;1=master, 0=slave
+;;;;;; scl_force_out; [1]; 1'b0; R/W ;;;;1=push pull, 0=open drain
+;;;;;; sda_force_out; [0]; 1'b0; R/W ;;;;1=push pull, 0=open drain
+ 0x0008 ; RTC_I2C_STATUS; pclk ; reset_n ;;;; [31] ; 1'b0; RO;;;;
+;;;;;N/A; scl_state_last; [30:28]; 3'b0 ; RO;;;;scl last status
+;;;;;;; [27] ; 1'b0; RO;;;;
+;;;;;N/A; scl_main_state_last; [26:24]; 3'b0; RO;;;;i2c last main status
+;;;;;N/A; shift_reg; [23:16]; 8'b0; RO;;;;shifter content
+;;;;;;; [15:8]; 8'b0; RO;;;;
+;;;;;; op_cnt; [7:6]; 2'b0; RO;;;;which operation is working
+;;;;;; byte_trans; [5] ; 1'b0; RO;;;;One byte transit done
+;;;;;; slave_addressed; [4] ; 1'b0; RO;;;;slave reg sub address
+;;;;;; bus_busy; [3] ; 1'b0; RO;;;;bus is busy
+;;;;;; arb_lost; [2]; 1'b0; RO;;;;arbitration is lost
+;;;;;; slave_rw; [1]; 1'b0; RO;;;;slave read or write
+;;;;;; ack_rec; [0]; 1'b0; RO;;;;ack response
+ 0x000c ; RTC_I2C_TO; pclk ; reset_n ;;;; [31:20] ; 12'h0 ; RO ;;;;
+;;;;;; time_out_reg; [19:0]; 20'h10000; R/W ;;;;time out threshold
+ 0x0010 ; RTC_I2C_SLAVE_ADDR; pclk ; reset_n ;;; addr_10bit_en; [31] ; 1'b0; R/W ;;;;i2c 10bit mode enable
+;;;;;;; [30:15]; 16'b0 ; RO;;;;
+;;;;;; slave_addr; [14:0]; 15'b0; R/W ;;;;slave address
+ 0x0014 ; RTC_I2C_SCL_HIGH; pclk ; reset_n ;;;; [31:20] ; 12'h0 ; RO ;;;;
+;;;;;; scl_high_period_reg; [19:0]; 20'h100; R/W ;;;;time period that scl = 1
+ 0x0018 ; RTC_I2C_SDA_DUTY; pclk ; reset_n ;;;; [31:20] ; 12'b0 ; R/W ;;;;
+;;;;;; sda_duty_num; [19:0]; 20'h10; R/W ;;;;time period for SDA to toggle after SCL goes low
+ 0x001c ; RTC_I2C_SCL_START_PERIOD; pclk ; reset_n ;;;; [31:20] ; 12'b0 ; R/W ;;;;
+;;;;;; scl_start_period; [19:0]; 20'b1000; R/W ;;;;time period for SCL to toggle after I2C start is triggered
+ 0x0020 ; RTC_I2C_SCL_STOP_PERIOD; pclk ; reset_n ;;;; [31:20] ; 12'b0 ; R/W ;;;;
+;;;;;; scl_stop_period; [19:0]; 20'b1000; R/W ;;;;time period for SCL to stop after I2C end is triggered
+ 0x0024 ; RTC_I2C_INT_CLR; pclk ; reset_n ;;;; [31:9] ; 23'b0; RO;;;;
+;;;; Not ;; detect_start_int_clr; [8]; 1'b0; WO ;;;;clear detect start interrupt
+;;;; Not ;; tx_data_int_clr; [7]; 1'b0; WO ;;;;clear transit load data complete interrupt
+;;;; Not ;; rx_data_int_clr; [6] ; 1'b0; WO ;;;;clear receive data interrupt
+;;;; Not ;; ack_err_int_clr; [5] ; 1'b0; WO ;;;;clear ack error interrupt
+;;;; Not ;; time_out_int_clr; [4] ; 1'b0; WO ;;;;clear time out interrupt
+;;;; Not ;; trans_complete_int_clr; [3]; 1'b0; WO ;;;;clear transit complete interrupt
+;;;; Not ;; master_tran_comp_int_clr; [2]; 1'b0; WO ;;;;clear master transit complete interrupt
+;;;; Not ;; arbitration_lost_int_clr; [1]; 1'b0; WO ;;;;clear arbitration lost interrupt
+;;;; Not ;; slave_tran_comp_int_clr; [0]; 1'b0; WO ;;;;clear slave transit complete interrupt
+ 0x0028 ; RTC_I2C_INT_RAW; pclk ; reset_n ;;;; [31:9] ; 23'b0; RO;;;;
+;;;; Not ;; detect_start_int_raw; [8]; 1'b0; RO;detect_start_pos/1'd1;detect_start_int_clr/1'd0;;detect start interrupt raw
+;;;; Not ;; tx_data_int_raw; [7]; 1'b0; RO;tx_data_load/1'd1;tx_data_int_clr/1'd0;;transit data interrupt raw
+;;;; Not ;; rx_data_int_raw; [6] ; 1'b0; RO;i2c_rec_data_en/1'd1;rx_data_int_clr/1'd0;;receive data interrupt raw
+;;;; Not ;; ack_err_int_raw; [5] ; 1'b0; RO;ack_err/1'd1;ack_err_int_clr/1'd0;;ack error interrupt raw
+;;;; Not ;; time_out_int_raw; [4] ; 1'b0; RO;time_out/1'd1;time_out_int_clr/1'd0;;time out interrupt raw
+;;;; Not ;; trans_complete_int_raw; [3]; 1'b0; RO;trans_complete/1'd1;trans_complete_int_clr/1'd0;;transit complete interrupt raw
+;;;; Not ;; master_tran_comp_int_raw; [2]; 1'b0; RO;master_tran_comp/1'd1;master_tran_comp_int_clr/1'd0;;master transit complete interrupt raw
+;;;; Not ;; arbitration_lost_int_raw; [1]; 1'b0; RO;arbitration_lost_pos/1'd1;arbitration_lost_int_clr/1'd0;;arbitration lost interrupt raw
+;;;; Not ;; slave_tran_comp_int_raw; [0]; 1'b0; RO;slave_tran_comp/1'd1;slave_tran_comp_int_clr/1'd0;;slave transit complete interrupt raw
+ 0x002c ; RTC_I2C_INT_ST; pclk ; reset_n ;;;; [31:9] ; 23'b0; RO;;;INT_ST;
+;;;; Not ;; detect_start_int_st; [8]; 1'b0; RO;;;;detect start interrupt state
+;;;; Not ;; tx_data_int_st; [7]; 1'b0; RO;;;;transit data interrupt state
+;;;; Not ;; rx_data_int_st; [6] ; 1'b0; RO;;;;receive data interrupt state
+;;;; Not ;; ack_err_int_st; [5] ; 1'b0; RO;;;;ack error interrupt state
+;;;; Not ;; time_out_int_st; [4] ; 1'b0; RO;;;;time out interrupt state
+;;;; Not ;; trans_complete_int_st; [3]; 1'b0; RO;;;;transit complete interrupt state
+;;;; Not ;; master_tran_comp_int_st; [2]; 1'b0; RO;;;;master transit complete interrupt state
+;;;; Not ;; arbitration_lost_int_st; [1]; 1'b0; RO;;;;arbitration lost interrupt state
+;;;; Not ;; slave_tran_comp_int_st; [0]; 1'b0; RO;;;;slave transit complete interrupt state
+ 0x0030 ; RTC_I2C_INT_ENA; pclk ; reset_n ;;;; [31:9] ; 23'b0; RO;;;;
+;;;; Not ;; detect_start_int_ena; [8]; 1'b0; R/W ;;;;enable detect start interrupt
+;;;; Not ;; tx_data_int_ena; [7]; 1'b0; R/W ;;;;enable transit data interrupt
+;;;; Not ;; rx_data_int_ena; [6] ; 1'b0; R/W ;;;;enable receive data interrupt
+;;;; Not ;; ack_err_int_ena; [5] ; 1'b0; R/W ;;;;enable eack error interrupt
+;;;; Not ;; time_out_int_ena; [4] ; 1'b0; R/W ;;;;enable time out interrupt
+;;;; Not ;; trans_complete_int_ena; [3]; 1'b0; R/W ;;;;enable transit complete interrupt
+;;;; Not ;; master_tran_comp_int_ena; [2]; 1'b0; R/W ;;;;enable master transit complete interrupt
+;;;; Not ;; arbitration_lost_int_ena; [1]; 1'b0; R/W ;;;;enable arbitration lost interrupt
+;;;; Not ;; slave_tran_comp_int_ena; [0]; 1'b0; R/W ;;;;enable slave transit complete interrupt
+ 0x0034; RTC_I2C_DATA ; pclk ; reset_n ;;; i2c_done; [31]; 1'b0; RO;;;;i2c done
+;;;;;;; [30:16]; 15'b0; RO;;;;
+;;;;;; slave_tx_data; [15:8]; 8'h0; R/W ;;;;data sent by slave
+;;;;;; i2c_rdata; [7:0]; 8'h0; RO;;;;data received
+ 0x0038 ; RTC_I2C_CMD0; pclk ; reset_n ;;; command0_done; [31] ; 1'b0; RO;;;; command0_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command0; [13:0]; 14'h0903; R/W ;;;; command0
+ 0x003c; RTC_I2C_CMD1; pclk ; reset_n ;;; command1_done; [31] ; 1'b0; RO;;;; command1_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command1; [13:0]; 14'h1901; R/W ;;;; command1
+ 0x0040; RTC_I2C_CMD2; pclk ; reset_n ;;; command2_done; [31] ; 1'b0; RO;;;; command2_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command2; [13:0]; 14'h0902; R/W ;;;; command2
+ 0x0044; RTC_I2C_CMD3; pclk ; reset_n ;;; command3_done; [31] ; 1'b0; RO;;;; command3_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command3; [13:0]; 14'h0101; R/W ;;;; command3
+ 0x0048; RTC_I2C_CMD4; pclk ; reset_n ;;; command4_done; [31] ; 1'b0; RO;;;; command4_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command4; [13:0]; 14'h0901; R/W ;;;; command4
+ 0x004c; RTC_I2C_CMD5; pclk ; reset_n ;;; command5_done; [31] ; 1'b0; RO;;;; command5_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command5; [13:0]; 14'h1701; R/W ;;;; command5
+ 0x0050; RTC_I2C_CMD6; pclk ; reset_n ;;; command6_done; [31] ; 1'b0; RO;;;; command6_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command6; [13:0]; 14'h1901; R/W ;;;; command6
+ 0x0054; RTC_I2C_CMD7; pclk ; reset_n ;;; command7_done; [31] ; 1'b0; RO;;;; command7_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command7; [13:0]; 14'h0904; R/W ;;;; command7
+ 0x0058; RTC_I2C_CMD8; pclk ; reset_n ;;; command8_done; [31] ; 1'b0; RO;;;; command8_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command8; [13:0]; 14'h1901; R/W ;;;; command8
+ 0x005c ; RTC_I2C_CMD9; pclk ; reset_n ;;; command9_done; [31] ; 1'b0; RO;;;; command9_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command9; [13:0]; 14'h0903; R/W ;;;; command9
+ 0x0060; RTC_I2C_CMD10; pclk ; reset_n ;;; command10_done; [31] ; 1'b0; RO;;;; command10_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command10; [13:0]; 14'h0101; R/W ;;;; command10
+ 0x0064 ; RTC_I2C_CMD11; pclk ; reset_n ;;; command11_done; [31] ; 1'b0; RO;;;; command11_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command11; [13:0]; 14'h0901; R/W ;;;; command11
+ 0x0068; RTC_I2C_CMD12; pclk ; reset_n ;;; command12_done; [31] ; 1'b0; RO;;;; command12_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command12; [13:0]; 14'h1701; R/W ;;;; command12
+ 0x006c ; RTC_I2C_CMD13; pclk ; reset_n ;;; command13_done; [31] ; 1'b0; RO;;;; command13_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command13; [13:0]; 14'h1901; R/W ;;;; command13
+ 0x0070 ; RTC_I2C_CMD14; pclk ; reset_n ;;; command14_done; [31] ; 1'b0; RO;;;; command14_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command14; [13:0]; 14'h0; R/W ;;;; command14
+ 0x0074; RTC_I2C_CMD15; pclk ; reset_n ;;; command15_done; [31] ; 1'b0; RO;;;; command15_done
+;;;;;;; [30:14]; 17'b0; RO;;;;
+;;;;;; command15; [13:0]; 14'h0; R/W ;;;; command15
+ 0x00FC ; RTC_I2C_DATE ; pclk ; reset_n ;;;; [31:28] ; 4'h0 ; R/W ;;;;
+;;;; Not ;N/A; reg_i2c_date ; [27:0] ; 28'h1711170; R/W ;;;;

@@ -1,0 +1,192 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+
+  \bigletter A
+  \item accumiq() (common.MEM 方法), \hyperpage{5}
+  \item adc\_dump (模块), \hyperpage{15}
+  \item adcdump() (adc\_dump.DUMP 方法), \hyperpage{15}
+  \item adcdumptest() (adc\_dump.DUMP 方法), \hyperpage{15}
+  \item adctrig() (wifi\_api.WIFIAPI 方法), \hyperpage{5}
+  \item all\_pbus() (pbus.pbus 方法), \hyperpage{13}
+
+  \indexspace
+  \bigletter B
+  \item bbinit() (wifi\_api.WIFIAPI 方法), \hyperpage{5}
+  \item bt\_api (模块), \hyperpage{11}
+  \item bt\_tx\_tone() (bt\_api.BTAPI 方法), \hyperpage{11}
+  \item BTAPI (bt\_api 中的类), \hyperpage{11}
+
+  \indexspace
+  \bigletter C
+  \item cbw40m\_en() (wifi\_api.WIFIAPI 方法), \hyperpage{5}
+  \item cbw40m\_en() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item chan2freq() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item CHIP\_ID (common 中的类), \hyperpage{4}
+  \item CHIP\_INFO (common 中的类), \hyperpage{4}
+  \item chip\_mac() (common.CHIP\_ID 方法), \hyperpage{4}
+  \item clrmask() (common.MEM 方法), \hyperpage{5}
+  \item cmdstop() (wifi\_api.WIFIAPI 方法), \hyperpage{6}
+  \item cmdstop() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item common (模块), \hyperpage{4}
+
+  \indexspace
+  \bigletter D
+  \item DUMP (adc\_dump 中的类), \hyperpage{15}
+
+  \indexspace
+  \bigletter E
+  \item esp\_origin\_mac() (wifi\_api.WIFIAPI 方法), \hyperpage{6}
+  \item esp\_rx() (wifi\_api.WIFIAPI 方法), \hyperpage{6}
+  \item esp\_rx() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item esp\_tx() (wifi\_api.WIFIAPI 方法), \hyperpage{6}
+  \item esp\_tx() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+
+  \indexspace
+  \bigletter F
+  \item fcc\_bt\_tx() (bt\_api.BTAPI 方法), \hyperpage{11}
+  \item fcc\_le\_tx() (bt\_api.BTAPI 方法), \hyperpage{12}
+  \item fcc\_le\_tx\_syncw() (bt\_api.BTAPI 方法), \hyperpage{12}
+  \item filltxpacket() (wifi\_api.WIFIAPI 方法), \hyperpage{7}
+  \item force\_tx\_gain\_init() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item force\_txon() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+
+  \indexspace
+  \bigletter G
+  \item get\_chipv() (common.CHIP\_INFO 方法), \hyperpage{4}
+  \item get\_dump\_accm() (adc\_dump.DUMP 方法), \hyperpage{16}
+  \item get\_dump\_data() (adc\_dump.DUMP 方法), \hyperpage{16}
+  \item get\_filename() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item get\_length\_delay\_duty() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item get\_length\_delay\_mean() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item get\_ratelst() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item get\_rx\_cable\_lost() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item get\_rx\_tone\_pwr() (wifi\_api.WIFIAPI 方法), \hyperpage{7}
+  \item get\_rx\_tone\_pwr() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item get\_rx\_tone\_pwr\_scan() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item GetDesirePackNum() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetEntryAddr() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetFcsErr() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetFreqoff() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetFrmCount() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetGain() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetGoodData() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetGoodPackNum() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetKeyMatch() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetNoise() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetRssi() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetRxHung() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetRxHung\_status() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetRxState() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetTotErr() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+  \item GetValidCount() (wifi\_lib.WIFILIB 方法), \hyperpage{14}
+
+  \indexspace
+  \bigletter I
+  \item I2C (common 中的类), \hyperpage{4}
+  \item i2c\_rd() (common.I2C 方法), \hyperpage{4}
+  \item i2c\_rdm() (common.I2C 方法), \hyperpage{4}
+  \item i2c\_ric() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item i2c\_wic() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item i2c\_wr() (common.I2C 方法), \hyperpage{4}
+  \item i2c\_wrm() (common.I2C 方法), \hyperpage{4}
+  \item init\_print() (wifi\_api.WIFIAPI 方法), \hyperpage{7}
+
+  \indexspace
+  \bigletter M
+  \item macinit() (wifi\_api.WIFIAPI 方法), \hyperpage{7}
+  \item MEM (common 中的类), \hyperpage{4}
+
+  \indexspace
+  \bigletter O
+  \item open\_rx() (pbus.pbus 方法), \hyperpage{13}
+  \item open\_tx() (pbus.pbus 方法), \hyperpage{13}
+
+  \indexspace
+  \bigletter P
+  \item PBUS (common 中的类), \hyperpage{5}
+  \item pbus (pbus 中的类), \hyperpage{13}
+  \item pbus (模块), \hyperpage{13}
+  \item pbus\_debugmode() (common.PBUS 方法), \hyperpage{5}
+  \item pbus\_debugmode() (pbus.pbus 方法), \hyperpage{13}
+  \item pbus\_rd() (common.PBUS 方法), \hyperpage{5}
+  \item pbus\_rd() (pbus.pbus 方法), \hyperpage{13}
+  \item pbus\_rm() (common.PBUS 方法), \hyperpage{5}
+  \item pbus\_wm() (common.PBUS 方法), \hyperpage{5}
+  \item pbus\_workmode() (common.PBUS 方法), \hyperpage{5}
+  \item pbus\_workmode() (pbus.pbus 方法), \hyperpage{13}
+  \item pbus\_wr() (common.PBUS 方法), \hyperpage{5}
+  \item pbus\_wr() (pbus.pbus 方法), \hyperpage{13}
+  \item phyinit() (wifi\_api.WIFIAPI 方法), \hyperpage{7}
+
+  \indexspace
+  \bigletter R
+  \item rate2ht40() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item ratecheck() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item rd() (common.MEM 方法), \hyperpage{5}
+  \item rdm() (common.MEM 方法), \hyperpage{5}
+  \item rdmem() (common.MEM 方法), \hyperpage{5}
+  \item read\_dco() (pbus.pbus 方法), \hyperpage{13}
+  \item read\_hw\_noisefloor() (wifi\_api.WIFIAPI 方法), \hyperpage{8}
+  \item read\_mac() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item read\_rfpll\_reg() (rfpll.rfpll 方法), \hyperpage{14}
+  \item reset() (rfpll.rfpll 方法), \hyperpage{14}
+  \item restart\_cal() (rfpll.rfpll 方法), \hyperpage{14}
+  \item rf\_tune() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item rfchsel() (wifi\_api.WIFIAPI 方法), \hyperpage{8}
+  \item rfchsel() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item rfinit() (wifi\_api.WIFIAPI 方法), \hyperpage{8}
+  \item rfpll (rfpll 中的类), \hyperpage{14}
+  \item rfpll (模块), \hyperpage{14}
+  \item rw\_le\_rx\_per() (bt\_api.BTAPI 方法), \hyperpage{12}
+  \item rw\_rx\_per() (bt\_api.BTAPI 方法), \hyperpage{13}
+  \item rxdc\_cal() (wifi\_api.WIFIAPI 方法), \hyperpage{8}
+  \item rxdc\_cal() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item rxresult() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item rxstart() (wifi\_api.WIFIAPI 方法), \hyperpage{8}
+  \item rxstart() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+
+  \indexspace
+  \bigletter S
+  \item sampledeal() (adc\_dump.DUMP 方法), \hyperpage{16}
+  \item save\_init\_print() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item set\_dco() (pbus.pbus 方法), \hyperpage{13}
+  \item set\_dump\_mode() (adc\_dump.DUMP 方法), \hyperpage{16}
+  \item set\_freq() (rfpll.rfpll 方法), \hyperpage{14}
+  \item set\_freq\_outband() (rfpll.rfpll 方法), \hyperpage{14}
+  \item set\_noise\_floor() (wifi\_api.WIFIAPI 方法), \hyperpage{8}
+  \item set\_tx\_dig\_gain() (wifi\_api.WIFIAPI 方法), \hyperpage{9}
+  \item set\_tx\_gain() (wifi\_api.WIFIAPI 方法), \hyperpage{9}
+  \item setmask() (common.MEM 方法), \hyperpage{5}
+  \item stoptone() (wifi\_api.WIFIAPI 方法), \hyperpage{9}
+  \item stoptone() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+
+  \indexspace
+  \bigletter T
+  \item target\_power\_backoff() (wifi\_api.WIFIAPI 方法), \hyperpage{9}
+  \item test\_txtone\_pwr() (wifi\_api.WIFIAPI 方法), \hyperpage{9}
+  \item test\_txtone\_pwr() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item tx\_cbw40m\_en() (wifi\_api.WIFIAPI 方法), \hyperpage{9}
+  \item tx\_cbw40m\_en() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item tx\_contin\_en() (wifi\_api.WIFIAPI 方法), \hyperpage{10}
+  \item tx\_contin\_en() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item txout() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item txpacket() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item txstart() (wifi\_api.WIFIAPI 方法), \hyperpage{10}
+  \item txtone() (wifi\_api.WIFIAPI 方法), \hyperpage{10}
+  \item txtone() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item txtone\_step() (wifi\_api.WIFIAPI 方法), \hyperpage{10}
+
+  \indexspace
+  \bigletter W
+  \item wifi\_api (模块), \hyperpage{5}
+  \item wifi\_lib (模块), \hyperpage{14}
+  \item WIFIAPI (wifi\_api 中的类), \hyperpage{5}
+  \item WIFILIB (wifi\_lib 中的类), \hyperpage{14}
+  \item wifiscwout() (wifi\_api.WIFIAPI 方法), \hyperpage{10}
+  \item wifiscwout() (wifi\_lib.WIFILIB 方法), \hyperpage{15}
+  \item wifitxout() (wifi\_api.WIFIAPI 方法), \hyperpage{11}
+  \item wr() (common.MEM 方法), \hyperpage{5}
+  \item write\_dump\_data() (adc\_dump.DUMP 方法), \hyperpage{16}
+  \item wrm() (common.MEM 方法), \hyperpage{5}
+
+\end{sphinxtheindex}

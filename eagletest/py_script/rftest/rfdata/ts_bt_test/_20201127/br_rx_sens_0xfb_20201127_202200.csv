@@ -1,0 +1,3 @@
+rate,channel,ber,per,NAK,hec_err,crc_err,packet_type_err,pay_err,sens
+DH1,0,0.11,2.94,5.21,0.00,0.00,0.00,0.00,-88.00,
+DH1,38,0.14,1.03,6.28,0.00,0.00,0.00,0.00,-90.00,

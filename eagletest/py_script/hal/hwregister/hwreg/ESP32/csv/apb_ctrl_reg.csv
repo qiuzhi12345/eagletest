@@ -1,0 +1,47 @@
+ Address ; RegName ; Clk ; Rst ; Port ; Public ; Signal ; BitPos ; Default ; SW(R/W) ; HW(W) ; MCU(W) ; MISC ; Description 
+ 0x0 ; APB_CTRL_SYSCLK_CONF; clk ; reset_n ;;;; [31:14] ; 18'h0 ; RO   ;;;;
+;;;;;; apb_ctrl_quick_clk_chng; [13]; 1'b1; R/W ;;;;
+;;;;;; apb_ctrl_rst_tick_cnt; [12]; 1'b0; R/W ;;;;
+;;;;Not;; reg_clk_en; [11]; 1'b0; R/W ;;;;
+;;;;;; apb_ctrl_clk_320m_en ; [10] ; 1'b0; R/W ;;;;
+;;;;;; apb_ctrl_pre_div_cnt; [9:0]; 10'h0; R/W ;;;;
+0x4; APB_CTRL_XTAL_TICK_CONF; clk ; reset_n ;;;; [31:8]; 24'd0; RO   ;;;;
+;;;;;; apb_ctrl_xtal_tick_num; [7:0]; 8'd39; R/W ;;;;
+0x8; APB_CTRL_PLL_TICK_CONF; clk ; reset_n ;;;; [31:8]; 24'd0; RO   ;;;;
+;;;;;; apb_ctrl_pll_tick_num; [7:0]; 8'd79; R/W ;;;;
+0xC; APB_CTRL_CK8M_TICK_CONF; clk ; reset_n ;;;; [31:8]; 24'd0; RO   ;;;;
+;;;;;; apb_ctrl_ck8m_tick_num; [7:0]; 8'd11; R/W ;;;;
+0x10; APB_SARADC_CTRL; clk ; reset_n ;;;; [31:27]; 5'd0; RO   ;;;;
+;;;;;; reg_saradc_data_to_i2s; [26]; 1'b0; R/W ;;;;
+;;;;;; reg_saradc_data_sar_sel; [25]; 1'b0; R/W ;;;; 1 means sar_sel will be coded by the MSB of the 16-bit output data
+;;;;;; reg_saradc_sar2_patt_p_clear; [24]; 1'd0; R/W ;;;;
+;;;;;; reg_saradc_sar1_patt_p_clear; [23]; 1'd0; R/W ;;;;
+;;;;;; reg_saradc_sar2_patt_len; [22:19]; 4'd15; R/W ;;;; 0 ~ 15 means length 1 ~ 16
+;;;;;; reg_saradc_sar1_patt_len; [18:15]; 4'd15; R/W ;;;; 0 ~ 15 means length 1 ~ 16
+;;;;;; reg_saradc_sar_clk_div; [14:7]; 8'd4; R/W ;;;;
+;;;;;; reg_saradc_sar_clk_gated; [6]; 1'b1; R/W ;;;; 
+;;;;;; reg_saradc_sar_sel; [5]; 1'd0; R/W ;;;; 0: SAR1, 1: SAR2, only work for single SAR mode
+;;;;;; reg_saradc_work_mode; [4:3]; 2'd0; R/W ;;;; 0: single SAR mode, 1: double SAR mode, 2: double SAR alternate mode
+;;;;;; reg_saradc_sar2_mux; [2]; 1'd0; R/W ;;;;
+;;;;;; reg_saradc_start; [1]; 1'd0; R/W ;;;;
+;;;;;; reg_saradc_start_force; [0]; 1'd0; R/W ;;;;
+0x14; APB_SARADC_CTRL2; clk ; reset_n ;;;; [31:11]; 21'd0; RO   ;;;;
+;;;;;; reg_saradc_sar2_inv; [10]; 1'd0; R/W ;;;;
+;;;;;; reg_saradc_sar1_inv; [9]; 1'd0; R/W ;;;;
+;;;;;; reg_saradc_max_meas_num; [8:1]; 8'd255; R/W ;;;; only work when reg_saradc_meas_num_limit = 1
+;;;;;; reg_saradc_meas_num_limit; [0]; 1'd0; R/W ;;;;
+0x18; APB_SARADC_FSM; clk ; reset_n ;;;reg_saradc_sample_cycle; [31:24]; 8'd2; R/W   ;;;;
+;;;;;; reg_saradc_start_wait; [23:16]; 8'd8; R/W ;;;;
+;;;;;; reg_saradc_standby_wait; [15:8]; 8'd255; R/W ;;;;
+;;;;;; reg_saradc_rstb_wait; [7:0]; 8'd8; R/W ;;;;
+0x1C; APB_SARADC_SAR1_PATT_TAB1; clk ; reset_n ;;;reg_saradc_sar1_patt_tab1; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x20; APB_SARADC_SAR1_PATT_TAB2; clk ; reset_n ;;;reg_saradc_sar1_patt_tab2; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x24; APB_SARADC_SAR1_PATT_TAB3; clk ; reset_n ;;;reg_saradc_sar1_patt_tab3; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x28; APB_SARADC_SAR1_PATT_TAB4; clk ; reset_n ;;;reg_saradc_sar1_patt_tab4; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x2C; APB_SARADC_SAR2_PATT_TAB1; clk ; reset_n ;;;reg_saradc_sar2_patt_tab1; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x30; APB_SARADC_SAR2_PATT_TAB2; clk ; reset_n ;;;reg_saradc_sar2_patt_tab2; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x34; APB_SARADC_SAR2_PATT_TAB3; clk ; reset_n ;;;reg_saradc_sar2_patt_tab3; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x38; APB_SARADC_SAR2_PATT_TAB4; clk ; reset_n ;;;reg_saradc_sar2_patt_tab4; [31:0]; 32'hf0f0f0f; R/W   ;;;;
+0x3C; APB_CTRL_APLL_TICK_CONF; clk ; reset_n ;;;; [31:8]; 24'd0; RO   ;;;;
+;;;;;; apb_ctrl_apll_tick_num; [7:0]; 8'd99; R/W ;;;;
+ 0x7C; APB_CTRL_DATE; clk ; reset_n ; Not ;; apb_ctrl_date ; [31:0] ; 32'h16042000 ; R/W ;;;;

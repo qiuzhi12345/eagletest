@@ -1,0 +1,2 @@
+rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list
+2_DH1,0,4.66,7.17,4.68,4.64,-0.04,5.12,-9.99,-12.99,-2.88,0.05,0.12,0.10,-999,-999,3.44,-29.71,-29.70,-33.15,-33.14,-25.43,-22.65,-24.17,-21.22,-22.29,-21.61,-20.21,-21.91,-19.73,-0.91,11.69,-3.27,-19.50,-22.27,-22.70,-21.38,-24.21,-22.29,-26.57,-26.01,-30.81,

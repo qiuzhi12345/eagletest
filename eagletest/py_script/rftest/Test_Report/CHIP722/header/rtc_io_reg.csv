@@ -1,0 +1,500 @@
+Address;RegName;Clk;Rst;Port ; Public ; Signal;BitPos;Default;SW(R/W);Comment;HW(W);MCU(W);MISC;Description
+0x0;RTC_GPIO_OUT;dig_clk_rtc_gated;rst_rtc_n;;;rtc_gpio_out_data;[31:10];0;R/W;WXTX;;;;RTC GPIO 0 ~ 21 output data
+;;;;;;;[9:0];;;;;;;
+0x4;RTC_GPIO_OUT_W1TS;dig_clk_rtc_gated;rst_rtc_n;Not;;rtc_gpio_out_data_w1ts;[31:10];0;WO;;;;;RTC GPIO 0 ~ 21 output data write 1 to set
+;;;;;;;[9:0];;;;;;;
+0x8;RTC_GPIO_OUT_W1TC;dig_clk_rtc_gated;rst_rtc_n;Not;;rtc_gpio_out_data_w1tc;[31:10];0;WO;;;;;RTC GPIO 0 ~ 21 output data write 1 to clear
+;;;;;;;[9:0];;;;;;;
+0xC;RTC_GPIO_ENABLE;dig_clk_rtc_gated;rst_rtc_n;;;reg_rtc_gpio_enable;[31:10];0;R/W;WXTX;;;;RTC GPIO 0 ~ 21 enable
+;;;;;;;[9:0];;;;;;;
+0x10;RTC_GPIO_ENABLE_W1TS;dig_clk_rtc_gated;rst_rtc_n;Not;;reg_rtc_gpio_enable_w1ts;[31:10];0;WO;;;;;RTC GPIO 0 ~ 21 enable write 1 to set
+;;;;;;;[9:0];;;;;;;
+0x14;RTC_GPIO_ENABLE_W1TC;dig_clk_rtc_gated;rst_rtc_n;Not;;reg_rtc_gpio_enable_w1tc;[31:10];0;WO;;;;;RTC GPIO 0 ~ 21 enable write 1 to clear
+;;;;;;;[9:0];;;;;;;
+0x18;RTC_GPIO_STATUS;dig_clk_rtc;rst_rtc_n;Not;;rtc_gpio_status_int;[31:10];0;R/W;INT;;;IO = I, rtc_gpio_int[21:0];RTC GPIO 0 ~ 21 interrupt status
+;;;;;;;[9:0];;;;;;;
+0x1C;RTC_GPIO_STATUS_W1TS;dig_clk_rtc;rst_rtc_n;Not;;rtc_gpio_status_int_w1ts;[31:10];0;WO;;;;;RTC GPIO 0 ~ 21 interrupt status write 1 to set
+;;;;;;;[9:0];;;;;;;
+0x20;RTC_GPIO_STATUS_W1TC;dig_clk_rtc;rst_rtc_n;Not;;rtc_gpio_status_int_w1tc;[31:10];0;WO;;;;;RTC GPIO 0 ~ 21 interrupt status write 1 to clear
+;;;;;;;[9:0];;;;;;;
+0x24;RTC_GPIO_IN;dig_clk_rtc_gated;rst_rtc_n;;;rtc_gpio_in_next;[31:10];;RO;;;;;RTC GPIO input data
+;;;;;;;[9:0];;;;;;;
+0x28;RTC_GPIO_PIN0;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN0_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN0_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN0_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x2C;RTC_GPIO_PIN1;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN1_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN1_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN1_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x30;RTC_GPIO_PIN2;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN2_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN2_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN2_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x34;RTC_GPIO_PIN3;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN3_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN3_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN3_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x38;RTC_GPIO_PIN4;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN4_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN4_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN4_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x3C;RTC_GPIO_PIN5;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN5_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN5_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN5_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x40;RTC_GPIO_PIN6;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN6_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN6_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN6_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x44;RTC_GPIO_PIN7;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN7_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN7_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN7_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x48;RTC_GPIO_PIN8;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN8_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN8_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN8_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x4C;RTC_GPIO_PIN9;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN9_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN9_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN9_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x50;RTC_GPIO_PIN10;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN10_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN10_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN10_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x54;RTC_GPIO_PIN11;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN11_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN11_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN11_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x58;RTC_GPIO_PIN12;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN12_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN12_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN12_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x5C;RTC_GPIO_PIN13;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN13_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN13_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN13_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x60;RTC_GPIO_PIN14;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN14_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN14_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN14_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x64;RTC_GPIO_PIN15;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN15_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN15_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN15_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x68;RTC_GPIO_PIN16;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN16_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN16_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN16_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x6C;RTC_GPIO_PIN17;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN17_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN17_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN17_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x70;RTC_GPIO_PIN18;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN18_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN18_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN18_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x74;RTC_GPIO_PIN19;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN19_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN19_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN19_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x78;RTC_GPIO_PIN20;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN20_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN20_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN20_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x7C;RTC_GPIO_PIN21;dig_clk_rtc_gated;rst_rtc_n;;;;[31:11];;;;;;;
+;;;;;;RTC_GPIO_PIN21_WAKEUP_ENABLE;[10];0;R/W;;;;;RTC GPIO wakeup enable bit
+;;;;;;RTC_GPIO_PIN21_INT_TYPE;[9:7];0;R/W;;;;;if set to 0: GPIO interrupt disable,  if set to 1: rising edge trigger,  if set to 2: falling edge trigger, if set to 3: any edge trigger, if set to 4: low level trigger,  if set to 5: high level trigger
+;;;;;;;[6:3];;;;;;;
+;;;;;;RTC_GPIO_PIN21_PAD_DRIVER;[2];0;R/W;;;;;if set to 0: normal output, if set to 1: open drain
+;;;;;;;[1:0];;;;;;;
+0x80;RTC_DEBUG_SEL;dig_clk_rtc_gated;rst_rtc_n;;;;[31:26];;;;;;;
+;;;;;N/A;reg_rtc_debug_12m_no_gating;[25];1'd0;R/W;;;;;
+;;;;;N/A;reg_rtc_debug_sel4;[24:20];5'd0;R/W;;;;;
+;;;;;N/A;reg_rtc_debug_sel3;[19:15];5'd0;R/W;;;;;
+;;;;;N/A;reg_rtc_debug_sel2;[14:10];5'd0;R/W;;;;;
+;;;;;N/A;reg_rtc_debug_sel1;[9:5];5'd0;R/W;;;;;
+;;;;;N/A;reg_rtc_debug_sel0;[4:0];5'd0;R/W;;;;;
+0x84;TOUCH_PAD0;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad0_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad0_rde;[28];1'd1;R/W;;;;;RDE
+;;;;;;reg_touch_pad0_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad0_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad0_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad0_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad0_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad0_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad0_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad0_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad0_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad0_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad0_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0x88;TOUCH_PAD1;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad1_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad1_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad1_rue;[27];1'd1;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad1_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad1_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad1_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad1_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad1_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad1_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad1_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad1_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad1_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad1_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0x8C;TOUCH_PAD2;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad2_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad2_rde;[28];1'd1;R/W;;;;;RDE
+;;;;;;reg_touch_pad2_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad2_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad2_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad2_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad2_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad2_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad2_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad2_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad2_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad2_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad2_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0x90;TOUCH_PAD3;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad3_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad3_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad3_rue;[27];1'd1;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad3_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad3_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad3_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad3_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad3_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad3_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad3_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad3_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad3_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad3_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0x94;TOUCH_PAD4;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad4_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad4_rde;[28];1'd1;R/W;;;;;RDE
+;;;;;;reg_touch_pad4_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad4_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad4_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad4_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad4_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad4_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad4_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad4_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad4_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad4_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad4_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0x98;TOUCH_PAD5;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad5_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad5_rde;[28];1'd1;R/W;;;;;RDE
+;;;;;;reg_touch_pad5_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad5_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad5_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad5_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad5_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad5_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad5_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad5_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad5_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad5_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad5_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0x9C;TOUCH_PAD6;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad6_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad6_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad6_rue;[27];1'd1;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad6_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad6_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad6_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad6_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad6_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad6_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad6_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad6_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad6_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad6_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xA0;TOUCH_PAD7;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad7_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad7_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad7_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad7_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad7_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad7_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad7_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad7_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad7_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad7_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad7_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad7_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad7_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xA4;TOUCH_PAD8;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad8_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad8_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad8_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad8_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad8_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad8_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad8_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad8_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad8_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad8_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad8_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad8_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad8_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xA8;TOUCH_PAD9;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad9_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad9_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad9_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad9_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad9_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad9_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad9_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad9_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad9_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad9_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad9_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad9_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad9_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xAC;TOUCH_PAD10;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad10_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad10_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad10_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad10_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad10_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad10_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad10_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad10_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad10_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad10_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad10_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad10_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad10_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xB0;TOUCH_PAD11;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad11_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad11_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad11_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad11_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad11_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad11_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad11_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad11_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad11_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad11_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad11_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad11_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad11_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xB4;TOUCH_PAD12;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad12_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad12_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad12_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad12_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad12_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad12_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad12_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad12_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad12_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad12_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad12_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad12_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad12_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xB8;TOUCH_PAD13;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad13_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad13_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad13_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad13_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad13_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad13_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad13_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad13_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad13_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad13_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad13_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad13_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad13_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xBC;TOUCH_PAD14;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_touch_pad14_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_touch_pad14_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_touch_pad14_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26];;;;;;;
+;;;;;;reg_touch_pad14_dac;[25:23];3'h4;R/W;;;;;TOUCH_DAC
+;;;;;;reg_touch_pad14_start;[22];1'd0;R/W;;;;;TOUCH_START
+;;;;;;reg_touch_pad14_tie_opt;[21];1'd0;R/W;;;;;TOUCH_TIE_OPT
+;;;;;;reg_touch_pad14_xpd;[20];1'd0;R/W;;;;;TOUCH_XPD
+;;;;;;reg_touch_pad14_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_touch_pad14_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_touch_pad14_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_touch_pad14_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_touch_pad14_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_touch_pad14_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xC0;XTAL_32P_PAD;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_x32p_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_x32p_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_x32p_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26:20];;;;;;;
+;;;;;;reg_x32p_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_x32p_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_x32p_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_x32p_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_x32p_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_x32p_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xC4;XTAL_32N_PAD;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_x32n_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_x32n_rde;[28];1'd0;R/W;;;;;RDE
+;;;;;;reg_x32n_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26:20];;;;;;;
+;;;;;;reg_x32n_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_x32n_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_x32n_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_x32n_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_x32n_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_x32n_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xC8;PAD_DAC1;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_pdac1_drv;[30:29];2'd2;R/W;;;;;PDAC1_DRV
+;;;;;;reg_pdac1_rde;[28];1'd0;R/W;;;;;PDAC1_RDE
+;;;;;;reg_pdac1_rue;[27];1'd0;R/W;;;;;PDAC1_RUE
+;;;;;;;[26:20];;;;;;;
+;;;;;;reg_pdac1_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_pdac1_fun_sel;[18:17];2'd0;R/W;;;;;PDAC1 function sel
+;;;;;;reg_pdac1_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_pdac1_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_pdac1_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_pdac1_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;reg_pdac1_dac_xpd_force;[12];1'd0;R/W;;;;;1: use reg_pdac1_xpd_dac to control PDAC1_XPD_DAC,0: use SAR ADC FSM to control PDAC1_XPD_DAC
+;;;;;;reg_pdac1_xpd_dac;[11];1'd0;R/W;;;;;PDAC1_XPD_DAC
+;;;;;;reg_pdac1_dac;[10:3];8'd0;R/W;;;;;PDAC1_DAC
+;;;;;;;[2:0];;;;;;;
+0xCC;PAD_DAC2;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_pdac2_drv;[30:29];2'd2;R/W;;;;;PDAC2_DRV
+;;;;;;reg_pdac2_rde;[28];1'd0;R/W;;;;;PDAC2_RDE
+;;;;;;reg_pdac2_rue;[27];1'd0;R/W;;;;;PDAC2_RUE
+;;;;;;;[26:20];;;;;;;
+;;;;;;reg_pdac2_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_pdac2_fun_sel;[18:17];2'd0;R/W;;;;;PDAC1 function sel
+;;;;;;reg_pdac2_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_pdac2_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_pdac2_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_pdac2_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;reg_pdac2_dac_xpd_force;[12];1'd0;R/W;;;;;1: use reg_pdac2_xpd_dac to control PDAC2_XPD_DAC,0: use SAR ADC FSM to control PDAC2_XPD_DAC
+;;;;;;reg_pdac2_xpd_dac;[11];1'd0;R/W;;;;;PDAC2_XPD_DAC
+;;;;;;reg_pdac2_dac;[10:3];8'd0;R/W;;;;;PDAC2_DAC
+;;;;;;;[2:0];;;;;;;
+0xD0;RTC_PAD19;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_rtc_pad19_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_rtc_pad19_rde;[28];1'd1;R/W;;;;;RDE
+;;;;;;reg_rtc_pad19_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26:20];;;;;;;
+;;;;;;reg_rtc_pad19_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_rtc_pad19_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_rtc_pad19_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_rtc_pad19_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_rtc_pad19_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_rtc_pad19_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xD4;RTC_PAD20;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_rtc_pad20_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_rtc_pad20_rde;[28];1'd1;R/W;;;;;RDE
+;;;;;;reg_rtc_pad20_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26:20];;;;;;;
+;;;;;;reg_rtc_pad20_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_rtc_pad20_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_rtc_pad20_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_rtc_pad20_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_rtc_pad20_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_rtc_pad20_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xD8;RTC_PAD21;dig_clk_rtc_gated;rst_rtc_n;;;;[31];;;;;;;
+;;;;;;reg_rtc_pad21_drv;[30:29];2'd2;R/W;;;;;DRV
+;;;;;;reg_rtc_pad21_rde;[28];1'd1;R/W;;;;;RDE
+;;;;;;reg_rtc_pad21_rue;[27];1'd0;R/W;;;;;RUE
+;;;;;;;[26:20];;;;;;;
+;;;;;;reg_rtc_pad21_mux_sel;[19];1'd0;R/W;;;;;1: use RTC GPIO,0: use digital GPIO
+;;;;;;reg_rtc_pad21_fun_sel;[18:17];2'd0;R/W;;;;;function sel
+;;;;;;reg_rtc_pad21_slp_sel;[16];1'd0;R/W;;;;;1: enable sleep mode during sleep,0: no sleep mode
+;;;;;;reg_rtc_pad21_slp_ie;[15];1'd0;R/W;;;;;input enable in sleep mode
+;;;;;;reg_rtc_pad21_slp_oe;[14];1'd0;R/W;;;;;output enable in sleep mode
+;;;;;;reg_rtc_pad21_fun_ie;[13];1'd0;R/W;;;;;input enable in work mode
+;;;;;;;[12:0];;;;;;;
+0xDC;EXT_WAKEUP0;dig_clk_rtc_gated;rst_rtc_n;;N/A;reg_ext_wakeup0_sel;[31:27];5'd0;R/W;;;;;
+;;;;;;;[26:0];;;;;;;
+0xE0;XTL_EXT_CTR;dig_clk_rtc_gated;rst_rtc_n;;;reg_xtl_ext_ctr_sel;[31:27];5'd0;R/W;;;;;select RTC GPIO 0 ~ 17 to control XTAL
+;;;;;;;[26:0];;;;;;;
+0xE4;SAR_I2C_IO;dig_clk_rtc_gated;rst_rtc_n;;;reg_sar_i2c_sda_sel;[31:30];2'd0;R/W;;;;;
+;;;;;;reg_sar_i2c_scl_sel;[29:28];2'd0;R/W;;;;;
+;;;;;N/A;reg_sar_debug_bit_sel;[27:23];5'h0;R/W;;;;;
+;;;;;;;[22:0];;;;;;;
+0x1FC;RTC_IO_DATE;dig_clk_rtc_gated;rst_rtc_n;;;;[31:28];;;;;;;
+;;;;;N/A;rtc_io_date;[27:0];28'h1808030;R/W;;;;;

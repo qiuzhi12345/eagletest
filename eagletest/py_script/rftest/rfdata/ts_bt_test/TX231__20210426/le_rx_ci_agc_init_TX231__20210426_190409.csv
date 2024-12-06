@@ -1,0 +1,5 @@
+signal_channel,rate,freq_interference,rxpwr_interference,total_pkg,rev_pkg,per(%)
+37,LE_1M,2476,-90,2000,297,85.15
+37,LE_1M,2476,-89,2000,289,85.55
+37,LE_1M,2476,-88,2000,1,99.95
+37,LE_1M,2476,-87,2000,5,99.75

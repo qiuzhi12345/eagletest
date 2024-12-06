@@ -1,0 +1,25 @@
+0,channel_0_2_DH1
+channel,0
+rate,2_DH1
+Tx/10 - EDR Relative Transmit Power - PGFSK - Max Power,11.0864
+ - PDPSK,8.90506
+- PDPSK - PGFSK,-1.393646
+@   - Nomimal Power,9.447174
+@   - Guard Period,5.036377
+@   - Packet Timing,-7.626862
+Tx/11 - CFS and MA - omega i,-7.473707
+ - omega i + omega o,-5.52392
+- omega o,2.338886
+- DEVM RMS,0.07037961
+- DEVM Peak,0.1476171
+- DEVM 99% - Max 0.30,0.1340063
+Tx/12 - EDR Differential Phase Encoding,
+Tx/13 - In Band Spurious Emissins - Nominal Power,9.446686
+ - ACPower:-3,-29.70096
+- ACPower:-2,-18.77872
+"- ACPower:-1,Ptx-26dB",-31.03922
+ - ACPower:Center Ptxref,9.280762
+"- ACPower:1,Ptx-26dB",-32.86429
+- ACPower:+2,-20.55582
+- ACPower:+3,-32.47031
+- ACPower:+- >3,-36.62823

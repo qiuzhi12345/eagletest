@@ -1,0 +1,404 @@
+﻿from hwregister.hwreg.ESP32 import FE,FE2
+
+class WIFIAPI(object):
+
+    def __init__(self,channel,chipv='ESP32'):
+        self.channel=channel
+        self.chipv=chipv
+
+    def rfinit(self):
+        '''
+        :brief: rf init
+        :param: - no param
+        :return: - no return
+        '''
+        return self.channel.req_com("rf_init");
+
+    def bbinit(self):
+        '''
+        :brief: bb init
+        :param: - no param
+        :return: - no return
+        '''
+        return self.channel.req_com("bb_init");
+
+    def macinit(self):
+        '''
+        :brief: mac init
+        :param: - no param
+        :return: - no return
+        '''
+        return self.channel.req_com("mac_init");
+
+    def phyinit(self):
+        '''
+        :brief: phy init(include rfinit and bbinit and macinit)
+        :param: - no param
+        :return: - no return
+        '''
+        return self.channel.req_com("phy_init");
+
+    def init_print(self):
+        '''
+        :brief: init print
+        :param: - no param
+        :return: - no return
+        '''
+        return self.channel.req_com("init_print", endstr='print end')
+
+    def rfchsel(self,chan,cbw2040_cfg=0):
+        '''
+        :brief: wifi channel set
+        :param:
+                - chan: channel number (1 to 14)
+                - cbw2040_cfg:
+                    - 1:HT40 enable
+                    - 0:HT40 disable
+        :return: - no return
+        '''
+        return self.channel.req_com("RFChannelSel %d %d"%(chan,cbw2040_cfg))
+
+    def cbw40m_en(self,en=0):
+        '''
+        :brief: 40M bandwidth enable
+        :param: - en:
+                    - 0: HT40 disable
+                    - 1: HT40 enable
+        :return: - print the status
+        '''
+        return self.channel.req_com("cbw40m_en %d"%(en))
+
+    def cmdstop(self):
+        '''
+        :brief: wifi TX/RX state stop
+        :param: - no param
+        :return: - no return
+        '''
+        return self.channel.req_com('CmdStop');
+
+    def esp_origin_mac(self):
+        '''
+        :brief:  origin mac read
+        :param: - no param
+        :return: - the value of origin mac
+        '''
+        return  self.channel.req_com('esp_origin_mac')
+
+
+##class WIFITX_API(object):
+##
+##    def __init__(self,channel,chipv='ESP32'):
+##        self.channel=channel
+##        self.chipv=chipv
+
+    def filltxpacket(self,PackLen,pdu0len,pdu1len,rate=0,key_no=0,bssid_no=0,lnkstartaddr=0,gi_type='long',ap_mac_5=1,ap_mac_4=2,ap_mac_3=3,ap_mac_2=4,ap_mac_1=5,ap_mac_0=6):
+        '''
+        :brief: wifi TX tone set
+        :param:
+            - PackLen: include que_no and packeet_len,as (que_no<<16)+packlen
+            - pdu0len: include pdu0 and pdu2 length, as (pdu2len<<16)+pdu0len
+            - pdu1len: include pdu1 and pdu3 length, as (pdu3len<<16)+pdu1len
+            - for ampsdu and ampdu, pdu0len and pdu1len must set to zero
+            - lnkstartaddr:for ver5.0 above, it <<8+bssid_no as param to board
+        '''
+        if (PackLen&0xffff)<4000:
+            pdu0len_set = pdu0len;
+            pdu1len_set = 0;
+        elif (PackLen&0xffff)<8000:
+            pdu0len_set = 4000;
+            pdu1len_set = (PackLen&0xffff) - 4000;
+        elif (PackLen&0xffff)<8192:
+            pdu0len_set = 4000+(4000<<16);
+            pdu1len_set = (PackLen&0xffff) - 8000;
+        else :
+            pdu0len_set = 4000+(4000<<16);
+            pdu1len_set = (PackLen&0xffff) - 8000;
+            #return "Length too long!";
+
+        if gi_type == 'long':
+            cmdstr="FillTxPacket %d %d %d %d %d %d %d %d %d %d %d %d"%(PackLen,pdu0len_set,pdu1len_set,rate,key_no,((lnkstartaddr%0x40000)<<8)+bssid_no,ap_mac_5,ap_mac_4,ap_mac_3,ap_mac_2,ap_mac_1,ap_mac_0);
+        else :
+            cmdstr="FillTxPacket %d %d %d %d %d %d %d %d %d %d %d %d"%(PackLen,pdu0len_set,pdu1len_set,rate,key_no,(0x1<<28)+((lnkstartaddr%0x40000)<<8)+bssid_no,ap_mac_5,ap_mac_4,ap_mac_3,ap_mac_2,ap_mac_1,ap_mac_0);
+
+        if ''!=self.channel.req_com(cmdstr):
+           return True;
+        else:
+           return False;
+
+    def txstart(self,tx_rate,packnum,que_no=1,frm_delay=100,cbw40=0,ht_dup=0, dis_cca=1):
+        if tx_rate != -1:
+           if ''!=self.channel.req_com("WifiTxStart %d %d %d %d %d %d"%((10<<16)+tx_rate,packnum,frm_delay,cbw40,ht_dup,dis_cca)):
+              return True;
+           else:
+              return False;
+        else:
+           return False;
+
+    def txstart_over(self,tx_rate,packnum,que_no=1,frm_delay=100,cbw40=0,ht_dup=0, dis_cca=1):
+        return self.channel.req_com("WifiTxStart %d %d %d %d %d %d"%((10<<16)+tx_rate,packnum,frm_delay,cbw40,ht_dup,dis_cca),endstr='tx_state:0x0!')
+
+    def test_txtone_pwr(self,atten,loop_num,mode=0,step=0, delay_us=10):
+        return self.channel.req_com("test_txtone_pwr %d %d %d %d %d"%(atten, loop_num, mode, step, delay_us))
+
+    def txtone_step(self, en1=1, step1=0, att1=0, en2=0, step2=0, att2=0):
+    	return self.channel.req_com("txtone_step %d %d %d %d %d %d"%(en1, step1, att1, en2, step2, att2))
+
+    def txtone(self,tone1_en=1,freq1_mhz=2,tone1_att=0,tone2_en=0,freq2_mhz=0,tone2_att=0):
+        '''
+        :brief: wifi TX tone set
+        :param:
+            - tone1_en:
+                - 1: first tone enable
+                - 0: fisrt tone disable
+            - freq1_mhz: first tone offset frequency
+            - tone1_att: first tone attenuation set
+            - tone2_en:
+                - 1: second tone enable
+                - 0: second tone disable
+            - freq2_mhz: second tone offset frequency
+            - tone2_att: second tone attenuation set
+        :return: - no return
+        '''
+        cmdstr="txtone %d %d %d %d %d %d"%(tone1_en,freq1_mhz,tone1_att,tone2_en,freq2_mhz,tone2_att);
+        return self.channel.req_com(cmdstr);
+
+    def stoptone(self,tone_no=0):
+        '''
+        :brief: wifi tx tone state close
+        :param: - tone_no:  the number of tone
+        :return: - no return
+        '''
+        return self.channel.req_com("stoptone %d"%tone_no);
+
+    def target_power_backoff(self,backoff_qdb):
+        '''
+        :brief: wifi target power backoff
+        :param: - backoff_qdb: value of backoff
+        :return: - no return
+        '''
+        cmdstr="target_power_backoff %d"%(backoff_qdb)
+        return self.channel.req_com(cmdstr)
+
+    def tx_contin_en(self,en=0):
+        '''
+        :brief: Tx continuous enable
+        :param: - en:
+                    - 0: Tx continuous disable
+                    - 1: Tx continuous enable
+        :return: - print the status
+        '''
+        return self.channel.req_com("tx_contin_en %d"%(en))
+
+    def tx_cbw40m_en(self,en=0):
+        '''
+        :brief: Tx CBW40 enable
+        :param: - en:
+                    - 0: Tx CBW40 disable
+                    - 1: Tx CBW40 enable
+        :return: - print the status
+        '''
+        return self.channel.req_com("tx_cbw40m_en %d"%(en))
+
+    def wifitxout(self,chan=1,data_rate=0x17,backoff=0):
+        '''
+        :brief: tx packect command
+        :param: - chan: channel number (1 to 14)
+                - data_rate:
+                    =====  =====   =====  ====    =====  ====
+                    11b            11g            11n
+                    param  rate    param  rate    param  rate
+                    =====  =====   =====  ====    =====  ====
+                    0x0    1M      0xb    6M      0x10   MCS0
+                    0x1    2ML     0xf    9M      0x11   MCS1
+                    0x2    5.5ML   0xa    12M     0x12   MCS2
+                    0x3    11ML    0xe    18M     0x13   MCS3
+                    0x4     --     0x9    24M     0x14   MCS4
+                    0x5    2MS     0xd    36M     0x15   MCS5
+                    0x6    5.5MS   0x8    48M     0x16   MCS6
+                    0x7    11MS    0xc    54M     0x17   MCS7
+                    =====  =====   =====  ====    =====  ====
+                - backoff: tx power attenuation, 4 indicates an attenuation 1dB
+        :return: - print the status
+        '''
+        return self.channel.req_com("wifitxout %d %d %d"%(chan,data_rate,backoff))
+
+    def esp_tx(self,chan=1,data_rate=0x17,backoff=0):
+        '''
+        :brief: tx packect command
+        :param: - chan: channel number (1 to 14)
+                - data_rate:
+                    =====  =====   =====  ====    =====  ====
+                    11b            11g            11n
+                    param  rate    param  rate    param  rate
+                    =====  =====   =====  ====    =====  ====
+                    0x0    1M      0xb    6M      0x10   MCS0
+                    0x1    2ML     0xf    9M      0x11   MCS1
+                    0x2    5.5ML   0xa    12M     0x12   MCS2
+                    0x3    11ML    0xe    18M     0x13   MCS3
+                    0x4     --     0x9    24M     0x14   MCS4
+                    0x5    2MS     0xd    36M     0x15   MCS5
+                    0x6    5.5MS   0x8    48M     0x16   MCS6
+                    0x7    11MS    0xc    54M     0x17   MCS7
+                    =====  =====   =====  ====    =====  ====
+                - backoff: tx power attenuation, 4 indicates an attenuation 1dB
+        :return: - print the status
+        '''
+        return self.channel.req_com("esp_tx %d %d %d"%(chan,data_rate,backoff))
+
+
+    def wifiscwout(self,en=1,chan=1,backoff=0):
+        '''
+        :brief: SCW TX command
+        :param: - en: SCW Tx enable
+                    - 0: disable
+                    - 1: enable
+                - chan: channel number (1 to 14)
+                - backoff: tx power attenuation, 4 indicates an attenuation 1dB
+        :return: - print the status
+        '''
+        return self.channel.req_com("wifiscwout %d %d %d"%(en,chan,backoff))
+
+    def set_tx_gain(self,pa_gain=0x5f,bb_gain=0x120):
+        '''
+        :brief: set tx gain command
+        :param: - pa_gain: 0x1f, 0x2f,0x3f,0x4f,0x5f,0x6f,0x7f
+                - bb_gain: ..., 0x100,0x140,0x20,0x60, ...
+        :return: - print the status
+        '''
+        return self.channel.req_com("set_tx_gain %d %d "%(pa_gain, bb_gain))
+
+    def set_tx_dig_gain(self,force_en=1 ,dig_gain=25):
+        '''
+        :brief: set tx digital gain command
+        :param: - force_en:
+                            - 0: disable;
+                            - 1: enable
+                - dig_gain:
+        :return: - print the status
+        '''
+        return self.channel.req_com("set_tx_dig_gain %d %d "%(force_en, dig_gain))
+
+    def txpwr_track_en(self,track_en=0,correct_en=0,print_en=0):
+        '''
+        :brief: track the power of packet
+        '''
+        return self.channel.req_com("txpwr_track_en %d %d %d "%(track_en,correct_en,print_en))
+
+    def packet_pwdet_out(self):
+        '''
+        :brief: detect the power of packet
+        '''
+        return self.channel.req_com("packet_pwdet_out")
+
+##class WIFIRX_API(object):
+##
+##    def __init__(self,channel,chipv='ESP32'):
+##        self.channel=channel
+##        self.chipv=chipv
+
+    def get_rx_tone_pwr(self,rx_freq_cfg):
+        return self.channel.req_com("get_rx_tone_pwr %d"%rx_freq_cfg);
+
+    def rxdc_cal(self, print_en=0):
+        return self.channel.req_com("rxdc_cal %d"%print_en);
+
+    def rxstart(self,rate_sym):
+        '''
+        :brief: wifi RX state open
+        :param: - rate_sym:  wifi rate (need to measure RX performance)
+        :return: - no return
+        '''
+        if rate_sym!=-1:
+           if ''!=self.channel.req_com("WifiRxStart 0x%x"%rate_sym):
+              return True;
+           else:
+              return False;
+        else:
+           self.channel.req_com("WifiRxStart %d"%rate_sym)
+
+    def set_noise_floor(self,noise=95*4):
+        '''
+        :brief: RF noisefloor set
+        :param: - noise:  value of noisefloor
+        :return: - no return
+        '''
+        cmdstr="set_noise_floor %d"%(noise)
+        return self.channel.req_com(cmdstr)
+
+    def read_hw_noisefloor(self):
+        '''
+        :brief: RF noisefloor read
+        :param: - no param
+        :return: - the value of hardware noisefloor
+        '''
+        return self.channel.req_com("read_hw_noisefloor")
+
+    def esp_rx(self,chan=1,data_rate=0x17):
+        '''
+        :brief: rx packect command
+        :param: - chan: channel number (1 to 14)
+                - data_rate:
+                    =====  =====   =====  ====    =====  ====
+                    11b            11g            11n
+                    param  rate    param  rate    param  rate
+                    =====  =====   =====  ====    =====  ====
+                    0x0    1M      0xb    6M      0x10   MCS0
+                    0x1    2ML     0xf    9M      0x11   MCS1
+                    0x2    5.5ML   0xa    12M     0x12   MCS2
+                    0x3    11ML    0xe    18M     0x13   MCS3
+                    0x4     --     0x9    24M     0x14   MCS4
+                    0x5    2MS     0xd    36M     0x15   MCS5
+                    0x6    5.5MS   0x8    48M     0x16   MCS6
+                    0x7    11MS    0xc    54M     0x17   MCS7
+                    =====  =====   =====  ====    =====  ====
+        :return: - print the status
+        '''
+        return self.channel.req_com("esp_rx %d %d"%(chan,data_rate))
+
+
+    def adctrig(self,smp_num_aft_trig,trig_mode='sw',sample_80m=0,trigcase=0,dump_trig=0,rx_gain_mode=0,rx_gain=0,rx_gain0=0,gain0_wait=0):
+        '''return curr_ptr,wrap_flag, buff_addr, buff_size'''
+        trig_dic={
+        'sw'     :(0,0),
+        'bb'     :(1,0),
+        'cca'    :(2,0),
+        'rxstart':(3,0),
+        'rxend'  :(4,0),
+        'txstart':(5,0),
+        'txend'  :(6,0),
+        'rxerr0' :(7,0),
+        'rxerr1' :(7,1),
+        'rxerr' :(7,trigcase)};
+
+        if trig_mode in trig_dic:
+            trigmode=trig_dic[trig_mode][0];
+            trigcase=trig_dic[trig_mode][1];
+        else:
+            logwarn("mode err,only allow mode:");
+            logwarn("sw, bb, cca, rxstart, rxend, txstart, txend, rxerr0, rxerr1");
+            return [];
+        result=self.channel.req_com("adctrig 0x%x %d %d %d %d %d %d %d %d"%(smp_num_aft_trig,trigmode,trigcase,sample_80m,dump_trig,rx_gain_mode,rx_gain,rx_gain0,gain0_wait));
+        if result in ['','fail']:
+            return [];
+        rs=result.split(',');
+        return [int(data,16) for data in rs];
+
+    def adc_rand(self,en=1):
+        '''
+        :brief: get adc rand
+        :param: en:  enable output rand mode
+        :return: - no return
+        '''
+        cmdstr="adc_rand %d"%(en)
+        return self.channel.req_com(cmdstr)
+
+
+    def rx_per_init(self):
+        return self.channel.req_com("rx_per_init")
+
+
+    def enable_lr(self):
+        return self.channel.req_com("enable_lr")
+
+    def disable_lr(self):
+        return self.channel.req_com("disable_lr")

@@ -1,0 +1,34 @@
+0
+channel
+DH
+Tx/01 - Output Power  - Average
+- Peak
+@   - Leakage
+ @   - Packet Timing
+Tx/04 - Spectrum - Frequency Range - Left
+- Right
+Tx/05 - Spectrum - 20 dB Bandwidth - f(L)
+- f(H)
+- f(H) - f(L)
+Tx/06 - Spectrum - Adjacent channel power - Max Power
+- ACP - >3 MHz
+- ACP -3 MHz
+- ACP -2 MHz
+- ACP -1 MHz
+ - ACP +1 MHz
+- ACP +2 MHz
+- ACP +3 MHz
+- ACP + >3 MHz
+Tx/07 - Modulation Characteristics - Delta F1 Avg
+Tx/07 - Modulation Characteristics - Delta F2 Avg
+- Delta F2 Max 99%
+- Delta F2 Avg/Delta F1 Avg
+Tx/08 - Initial Carrier Frequency Tolerance - Avg
+- Max
+Tx/09 - Carrier Frequency Drift - Max.Drift DH1
+ - Max.Drift DH5
+ - Max.Drift
+ - Max.Drift Rate/50us DH1
+ - Max.Drift Rate/50us DH5
+- Max.Drift Rate/50us
+Harmonic Spurs

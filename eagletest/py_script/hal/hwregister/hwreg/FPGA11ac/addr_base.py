@@ -1,0 +1,11 @@
+MAC_RX_BASE                     = 0x60033000
+MAC_TX_BASE                     = 0x60033400
+MAC_SEC_BASE                    = 0x60033800
+MAC_SCH_BASE                    = 0x60033c00
+MAC_TXQMEM_BASE                 = 0x60034000
+MAC_PWR_BASE                    = 0x60035000
+GPIO_BASE                       = 0x60004000
+RTC_CNTL_BASE                   = 0x60008000
+RTC_IO_BASE                     = 0x60008400
+SARADC_BASE                     = 0x60008800
+APB_CTRL_BASE                   = 0x60026000

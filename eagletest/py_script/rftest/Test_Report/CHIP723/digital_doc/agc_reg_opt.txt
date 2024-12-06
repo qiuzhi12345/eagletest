@@ -1,0 +1,335 @@
+mem.wrm(0x60004570,8,0,200) #gpio7 ~ ant0
+mem.wrm(0x6000456c,8,0,201) #gpio6 ~ ant1
+
+mem.wrm(0x60004570,8,0,215) #gpio7 ~ ant0
+mem.wrm(0x6000456c,8,0,216) #gpio6 ~ ant1
+
+mem.wrm(0x6001c11c,12,12,1) #ant force en
+mem.wrm(0x6001c11c,11,11,0) #ant force
+mem.wrm(0x6001c058,31,31,0)#dis filt
+mem.wrm(0x6001c094,8,2,66)#init gain 66
+mem.wrm(0x6001c094,0,0,1)# en init gain 
+mem.wrm(0x6001c0b4,31,31,1)#pwr_chg_sel coarse
+mem.wrm(0x6001c094,31,31,0) #rcv_exit_en 
+
+mem.wrm(0x6001cc08,13,7,0x1a)#xcorr_find_thr2 0x26->0x1a
+mem.wrm(0x6001cc08,6,0,0x20) #xcorr_find_thr1 0x30->0x20
+mem.wrm(0x6001ccc8,13,7,0x24) #xcorr_agc_thr2 0x36->0x24
+mem.wrm(0x6001ccc8,6,0,0x24) #xcorr_agc_thr1 0x36->0x24
+mem.wrm(0x6001ccdc,13,7,0x10) #xcorr_find_thr3 0x16->0x10
+mem.wrm(0x6001ccdc,6,0,0x28) #xcorr_agc_thr3 0x3c->0x28
+
+mem.wrm(0x6001d00c,20,20,0) #dmd_in_80m_en dis
+mem.wrm(0x6001cd44,20,20,0) #ftm_cal_en dis
+
+mem.wrm(0x6001c860,11,10,0x3)#lr
+mem.wrm(0x6001c87c,11,11,1)#lr 
+
+
+
+i2c.wim('rfpll',1,7,0,95)
+i2c.wim('rfpll_sdm',5,7,0,17)
+i2c.wim('rfpll_sdm',4,7,0,17)
+
+
+mem.wrm(0x6001c114,31,0,0x8112727) #pkd gain max
+mem.wrm(0x6001c028,8,0,0x1ce)
+mem.wrm(0x6001c0f8,17,9,0x1c8)
+mem.wrm(0x6001c030,10,9,3)#reg_restart_st_ext[1:0]
+mem.wrm(0x6001c094,31,28,0xd)#reg_rcv_exit_en reg_mdchk_exit_en[2:0]
+
+mem.wrm(0x6001cc00,17,8,910)#fft_gain_tar
+
+mem.wrm(0x6001c14c,16,8,0x0)
+
+mem.wrm(0x6001c030,31,31,0x1)#2nd_gain_en
+mem.wrm(0x6001c05c,26,26,0x1) #rfagc_en
+mem.wrm(0x6001c05c,22,21,0x3) #lna&vga_inv
+mem.wrm(0x6001c114,23,0,0x182727) #pkd_max_gain
+mem.wrm(0x6001c104,8,0,0x1c2) #2nd_11b_fine_pwr
+
+mem.rd(0x6001c110)#gain_gt_x_max_bt
+mem.rd(0x6001c060)#gain_gt_x_bt
+
+mem.wrm(0x6001c11c,12,12,0) #ant force en
+mem.wrm(0x6001c11c,15,15,0) #ant_mac_en
+mem.wrm(0x6001c11c,0,0,0x1) #reg_ant_chk_ofdm
+mem.wrm(0x6001c11c,2,2,0x1) #reg_ant_chk_ofdm2
+mem.wrm(0x6001c14c,24,17,0x3) #ofdm_low_thr 6->2
+mem.wrm(0x6001c11c,11,11,1) #ant force
+
+
+
+mem.wrm(0x6001c14c,24,17,2) #pwr_low_thr 6->2
+
+mem.wrm(0x6001c024,8,0,0x1fa) #coarse_pwr_high
+
+mem.wrm(0x6001c118,23,16,0xd4)#high pwr
+mem.wrm(0x6001c02c,21,15,0x0) #high pwr min_gain
+
+mem.wrm(0x6001c034,6,0,0x20)#settling time 0x2f->0x20
+mem.wrm(0x6001c028,8,0,0x1ba)#reg_pwr_coarse_high -
+
+
+mem.wrm(0x6001c030,31,31,0x0)#2nd_gain_en
+mem.wrm(0x6001c028,26,18,450)#pwr_fine -31dB
+mem.wrm(0x6001c0ac,8,0,450) # 2nd_pwr -31dB
+mem.wrm(0x6001c094,31,31,0x0) #rcv_exit_en 
+
+mem.wrm(0x6001c088,7,0,0x0) #ht2040_scale
+
+mem.wrm(0x6001c150,28,20,444)#fine_pwr_latch_thr 
+mem.wrm(0x6001c154,3,0,0x1) #st_init lasts 1 clock
+mem.wrm(0x6001c094,1,1,0x0) #init_set_en
+mem.wrm(0x6001c094,8,2,30) #init_gain
+
+mem.wrm(0x6001c140,25,17,490)#restart_pwr_coarse
+#current configuration
+mem.wrm(0x6001c11c,12,12,1) #ant force en
+mem.wrm(0x6001c11c,11,11,0) #ant force
+mem.wrm(0x6001cc00,17,8,910)#fft_gain_tar
+mem.wrm(0x6001c118,23,16,208) #2nd sat -24dB
+
+mem.wr(0x60033cf8,4<<24 | 0x6<<12)
+
+wifi.rfchsel(1,'com',1)
+wifi.filltxpacket(0xa0000+102,30,4,'com',0,0,0,0,'long',0xf6,0x03,0x8a,0x26,0x4e,0xb0)
+wifi.txstart('1m',0,10,frm_delay=1000,dis_cca=0)
+mem.wr(0x6001c02c,((mem.rd(0x6001c02c)&0x007fffff) | (60<<24) | (1<<23)))
+adc 
+
+
+cyc_tt
+wifi.rfchsel(8,'com',1)
+wifi.filltxpacket(0xa0000+1024,4,4,'com',0x17)
+mem.wrm(0x6003345c,0,0,1)#reg_always_tx
+mem.wrm(0x60033c4c,31,30,0x2)#bb_cca_ind=0x2
+
+DM_rx
+wifi.rfchsel(8,'com',1)
+mem.wrm(0x60033c60,15,15,1)#rxstart_use_bb
+
+RX_END
+mem.wrm(0x6001d088,19,10,8)
+mem.wrm(0x6001c030,28,19,24)#agc_start
+
+rf_debug.rxagcscan_test_loop('rx','iqv',0,rx_chan=6,sub_chan_cfg=3,tx_chan=6,rx_ratelst=['mcs7_40_stbc0','mcs6_40_stbc0','mcs5_40_stbc0','mcs4_40_stbc0','mcs3_40_stbc0','mcs2_40_stbc0','mcs1_40_stbc0','mcs0_40_stbc0'],minpwr=-99,maxpwr=-55,packnum=100,cable_lose=14.5,rxgain_force_en=0, rxgain_force=44, set_chan=1,c_set_chan_en=1,freq_offset=0,restart_mode=0,print_err=0,logstatic=0)
+
+rf_debug.rxagcscan_test_loop('rx','iqv',0,rx_chan=5,sub_chan_cfg=3,tx_chan=5,rx_ratelst=['mcs7_40_stbc0','mcs7_40_stbc1','mcs7_40_stbc2','mcs7_40_stbc3','mcs7_40_stbc4','mcs7_40_stbc5','mcs7_40_stbc6','mcs7_40_stbc7','mcs7_40_stbc8','mcs7_40_stbc9','mcs7_40_stbc10'],minpwr=-99,maxpwr=-55,packnum=100,cable_lose=14.5,rxgain_force_en=0, rxgain_force=44, set_chan=1,c_set_chan_en=1,freq_offset=0,restart_mode=0,print_err=0,logstatic=0)
+
+rf_debug.rxagcscan_test_loop('rx','iqv',0,rx_chan=5,sub_chan_cfg=3,tx_chan=5,rx_ratelst=['mcs7_40_stbc0','mcs7_40_stbc1'],minpwr=-99,maxpwr=-55,packnum=100,cable_lose=14.5,rxgain_force_en=0, rxgain_force=44, set_chan=1,c_set_chan_en=1,freq_offset=0,restart_mode=0,print_err=0,logstatic=0,stbc_fcs_check=1)
+
+rf_debug.stbc_loop('rx/fpga_v3136/stbc_loop_test',0,40,0,29) #stbc loopchannel mode 0~29; stbc scale 0~40 with step 2
+rf_debug.agc_restart_test('rx/fpga723_v3136/restart_incr2',16,0)
+
+mem.wrm(0x6001c14c,16,8,500) #fine gain offset
+mem.wrm(0x6001c030,31,31,1) #2nd gain en
+mem.wrm(0x6001c058,30,22,488) #fine pwr adc 
+mem.wrm(0x6001c0b4,17,9,488) #2nd mcs7 target
+
+mem.wrm(0x6001c058,30,22,486) #fine pwr adc  def
+mem.wrm(0x6001c0b4,17,9,486) #2nd mcs7 target def
+
+com.req("wi 0x67 1 4 63")
+com.req("wi 0x67 1 5 63")
+com.req("wi 0x67 1 6 63")
+com.req("wi 0x67 1 7 63")
+com.req("wi 0x67 1 8 63")
+com.req("wi 0x67 1 9 63")
+com.req("wi 0x67 1 10 63")
+com.req("wi 0x67 1 11 63")
+
+com.req("wi 0x67 1 4 4")
+com.req("wi 0x67 1 5 4")
+com.req("wi 0x67 1 6 40")
+com.req("wi 0x67 1 7 40")
+com.req("wi 0x67 1 8 40")
+com.req("wi 0x67 1 9 40")
+com.req("wi 0x67 1 10 14")
+com.req("wi 0x67 1 11 14")
+rf_debug.ant_sw_test_detail('rx/fpga723_20v4.2.1_initgain/ant_sw',18,0)
+
+
+
+bt_a2_test.rw_v9_le_rx_per_sweep(framecnt=100,rate_name='LETestRun4b_dly21_atten13',pwrdBm_start=-99,pwrdBm_end=-75,atten=16.5,port=0,channel=[1])
+
+bt_a2_test.le_restart_case_sweep(rate_name_lst=['LETestRun4b_dly29_atten13','LETestRun4b_dly27_atten13','LETestRun4b_dly25_atten13','LETestRun4b_dly23_atten13','LETestRun4b_dly21_atten13','LETestRun4b_dly19_atten13','LETestRun4b_dly17_atten13','LETestRun4b_dly15_atten13','LETestRun4b_dly13_atten13','LETestRun4b_dly11_atten13','LETestRun4b_dly9_atten13','LETestRun4b_dly7_atten13','LETestRun4b_dly5_atten13','LETestRun4b_dly3_atten13','LETestRun4b_dly1_atten13','LETestRun4b_dly29_atten15','LETestRun4b_dly27_atten15','LETestRun4b_dly25_atten15','LETestRun4b_dly23_atten15','LETestRun4b_dly21_atten15','LETestRun4b_dly19_atten15','LETestRun4b_dly17_atten15','LETestRun4b_dly15_atten15','LETestRun4b_dly13_atten15','LETestRun4b_dly11_atten15','LETestRun4b_dly9_atten15','LETestRun4b_dly7_atten15','LETestRun4b_dly5_atten15','LETestRun4b_dly3_atten15','LETestRun4b_dly1_atten15'])
+
+
+
+mem.wr(0x60033040,0x34fe18)
+mem.wr(0x60033044,0x1500)
+
+rf_debug.xcorr_thr_scan('rx/stbc_debug/thr1_pwr-70_rssi-76',test_reg_num=1,pwr_min=-70,pwr_max=-70)
+
+mem.wrm(0x6001c058,31,31,0)#dis filt
+
+mem.wrm(0x6001cc08,13,7,0x1a)#xcorr_find_thr2 0x26->0x1a
+mem.wrm(0x6001cc08,6,0,0x20) #xcorr_find_thr1 0x30->0x20
+mem.wrm(0x6001ccc8,13,7,0x24) #xcorr_agc_thr2 0x36->0x24
+mem.wrm(0x6001ccc8,6,0,0x24) #xcorr_agc_thr1 0x36->0x24
+mem.wrm(0x6001ccdc,13,7,0x10) #xcorr_find_thr3 0x16->0x10
+mem.wrm(0x6001ccdc,6,0,0x28) #xcorr_agc_thr3 0x3c->0x28
+
+mem.wrm(0x6001cd20,15,8,20)
+
+
+
+
+fpga713
+mem.wrm(0x6001c0e4,13,7,0)#mcs5 2nd rssi thr
+mem.wrm(0x6001c0b0,26,18,0x100) #mcs5 2nd tar
+mem.wrm(0x6001c030,31,31,1) #11N GAIN EN
+mem.wrm(0x6001c094,30,28,0) #MODECHK EXIT
+mem.wrm(0x6001c094,27,25,0) #FINE GAIN EXIT
+mem.wrm(0x6001c094,31,31,0) #RCV EXIT
+mem.wrm(0x6001c094,0,0,1)# en init gain
+mem.wrm(0x6001c024,17,9,0x1b4) #pwr lt thr
+
+
+
+fpga724_sense_debug
+mem.wrm(0x6001cc94,2,0,1)
+mem.wrm(0x6001cc94,6,4,2)
+mem.wrm(0x6001cc94,10,8,3)
+mem.wrm(0x6001cc94,14,12,4)
+mem.wrm(0x6001cc94,18,16,5)
+mem.wrm(0x6001cc94,22,20,6)
+
+
+mem.wrm(0x6001c010,31,23,32)
+mem.wrm(0x6001c014,31,23,32)
+mem.wrm(0x6001c044,7,0,32)
+mem.wrm(0x6001c01c,23,16,16)
+mem.wrm(0x6001c0cc,29,20,704)#-80dBm
+mem.wrm(0x6001c0cc,19,10,704)
+mem.wrm(0x6001c0cc,9,0,704)
+mem.wrm(0x6001c124,23,16,32)
+
+
+mem.wrm(0x6001c010,31,23,72)
+mem.wrm(0x6001c014,31,23,72)
+mem.wrm(0x6001c044,7,0,72)
+mem.wrm(0x6001c01c,23,16,36)
+mem.wrm(0x6001c0cc,29,20,784)#-60dBm
+mem.wrm(0x6001c0cc,19,10,784)
+mem.wrm(0x6001c0cc,9,0,784)
+mem.wrm(0x6001c124,23,16,72)
+
+mem.wrm(0x6001c010,31,23,112)
+mem.wrm(0x6001c014,31,23,112)
+mem.wrm(0x6001c044,7,0,112)
+mem.wrm(0x6001c01c,23,16,56)
+mem.wrm(0x6001c0cc,29,20,864)#-40dBm
+mem.wrm(0x6001c0cc,19,10,864)
+mem.wrm(0x6001c0cc,9,0,864)
+mem.wrm(0x6001c124,23,16,92)
+
+mem.wrm(0x6001c010,31,23,152)
+mem.wrm(0x6001c014,31,23,152)
+mem.wrm(0x6001c044,7,0,152)
+mem.wrm(0x6001c01c,23,16,76)
+mem.wrm(0x6001c0cc,29,20,944)#-20dBm
+mem.wrm(0x6001c0cc,19,10,944)
+mem.wrm(0x6001c0cc,9,0,944)
+mem.wrm(0x6001c124,23,16,112)
+
+
+6m inter 6m
+mem.wrm(0x6001c028,8,0,462)
+
+mem.wrm(0x6001c0b4,29,29,0)#pwr_rm_dc
+mem.wrm(0x6001c028,30,30,1)#coarse_sel_fe
+mem.wrm(0x6001c054,6,0,0x14)#corr_stage_cnt
+mem.wrm(0x6001c034,6,0,0x20)#settling_time
+mem.wrm(0x6001c034,30,24,0)#wait_dc_time
+mem.wrm(0x6001c038,4,0,25)#delay
+mem.wrm(0x6001c038,9,5,25)#delay
+
+mem.wrm(0x6001c0b4,29,29,1)#pwr_rm_dc
+mem.wrm(0x6001c028,30,30,0)#coarse_sel_fe
+mem.wrm(0x6001c054,6,0,0x4)#corr_stage_cnt
+mem.wrm(0x6001c034,6,0,47)#settling_time
+mem.wrm(0x6001c034,30,24,0xc)#wait_dc_time
+mem.wrm(0x6001c038,4,0,0xa)#delay
+mem.wrm(0x6001c038,9,5,0xa)#delay
+
+
+
+fpga724_m1
+mem.wrm(0x6001c058,31,31,0)#dis filt
+mem.wrm(0x6001c0a4,14,14,1)#reg_search_fail_tune
+mem.wrm(0x6001c034,30,24,0xb)#adc_dc_rm_time
+mem.wrm(0x6001c074,6,0,0xb)#settling_2_time
+mem.wrm(0x6001c14c,16,8,506)#gain_offset
+
+chip723
+mem.wr(0x6001c064,0x111e2630)
+mem.wr(0x6001c114,0x0316262b)
+
+#change 200108
+mem.wrm(0x6001c028,17,9,448) #coarse target pwr 450->
+mem.wrm(0x6001c024,17,9,422) #coarse pwr low thr 430->
+mem.wrm(0x6001c0a0,8,0,422) #coarse pwr too low thr 434->
+
+mem.wrm(0x6001c094,0,0,1)#gain_init_en 0->1
+mem.wrm(0x6001c094,8,2,76)#init_gain 64->
+mem.wrm(0x6001c074,17,15,4) #tune_gain_max 3->4
+mem.wrm(0x6001c094,28,28,0) #mdchk_exit by sat disable
+mem.wrm(0x6001c094,25,25,0) #fine_cal_exit by sat disable
+mem.wrm(0x6001c158,8,8,0) #fine_exit by sat disable
+mem.wrm(0x6001c05c,28,28,0) #reset rfgain
+mem.wr(0x6001c064,0x03032630)
+mem.wr(0x6001c114,0x03032630)
+
+#change 200110
+mem.wrm(0x6001c024,17,9,422) #coarse pwr low thr 430->
+mem.wrm(0x6001c0a0,8,0,422) #coarse pwr too low thr 434->
+mem.wrm(0x6001c094,0,0,1)#gain_init_en 0->1
+mem.wrm(0x6001c094,8,2,76)#init_gain 64->
+mem.wrm(0x6001c074,17,15,4) #tune_gain_max 3->4
+mem.wrm(0x6001c094,28,28,0) #mdchk_exit by sat disable
+mem.wrm(0x6001c094,25,25,0) #fine_cal_exit by sat disable
+mem.wrm(0x6001c158,8,8,0) #fine_exit by sat disable
+mem.wrm(0x6001c05c,28,28,0) #reset rfgain
+mem.wrm(0x6001c118,15,8,200) #drop no pkd -24->-28
+mem.wr(0x6001c064,0x03032630)
+mem.wr(0x6001c114,0x03032630)
+
+mem.wrm(0x600050f4,8,8,0)#dis fe_rx_scale_en 
+mem.wrm(0x6001c020,8,0,490)#adcsat_thr 496->490
+
+#change 200113
+mem.wrm(0x6001c024,17,9,422) #coarse pwr low thr 430->
+mem.wrm(0x6001c0a0,8,0,422) #coarse pwr too low thr 434->
+mem.wrm(0x6001c094,0,0,1)#gain_init_en 0->1
+mem.wrm(0x6001c094,8,2,76)#init_gain 64->
+#mem.wrm(0x6001c074,17,15,4) #tune_gain_max 3->4
+mem.wrm(0x6001c094,28,28,0) #mdchk_exit by sat disable
+mem.wrm(0x6001c094,25,25,0) #fine_cal_exit by sat disable
+mem.wrm(0x6001c158,8,8,0) #fine_exit by sat disable
+mem.wrm(0x6001c05c,28,28,0) #reset rfgain
+mem.wrm(0x6001c118,15,8,204) #drop no pkd -24->-26
+mem.wr(0x6001c064,0x03032630)
+mem.wr(0x6001c114,0x03032630)
+
+mem.wrm(0x600050f4,8,8,0)#dis fe_rx_scale_en 
+mem.wrm(0x6001c020,8,0,490)#adcsat_thr 496->490
+
+#change 200114
+mem.wrm(0x6001c024,17,9,422) #coarse pwr low thr 430->
+mem.wrm(0x6001c0a0,8,0,422) #coarse pwr too low thr 434->
+mem.wrm(0x6001c094,0,0,1)#gain_init_en 0->1
+mem.wrm(0x6001c094,8,2,76)#init_gain 64->
+#mem.wrm(0x6001c074,17,15,4) #tune_gain_max 3->4
+mem.wrm(0x6001c094,28,28,0) #mdchk_exit by sat disable
+mem.wrm(0x6001c094,25,25,0) #fine_cal_exit by sat disable
+mem.wrm(0x6001c158,8,8,0) #fine_exit by sat disable
+mem.wrm(0x6001c05c,28,28,0) #reset rfgain
+mem.wrm(0x6001c118,15,8,204) #drop no pkd -24->-26
+mem.wr(0x6001c064,0x03032630)
+mem.wr(0x6001c114,0x03032630)
+
+mem.wrm(0x600050f4,8,8,0)#dis fe_rx_scale_en 
+mem.wrm(0x6001c020,8,0,490)#adcsat_thr 496->490
+i2c.wic('rfrx', 'vga_pd_amp',1)

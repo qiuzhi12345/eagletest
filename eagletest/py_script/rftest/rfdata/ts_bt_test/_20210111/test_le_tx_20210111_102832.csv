@@ -1,0 +1,1 @@
+channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),acp_list_21ch

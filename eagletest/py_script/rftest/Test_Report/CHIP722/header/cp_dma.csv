@@ -1,0 +1,88 @@
+ Address ; RegName ; Clk ; Rst ; Port ; Public ; Signal ; BitPos ; Default ; SW(R/W) ; HW(W) ; MCU(W) ; MISC ; Description 
+ 0x0000; CP_INT_RAW; clk; reset_n ;;;; [31:9]; 23'h0 ; RO ;;;INT_RAW;
+;;;; Not ;; cp_crc_done_int_raw; [8]; 1'b0 ; RO   ; crc_eof/1'b1; cp_crc_done_int_clr/1'b0;;
+;;;; Not ;; cp_out_total_eof_int_raw ; [7] ; 1'b0 ; RO   ; cp_out_total_eof/1'b1 ; cp_out_total_eof_int_clr/1'b0 ;;
+;;;; Not ;; cp_in_dscr_empty_int_raw ; [6] ; 1'b0 ; RO   ; inlink_dscr_empty/1'b1 ; cp_in_dscr_empty_int_clr/1'b0 ;;
+;;;; Not ;; cp_out_dscr_err_int_raw ; [5] ; 1'b0 ; RO   ; outlink_dscr_error/1'b1 ; cp_out_dscr_err_int_clr/1'b0 ;;
+;;;; Not ;; cp_in_dscr_err_int_raw ; [4]; 1'b0 ; RO ; inlink_dscr_error/1'b1 ; cp_in_dscr_err_int_clr/1'b0 ;;
+;;;; Not ;; cp_out_eof_int_raw ; [3]; 1'b0 ; RO ; cp_out_eof/1'b1 ; cp_out_eof_int_clr/1'b0 ;;
+;;;; Not ;; cp_out_done_int_raw ; [2]; 1'b0 ; RO ; cp_out_done/1'b1 ; cp_out_done_int_clr/1'b0 ;;
+;;;; Not ;; cp_in_suc_eof_int_raw ; [1]; 1'b0 ; RO ; cp_in_suc_eof/1'b1 ; cp_in_suc_eof_int_clr/1'b0 ;;
+;;;; Not ;; cp_in_done_int_raw ; [0]; 1'b0 ; RO ; cp_in_done/1'b1 ; cp_in_done_int_clr/1'b0 ;;
+0x0004; CP_INT_ST; clk; reset_n ;;;; [31:9]; 23'h0 ; RO ;;;INT_ST;
+;;;; Not ;; cp_crc_done_int_st; [8]; 1'b0 ; RO ;;;;
+;;;; Not ;; cp_out_total_eof_int_st ; [7] ; 1'b0 ; RO   ;;;;
+;;;; Not ;; cp_in_dscr_empty_int_st ; [6] ; 1'b0 ; RO   ;;;;
+;;;; Not ;; cp_out_dscr_err_int_st ; [5] ; 1'b0 ; RO   ;;;;
+;;;; Not ;; cp_in_dscr_err_int_st ; [4]; 1'b0 ; RO ;;;;
+;;;; Not ;; cp_out_eof_int_st ; [3]; 1'b0 ; RO ;;;;
+;;;; Not ;; cp_out_done_int_st ; [2]; 1'b0 ; RO ;;;;
+;;;; Not ;; cp_in_suc_eof_int_st ; [1]; 1'b0 ; RO ;;;;
+;;;; Not ;; cp_in_done_int_st ; [0]; 1'b0 ; RO ;;;;
+0x008; CP_INT_ENA; clk; reset_n ;;;; [31:9]; 23'h0 ; RO ;;;;
+;;;; Not ;; cp_crc_done_int_ena; [8]; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_out_total_eof_int_ena; [7] ; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_in_dscr_empty_int_ena ; [6] ; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_out_dscr_err_int_ena ; [5] ; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_in_dscr_err_int_ena ; [4]; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_out_eof_int_ena ; [3]; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_out_done_int_ena ; [2]; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_in_suc_eof_int_ena ; [1]; 1'b0 ; R/W ;;;;
+;;;; Not ;; cp_in_done_int_ena ; [0]; 1'b0 ; R/W ;;;;
+0x000c; CP_INT_CLR; clk; reset_n ;;;; [31:9]; 23'h0 ; RO ;;;;
+;;;; Not ;; cp_crc_done_int_clr; [8]; 1'b0 ; WO ;;;;
+;;;; Not ;; cp_out_total_eof_int_clr; [7] ; 1'b0 ; WO ;;;;
+;;;; Not ;; cp_in_dscr_empty_int_clr ; [6] ; 1'b0 ; WO ;;;;
+;;;; Not ;; cp_out_dscr_err_int_clr ; [5] ; 1'b0 ; WO ;;;;
+;;;; Not ;; cp_in_dscr_err_int_clr ; [4]; 1'b0 ; WO;;;;
+;;;; Not ;; cp_out_eof_int_clr ; [3]; 1'b0 ; WO;;;;
+;;;; Not ;; cp_out_done_int_clr ; [2]; 1'b0 ; WO;;;;
+;;;; Not ;; cp_in_suc_eof_int_clr ; [1]; 1'b0 ; WO;;;;
+;;;; Not ;; cp_in_done_int_clr ; [0]; 1'b0 ; WO;;;;
+ 0x0010 ;CP_OUT_LINK ; clk ; reset_n ;;; outlink_park ; [31] ; 1'h0 ; RO   ;;;;
+;;;;;; cp_outlink_restart ; [30] ; 1'b0 ; R/W ; cp_outlink_restart_clr/1'b0 ;;;
+;;;;;; cp_outlink_start   ; [29] ; 1'b0 ; R/W ; cp_outlink_start_clr/1'b0 ;;;
+;;;;;; cp_outlink_stop   ; [28] ; 1'b0 ; R/W ; cp_outlink_stop_clr/1'b0 ;;;
+;;;;;;; [27:20] ; 8'b0 ; RO   ;;;;
+;;;;;; cp_outlink_addr ; [19:0] ; 20'h0 ; R/W ;;;;
+ 0x0014 ; CP_IN_LINK ; clk ; reset_n ;;; inlink_park ; [31] ; 1'h0 ; RO   ;;;;
+;;;;;; cp_inlink_restart ; [30] ; 1'b0 ; R/W ; cp_inlink_restart_clr/1'b0 ;;;
+;;;;;; cp_inlink_start   ; [29] ; 1'b0 ; R/W ; cp_inlink_start_clr/1'b0 ;;;
+;;;;;; cp_inlink_stop   ; [28] ; 1'b0 ; R/W ; cp_inlink_stop_clr/1'b0 ;;;
+;;;;;;; [27:20] ; 8'b0 ; RO   ;;;;
+;;;;;; cp_inlink_addr ; [19:0] ; 20'h0 ; R/W ;;;;
+ 0x0018; CP_OUT_EOF_DES_ADDR ; clk ; reset_n ;;; cp_out_eof_des_addr ; [31:0] ; 32'h0 ; RO   ;;;;
+ 0x001c; CP_IN_EOF_DES_ADDR ; clk ; reset_n ;;; cp_in_suc_eof_des_addr ; [31:0] ; 32'h0 ; RO   ;;;;
+ 0x0020; CP_OUT_EOF_BFR_DES_ADDR ; clk ; reset_n ;;; cp_out_eof_bfr_des_addr ; [31:0] ; 32'h0 ; RO   ;;;;
+ 0x0024; CP_INLINK_DSCR ; clk ; reset_n ;;; cp_inlink_dscr ; [31:0] ; 32'b0 ; RO   ;;;;
+ 0x0028; CP_INLINK_DSCR_BF0 ; clk ; reset_n ;;; cp_inlink_dscr_bf0 ; [31:0] ; 32'b0 ; RO   ;;;;
+ 0x002c; CP_INLINK_DSCR_BF1 ; clk ; reset_n ;;; cp_inlink_dscr_bf1 ; [31:0] ; 32'b0 ; RO   ;;;;
+ 0x0030; CP_OUTLINK_DSCR ; clk ; reset_n ;;; cp_outlink_dscr ; [31:0] ; 32'b0 ; RO   ;;;;
+ 0x0034; CP_OUTLINK_DSCR_BF0 ; clk ; reset_n ;;; cp_outlink_dscr_bf0 ; [31:0] ; 32'b0 ; RO   ;;;;
+ 0x0038; CP_OUTLINK_DSCR_BF1 ; clk ; reset_n ;;; cp_outlink_dscr_bf1 ; [31:0] ; 32'b0 ; RO   ;;;;
+ 0x003c; CP_CONF; clk ; reset_n ; Not;; reg_clk_en; [31]; 1'h0; R/W ;;;;
+;;;;;;; [30:12]; 19'b0; RO   ;;;;
+;;;;;; reg_crc_out_reverse_en; [11]; 1'b0 ; R/W ;;;;
+;;;;;; reg_crc_big_endian_en; [10]; 1'b0 ; R/W ;;;;Set this bit to reorder the bit of data which will be send to excute crc.
+;;;;;; reg_crc_cal_en; [9]; 1'b0 ; R/W ;;;;Set this bit enable crc calculation function.
+;;;;;; reg_crc_cal_reset; [8]; 1'b0 ; R/W ;;;;Set this bit to reset crc calculation.
+;;;;;; reg_check_owner; [7] ; 1'b0 ; R/W ;;;;Set this bit to enable owner bit check in descriptor.
+;;;;;; reg_out_auto_wrback ; [6] ; 1'b0 ; R/W ;;;;this bit is used to write back out descriptor when hardware has already used this descriptor.
+;;;;;; reg_in_owner; [5] ; 1'b0 ; R/W ;;;;This is used to configure the owner bit in IN descriptor.
+;;;;;; reg_out_owner; [4] ; 1'b0 ; R/W ;;;;This is used to configure the owner bit in OUT descriptor. This is effective only when you set reg_out_auto_wrback.
+;;;;;; reg_fifo_rst; [3] ; 1'b0 ; R/W ;;;;
+;;;;;; reg_cmdfifo_rst ; [2] ; 1'b0 ; R/W ;;;;set this bit to reset in_cmdfifo and out_cmdfifo.
+;;;;;; reg_out_rst ; [1] ; 1'b0 ; R/W ;;;;set this bit to reset out_inf state machine.
+;;;;;; reg_in_rst ; [0] ; 1'h0 ; R/W ;;;;set this bit to reset in_inf state machine.
+ 0x0040; CP_IN_ST; clk ; reset_n ;;;; [31:24] ; 8'h0 ; RO   ;;;;
+;;;;;;fifo_empty; [23]; 1'b0 ; RO   ;;;;
+;;;;;;in_state; [22:20]; 3'b0 ; RO   ;;;;
+;;;;;;in_dscr_state; [19:18]; 2'b0; RO   ;;;;
+;;;;;;inlink_dscr_addr; [17:0]; 18'b0; RO   ;;;;
+ 0x0044; CP_OUT_ST; clk ; reset_n ;;;; [31:24] ; 8'h0 ; RO   ;;;;
+;;;;;;fifo_full; [23]; 1'b0 ; RO   ;;;;
+;;;;;;out_state; [22:20]; 3'b0 ; RO   ;;;;
+;;;;;;out_dscr_state; [19:18]; 2'b0; RO   ;;;;
+;;;;;;outlink_dscr_addr; [17:0]; 18'b0; RO   ;;;;
+0x0048; CP_CRC_OUT; clk ; reset_n ;;;crc_result; [31:0] ; 32'h0 ; RO   ;;;;
+ 0x00fc ; CP_DATE ; clk ; reset_n ; Not;; reg_cp_dma_date; [31:0] ; 32'h18082000 ; R/W ;;;;   

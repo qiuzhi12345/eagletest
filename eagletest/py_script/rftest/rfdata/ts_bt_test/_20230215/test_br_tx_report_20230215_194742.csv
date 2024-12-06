@@ -1,0 +1,34 @@
+0,channel_0_DH1,channel_39_DH1,channel_78_DH1
+channel,0,39,78
+DH,DH1,DH1,DH1
+Tx/01 - Output Power  - Average,9.026245,9.391266,10.04297
+- Peak,9.505615,9.85556,10.45901
+@   - Leakage,-46.58453,-47.39099,-47.38586
+ @   - Packet Timing,2.209137,0.7984619,0.8520813
+Tx/04 - Spectrum - Frequency Range - Left,2400.468,2400.476,2400.464
+- Right,2481.471,2481.467,2481.47
+Tx/05 - Spectrum - 20 dB Bandwidth - f(L),-375.96229999999997,-375.47490000000005,-375.53929999999997
+- f(H),450.5086,451.2253,451.6859
+- f(H) - f(L),826.4709,826.7002,827.2252
+Tx/06 - Spectrum - Adjacent channel power - Max Power,8.50882,8.877686,9.515228
+- ACP - >3 MHz,-46.17004,-46.51593,-46.18661
+- ACP -3 MHz,-44.98517,-45.27695,-44.79733
+- ACP -2 MHz,-42.49716,-42.70837,-42.15558
+- ACP -1 MHz,-20.4061,-20.04568,-19.32391
+ - ACP +1 MHz,-18.07672,-17.46085,-16.57141
+- ACP +2 MHz,-42.94376,-43.31964,-42.7915
+- ACP +3 MHz,-45.23367,-45.48618,-45.14124
+- ACP + >3 MHz,-46.13043,-46.26627,-46.00482
+Tx/07 - Modulation Characteristics - Delta F1 Avg,155.0806,154.18820000000002,154.7151
+Tx/07 - Modulation Characteristics - Delta F2 Avg,136.04520000000002,136.405,136.502
+- Delta F2 Max 99%,122.67660000000001,121.3779,118.5808
+- Delta F2 Avg/Delta F1 Avg,0.8772547952484064,0.8846656229205606,0.8822797516208826
+Tx/08 - Initial Carrier Frequency Tolerance - Avg,22.52936,26.143549999999998,24.93048
+- Max,,,
+Tx/09 - Carrier Frequency Drift - Max.Drift DH1,-1.939058,-5.750418,-4.291058
+ - Max.Drift DH5,,,
+ - Max.Drift,,,
+ - Max.Drift Rate/50us DH1,-0.07367134,-0.24724010000000002,-0.5598067999999999
+ - Max.Drift Rate/50us DH5,,,
+- Max.Drift Rate/50us,,,
+Harmonic Spurs,,,

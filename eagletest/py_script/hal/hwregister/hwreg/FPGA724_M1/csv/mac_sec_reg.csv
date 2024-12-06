@@ -1,0 +1,27 @@
+Address;RegName;Clk;Rst;Port;Signal;BitPos;Default;SW(R/W);HW(W);MCU(W);MISC;Description
+0x0000;MACSEC_CONF0;pclk;reset_n;;reg_sec_conf0;[31:0];32'h0;R/W;;;;0x0800
+0x0004;MACSEC_CONF1;pclk;reset_n;;reg_sec_conf1;[31:0];32'h0;R/W;;;;
+0x0008;MACSEC_CONF10;pclk;reset_n;;reg_sec_conf10;[31:0];32'h0;R/W;;;;0x0800
+0x000C;MACSEC_CONF11;pclk;reset_n;;reg_sec_conf11;[31:0];32'h0;R/W;;;;
+0x0010;MACSEC_CONF2;pclk;reset_n;;reg_sec_conf2;[31:0];32'hFFFF00;R/W;;;;
+0x0014;MACSEC_CONF3;pclk;reset_n;;reg_sec_conf3;[31:0];32'h0;R/W;;;;
+0x0018;MACSEC_CONF4;pclk;reset_n;;reg_sec_conf4;[31:0];32'h0;R/W;;;;
+0x001C;MACSEC_CONF5;pclk;reset_n;;reg_sec_conf5;[31:0];32'h0;R/W;;;;
+0x0020;MACSEC_CONF6;pclk;reset_n;;reg_sec_conf6;[31:0];32'h0;R/W;;;;
+0x0024;MACSEC_CONF7;pclk;reset_n;;reg_sec_conf7;[31:0];32'hd8000000;R/W;;;;
+0x0028;MACSEC_CONF8;pclk;reset_n;;reg_sec_conf8;[31:0];32'h0;R/W;;;;
+0x002C;MACSEC_CONF9;pclk;reset_n;;reg_sec_conf9;[31:0];32'h0;R/W;;;;
+0x0030;MACSEC_STATE0;pclk;reset_n;;sec_state0;[31:0];32'h0;RO;;;;
+0x0034;MACSEC_STATE1;pclk;reset_n;;sec_state1;[31:0];32'h0;RO;;;;
+0x0038;MACSEC_STATE2;pclk;reset_n;;sec_state2;[31:0];32'h0;RO;;;;
+0x003C;MACSEC_STATE3;pclk;reset_n;;sec_state3;[31:0];32'h0;RO;;;;
+0x0040;MACSEC_CLK_CONF;pclk;reset_n;;;[31:7];25'h0;RO;;;;
+;;;;;reg_kmem_clk_en;[6];1'b0;R/W;;;;
+;;;; Not;reg_secclk_en;[5];1'b0;R/W;;;;
+;;;;;reg_sectx_clk_en;[4];1'b0;R/W;;;;
+;;;;;reg_secrx_clk_en;[3];1'b0;R/W;;;;
+;;;;;reg_tkip_clk_en;[2];1'b0;R/W;;;;
+;;;;;reg_wapi_clk_en;[1];1'b0;R/W;;;;
+;;;;;reg_ccmp_clk_en;[0];1'b0;R/W;;;;
+0x03F8;MACSECDATE;pclk;reset_n;;;[31:28];4'h0;RO;;;;
+;;;;;reg_macsec_date;[27:0];28'h1505051;R/W;;;;

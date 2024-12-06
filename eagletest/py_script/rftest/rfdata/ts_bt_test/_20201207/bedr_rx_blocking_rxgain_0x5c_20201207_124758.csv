@@ -1,0 +1,5 @@
+rate,blocking_level,freq_blocking_1,freq_blocking_2,per(%)
+DH1,-27,2633,NA,0.25,3.78,
+DH1,-27,4951,NA,0.83,5.13,
+DH1,-27,4953,NA,0.77,1.83,
+DH1,-26,2633,NA,1.68,16.79,

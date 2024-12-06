@@ -1,0 +1,25 @@
+0
+channel
+rate
+Tx/10 - EDR Relative Transmit Power - PGFSK - Max Power
+ - PDPSK
+- PDPSK - PGFSK
+@   - Nomimal Power
+@   - Guard Period
+@   - Packet Timing
+Tx/11 - CFS and MA - omega i
+ - omega i + omega o
+- omega o
+- DEVM RMS
+- DEVM Peak
+- DEVM 99% - Max 0.30
+Tx/12 - EDR Differential Phase Encoding
+Tx/13 - In Band Spurious Emissins - Nominal Power
+ - ACPower:-3
+- ACPower:-2
+"- ACPower:-1,Ptx-26dB"
+ - ACPower:Center Ptxref
+"- ACPower:1,Ptx-26dB"
+- ACPower:+2
+- ACPower:+3
+- ACPower:+- >3

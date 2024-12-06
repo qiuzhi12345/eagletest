@@ -1,0 +1,2 @@
+channel,type,nominal_pow,peak_pow,leakage_pow,freq_accuracy,freq_drift,drift_rate,delta_f1_avg,delta_f1_min,delta_f1_max,delta_f2_avg,delta_f2_min,delta_f2_max,mod_ratio,delta_f2_99,obw,frange_l,frange_h,acp_list_21ch
+0,DH1,-8.46,-8.07,-73.38,-2160.07,-87.26,626.09,156300.30,140727.80,171991.30,145106.60,115867.90,173461.00,0.93,114185.30,779693.60,2401423000.00,2480524000.00,-60.61,-64.03,-62.08,-58.38,-57.86,-55.10,-50.64,-45.72,-40.89,-36.00,-9.38,-36.01,-41.07,-45.69,-51.21,-55.34,-58.68,-61.65,-63.35,-62.09,-65.38,

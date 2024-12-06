@@ -1,0 +1,209 @@
+ Address ; RegName ; Clk ; Rst ; Port ; Public ; Signal ; BitPos ; Default ; SW(R/W) ; HW(W) ; MCU(W) ; MISC ; Description 
+ 0x0000 ; SAR_READ_CTRL; pclk ; reset_n ;;;; [31:29] ; 3'h0 ; RO ;;;;
+;;;;;; reg_sar1_data_inv ; [28] ; 1'd0 ; R/W ;;;;Invert SAR ADC1 data
+;;;;;; reg_sar1_dig_force ; [27] ; 1'd0 ; R/W ;;;;1: SAR ADC1 controlled by DIG ADC1 CTRL, 0: SAR ADC1 controlled by RTC ADC1 CTRL
+;;;;;N/A; reg_sar1_sample_num ; [26:19] ; 8'd0 ; R/W ;;;;
+;;;;;N/A; reg_sar1_clk_gated ; [18] ; 1'b1 ; R/W ;;;;
+;;;;;; reg_sar1_sample_bit ; [17:16] ; 2'd3 ; R/W ;;;;00: for 9-bit width, 01: for 10-bit width, 10: for 11-bit width, 11: for 12-bit width
+;;;;;; reg_sar1_sample_cycle ; [15:8] ; 8'd9 ; R/W ;;;;sample cycles for SAR ADC1
+;;;;;; reg_sar1_clk_div ; [7:0] ; 8'd2 ; R/W ;;;;clock divider
+ 0x0004 ; SAR_READ_STATUS1; pclk ; reset_n ;;N/A; sar1_reader_status ; [31:0] ; 32'h0 ; RO ;;;;
+ 0x0008 ; SAR_MEAS_WAIT1; pclk ; reset_n ;;N/A; reg_sar_amp_wait2 ; [31:16] ; 16'd10 ; R/W ;;;;
+;;;;;N/A; reg_sar_amp_wait1 ; [15:0] ; 16'd10 ; R/W ;;;;
+ 0x000c ; SAR_MEAS_WAIT2; pclk ; reset_n ;;;; [31:28] ; 4'h0 ; RO ;;;;
+;;;;;N/A; reg_sar2_rstb_wait ; [27:20] ; 8'd2 ; R/W ;;;;
+;;;;;N/A; reg_force_xpd_sar ; [19:18] ; 2'd0 ; R/W ;;;;
+;;;;;N/A; reg_force_xpd_amp ; [17:16] ; 2'd0 ; R/W ;;;;
+;;;;;N/A; reg_sar_amp_wait3 ; [15:0] ; 16'd10 ; R/W ;;;;
+ 0x0010 ; SAR_MEAS_CTRL; pclk ; reset_n ;;N/A; reg_sar2_xpd_wait; [31:24] ; 8'h7 ; R/W ;;;;
+;;;;;N/A; reg_sar_rstb_fsm ; [23:20] ; 4'b0000 ; R/W ;;;;
+;;;;;N/A; reg_xpd_sar_fsm ; [19:16] ; 4'b0111 ; R/W ;;;;
+;;;;;N/A; reg_amp_short_ref_gnd_fsm ; [15:12] ; 4'b0011 ; R/W ;;;;
+;;;;;N/A; reg_amp_short_ref_fsm ; [11:8] ; 4'b0011 ; R/W ;;;;
+;;;;;N/A; reg_amp_rst_fb_fsm ; [7:4] ; 4'b1000 ; R/W ;;;;
+;;;;;N/A; reg_xpd_sar_amp_fsm ; [3:0] ; 4'b1111 ; R/W ;;;;
+ 0x0014 ; SAR_READ_STATUS2; pclk ; reset_n ;;N/A; sar2_reader_status ; [31:0] ; 32'h0 ; RO ;;;;
+ 0x0018 ; ULP_CP_SLEEP_CYC0; pclk ; reset_n ;;; reg_sleep_cycles_s0 ; [31:0] ; 32'd200 ; R/W ;;;;sleep cycles for ULP-coprocessor timer
+ 0x001c ; ULP_CP_SLEEP_CYC1; pclk ; reset_n ;;N/A; reg_sleep_cycles_s1 ; [31:0] ; 32'd100 ; R/W ;;;;
+ 0x0020 ; ULP_CP_SLEEP_CYC2; pclk ; reset_n ;;N/A; reg_sleep_cycles_s2 ; [31:0] ; 32'd50 ; R/W ;;;;
+ 0x0024 ; ULP_CP_SLEEP_CYC3; pclk ; reset_n ;;N/A; reg_sleep_cycles_s3 ; [31:0] ; 32'd40 ; R/W ;;;;
+ 0x0028 ; ULP_CP_SLEEP_CYC4; pclk ; reset_n ;;N/A; reg_sleep_cycles_s4 ; [31:0] ; 32'd20 ; R/W ;;;;
+ 0x002c ; SAR_START_FORCE; pclk ; reset_n ;;;; [31:25] ; 7'h0 ; RO ;;;;
+;;;;;N/A; reg_sar2_pwdet_en ; [24] ; 1'b0 ; R/W ;;;;N/A
+;;;;;; reg_sar1_stop ; [23] ; 1'b0 ; R/W ;;;;stop SAR ADC1 conversion
+;;;;;; reg_sar2_stop ; [22] ; 1'b0 ; R/W ;;;;stop SAR ADC2 conversion
+;;;;;; reg_pc_init ; [21:11] ; 11'b0 ; R/W ;;;;initialized PC for ULP-coprocessor
+;;;; Not ;; reg_sarclk_en ; [10] ; 1'b0 ; R/W ;;;;
+;;;;;; reg_ulp_cp_start_top ; [9] ; 1'b0 ; R/W ;;;;Write 1 to start ULP-coprocessor, only active when reg_ulp_cp_force_start_top = 1
+;;;;;; reg_ulp_cp_force_start_top ; [8] ; 1'b0 ; R/W ;;;;1: ULP-coprocessor is started by SW, 0: ULP-coprocessor is started by timer
+;;;;;; reg_sar2_pwdet_cct ; [7:5] ; 3'b0 ; R/W ;;;;SAR2_PWDET_CCT, PA power detector capacitance tuning. 
+;;;;;; reg_sar2_en_test ; [4] ; 1'b0 ; R/W ;;;;SAR2_EN_TEST, only active when reg_sar2_dig_force = 0
+;;;;;; reg_sar2_bit_width ; [3:2] ; 2'b11 ; R/W ;;;;00: 9 bit, 01: 10 bits, 10: 11bits, 11: 12bits 
+;;;;;; reg_sar1_bit_width ; [1:0] ; 2'b11 ; R/W ;;;;00: 9 bit, 01: 10 bits, 10: 11bits, 11: 12bits 
+ 0x0030 ; SAR_MEM_WR_CTRL; pclk ; reset_n ;;;; [31:24] ; 8'h0 ; RO ;;;;
+;;;;;; reg_ulp_cp_clk_fo; [23]; 1'd0; R/W ;;;;ulp coprocessor clk force on
+;;;;;N/A; rtc_mem_wr_offst_clr ; [22] ; 1'd0 ; WO ;;;;
+;;;;;N/A; reg_mem_wr_addr_size ; [21:11] ; 11'd512 ; R/W ;;;;
+;;;;;N/A; reg_mem_wr_addr_init ; [10:0] ; 11'd512 ; R/W ;;;;
+ 0x0034 ; SAR_ATTEN1; pclk ; reset_n ;;; reg_sar1_atten ; [31:0] ; 32'hffffffff ; R/W ;;;;2-bit attenuation for each pad, 11:1dB, 10:6dB, 01:3dB, 00:0dB
+ 0x0038 ; SAR_ATTEN2; pclk ; reset_n ;;; reg_sar2_atten ; [31:0] ; 32'hffffffff ; R/W ;;;;2-bit attenuation for each pad, 11:1dB, 10:6dB, 01:3dB, 00:0dB
+ 0x003c ; SAR_SLAVE_ADDR1; pclk ; reset_n ;;;; [31:30] ; 2'h0 ; RO ;;;;
+;;;;;N/A; saradc_meas_status ; [29:22] ; 8'h0 ; RO ;;;;
+;;;;;; reg_i2c_slave_addr0 ; [21:11] ; 11'h0 ; R/W ;;;;
+;;;;;; reg_i2c_slave_addr1 ; [10:0] ; 11'h0 ; R/W ;;;;
+ 0x0040 ; SAR_SLAVE_ADDR2; pclk ; reset_n ;;;; [31:22] ; 10'h0 ; RO ;;;;
+;;;;;; reg_i2c_slave_addr2 ; [21:11] ; 11'h0 ; R/W ;;;;
+;;;;;; reg_i2c_slave_addr3 ; [10:0] ; 11'h0 ; R/W ;;;;
+ 0x0044 ; SAR_SLAVE_ADDR3; pclk ; reset_n ;;;; [31] ; 1'h0 ; RO ;;;;
+;;;;;; reg_tsens_rdy_out ; [30] ; 1'h0 ; RO ;;;;indicate temperature sensor out ready
+;;;;;; reg_tsens_out ; [29:22] ; 8'h0 ; RO ;;;;temperature sensor data out
+;;;;;; reg_i2c_slave_addr4 ; [21:11] ; 11'h0 ; R/W ;;;;
+;;;;;; reg_i2c_slave_addr5 ; [10:0] ; 11'h0 ; R/W ;;;;
+ 0x0048 ; SAR_SLAVE_ADDR4; pclk ; reset_n ;;;; [31] ; 1'h0 ; RO ;;;;
+;;;;;; reg_i2c_done ; [30] ; 1'h0 ; RO ;;;;indicate I2C done
+;;;;;; reg_i2c_rdata ; [29:22] ; 8'h0 ; RO ;;;;I2C read data
+;;;;;; reg_i2c_slave_addr6 ; [21:11] ; 11'h0 ; R/W ;;;;
+;;;;;; reg_i2c_slave_addr7 ; [10:0] ; 11'h0 ; R/W ;;;;
+ 0x004c ; SAR_TSENS_CTRL; pclk ; reset_n ;;; reg_tsens_force; [31] ; 1'b0 ; R/W ;;;;1: select saradc_reg 0: select efuse
+;;;;;; reg_tsens_dos; [30:27]; 4'd7; R/W ;;;;Temperature sensor calibration bits
+;;;;;; reg_tsens_dump_out ; [26] ; 1'b0 ; R/W ;;;;temperature sensor dump out, only active when reg_tsens_power_up_force = 1
+;;;;;; reg_tsens_power_up_force ; [25] ; 1'b0 ; R/W ;;;;1: dump out & power up controlled by SW, 0: by FSM
+;;;;;; reg_tsens_power_up ; [24] ; 1'b0 ; R/W ;;;;temperature sensor power up
+;;;;;; reg_tsens_clk_div ; [23:16] ; 8'd6 ; R/W ;;;;temperature sensor clock divider
+;;;;;; reg_tsens_in_inv ; [15] ; 1'b0 ; R/W ;;;;invert temperature sensor data
+;;;;;N/A; reg_tsens_clk_gated ; [14] ; 1'b1 ; R/W ;;;;
+;;;;;N/A; reg_tsens_clk_inv ; [13] ; 1'b1 ; R/W ;;;;
+;;;;;N/A; reg_tsens_xpd_force ; [12] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_tsens_xpd_wait ; [11:0] ; 12'h2 ; R/W ;;;;
+ 0x0050 ; SAR_I2C_CTRL; pclk ; reset_n ;;;; [31:30] ; 2'h0 ; RO ;;;;
+;;;;;; reg_sar_i2c_start_force ; [29] ; 1'b0 ; R/W ;;;;1: I2C started by SW, 0: I2C started by FSM
+;;;;;; reg_sar_i2c_start ; [28] ; 1'b0 ; R/W ;;;;start I2C, only active when reg_sar_i2c_start_force = 1
+;;;;;; reg_sar_i2c_ctrl ; [27:0] ; 28'b0 ; R/W ;;;;I2C control data, only active when reg_sar_i2c_start_force = 1
+ 0x0054 ; SAR_MEAS_START1; pclk ; reset_n ;;; reg_sar1_en_pad_force ; [31] ; 1'b0 ; R/W ;;;;1: SAR ADC1 pad enable bitmap is controlled by SW, 0: SAR ADC1 pad enable bitmap is controlled by ULP-coprocessor
+;;;;;; reg_sar1_en_pad ; [30:19] ; 12'b0 ; R/W ;;;;SAR ADC1 pad enable bitmap, only active when reg_sar1_en_pad_force = 1
+;;;;;; reg_meas1_start_force ; [18] ; 1'b0 ; R/W ;;;;1: SAR ADC1 controller (in RTC) is started by SW, 0: SAR ADC1 controller is started by ULP-coprocessor
+;;;;;; reg_meas1_start_sar ; [17] ; 1'b0 ; R/W ;;;;SAR ADC1 controller (in RTC) starts conversion, only active when reg_meas1_start_force = 1
+;;;;;; reg_meas1_done_sar ; [16] ; 1'b0 ; RO ;;;;SAR ADC1 conversion done indication
+;;;;;; reg_meas1_data_sar ; [15:0] ; 16'b0 ; RO ;;;;SAR ADC1 data
+ 0x0058 ; SAR_TOUCH_CTRL1; pclk ; reset_n ;;;; [31:28] ; 4'h0 ; RO ;;;;
+;;;;;; reg_hall_phase_force ; [27] ; 1'b0 ; R/W ;;;;1: HALL PHASE is controlled by SW, 0: HALL PHASE is controlled by FSM in ULP-coprocessor
+;;;;;; reg_xpd_hall_force ; [26] ; 1'b0 ; R/W ;;;;1: XPD HALL is controlled by SW. 0: XPD HALL is controlled by FSM in ULP-coprocessor
+;;;;;; reg_touch_out_1en ; [25] ; 1'b1 ; R/W ;;;;1: wakeup interrupt is generated if SET1 is “touched”, 0: wakeup interrupt is generated only if SET1 & SET2 is both “touched”
+;;;;;; reg_touch_out_sel ; [24] ; 1'b0 ; R/W ;;;;1: when the counter is greater then the threshold, the touch pad is considered as “touched”, 0: when the counter is less than the threshold, the touch pad is considered as “touched”  
+;;;;;; reg_touch_xpd_wait ; [23:16] ; 8'h4 ; R/W ;;;;the waiting cycles (in 8MHz) between TOUCH_START and TOUCH_XPD
+;;;;;; reg_touch_meas_delay ; [15:0] ; 16'h1000 ; R/W ;;;;the meas length (in 8MHz)
+ 0x005c ; SAR_TOUCH_THRES1; pclk ; reset_n ;;; reg_touch_out_th0 ; [31:16] ; 16'h0 ; R/W ;;;;the threshold for touch pad 0
+;;;;;; reg_touch_out_th1 ; [15:0] ; 16'h0 ; R/W ;;;;the threshold for touch pad 1
+ 0x0060 ; SAR_TOUCH_THRES2; pclk ; reset_n ;;; reg_touch_out_th2 ; [31:16] ; 16'h0 ; R/W ;;;;the threshold for touch pad 2
+;;;;;; reg_touch_out_th3 ; [15:0] ; 16'h0 ; R/W ;;;;the threshold for touch pad 3
+ 0x0064 ; SAR_TOUCH_THRES3; pclk ; reset_n ;;; reg_touch_out_th4 ; [31:16] ; 16'h0 ; R/W ;;;;the threshold for touch pad 4
+;;;;;; reg_touch_out_th5 ; [15:0] ; 16'h0 ; R/W ;;;;the threshold for touch pad 5
+ 0x0068 ; SAR_TOUCH_THRES4; pclk ; reset_n ;;; reg_touch_out_th6 ; [31:16] ; 16'h0 ; R/W ;;;;the threshold for touch pad 6
+;;;;;; reg_touch_out_th7 ; [15:0] ; 16'h0 ; R/W ;;;;the threshold for touch pad 7
+ 0x006c ; SAR_TOUCH_THRES5; pclk ; reset_n ;;; reg_touch_out_th8 ; [31:16] ; 16'h0 ; R/W ;;;;the threshold for touch pad 8
+;;;;;; reg_touch_out_th9 ; [15:0] ; 16'h0 ; R/W ;;;;the threshold for touch pad 9
+ 0x0070 ; SAR_TOUCH_OUT1; pclk ; reset_n ;;; reg_touch_meas_out0 ; [31:16] ; 16'h0 ; RO ;;;;the counter for touch pad 0
+;;;;;; reg_touch_meas_out1 ; [15:0] ; 16'h0 ; RO ;;;;the counter for touch pad 1
+ 0x0074 ; SAR_TOUCH_OUT2; pclk ; reset_n ;;; reg_touch_meas_out2 ; [31:16] ; 16'h0 ; RO ;;;;the counter for touch pad 2
+;;;;;; reg_touch_meas_out3 ; [15:0] ; 16'h0 ; RO ;;;;the counter for touch pad 3
+ 0x0078 ; SAR_TOUCH_OUT3; pclk ; reset_n ;;; reg_touch_meas_out4 ; [31:16] ; 16'h0 ; RO ;;;;the counter for touch pad 4
+;;;;;; reg_touch_meas_out5 ; [15:0] ; 16'h0 ; RO ;;;;the counter for touch pad 5
+ 0x007c ; SAR_TOUCH_OUT4; pclk ; reset_n ;;; reg_touch_meas_out6 ; [31:16] ; 16'h0 ; RO ;;;;the counter for touch pad 6
+;;;;;; reg_touch_meas_out7 ; [15:0] ; 16'h0 ; RO ;;;;the counter for touch pad 7
+ 0x0080 ; SAR_TOUCH_OUT5; pclk ; reset_n ;;; reg_touch_meas_out8 ; [31:16] ; 16'h0 ; RO ;;;;the counter for touch pad 8
+;;;;;; reg_touch_meas_out9 ; [15:0] ; 16'h0 ; RO ;;;;the counter for touch pad 9
+ 0x0084 ; SAR_TOUCH_CTRL2; pclk ; reset_n ;;;; [31] ; 1'h0 ; RO ;;;;
+;;;;;; touch_meas_en_clr ; [30] ; 1'h0 ; WO ;;;;to clear reg_touch_meas_en
+;;;;;; reg_touch_sleep_cycles ; [29:14] ; 16'h100 ; R/W ;;;;sleep cycles for timer
+;;;;;; reg_touch_start_force ; [13] ; 1'h0 ; R/W ;;;;1: to start touch fsm by SW, 0: to start touch fsm by timer
+;;;;;; reg_touch_start_en ; [12] ; 1'h0 ; R/W ;;;;1: start touch fsm, valid when reg_touch_start_force is set
+;;;;;; reg_touch_start_fsm_en ; [11] ; 1'h1 ; R/W ;;;;1: TOUCH_START & TOUCH_XPD is controlled by touch fsm, 0: TOUCH_START & TOUCH_XPD is controlled by registers
+;;;;;; touch_meas_done ; [10] ; 1'h0 ; RO ;;;;fsm set 1 to indicate touch touch meas is done
+;;;;;; reg_touch_meas_en ; [9:0] ; 10'h0 ; RO ;;;;10-bit register to indicate which pads are “touched”
+ 0x008c ; SAR_TOUCH_ENABLE ; pclk ; reset_n ;;;; [31:30] ; 2'h0 ; RO ;;;;
+;;;;;; reg_touch_pad_outen1 ; [29:20] ; 10'h3ff ; R/W ;;;;Bitmap defining SET1 for generating wakeup interrupt. SET1 is “touched” only if at least one of touch pad in SET1 is “touched”.
+;;;;;; reg_touch_pad_outen2 ; [19:10] ; 10'h3ff ; R/W ;;;;Bitmap defining SET2 for generating wakeup interrupt. SET2 is “touched” only if at least one of touch pad in SET2 is “touched”.
+;;;;;; reg_touch_pad_worken ; [9:0] ; 10'h3ff ; R/W ;;;;Bitmap defining the working set during the measurement.
+ 0x0090 ; SAR_TOUCH_CTRL3; pclk ; reset_n ;;;; [31:10]; 22'h0; RO ;;;;
+;;;;;; reg_touch_meas_raw; [9:0] ; 10'h0 ; RO;;;;touch sensor raw result
+ 0x0094 ; SAR_READ_CTRL2; pclk ; reset_n ;;;; [31:30] ; 2'h0 ; RO ;;;;
+;;;;;; reg_sar2_data_inv ; [29] ; 1'b0 ; R/W ;;;;Invert SAR ADC2 data
+;;;;;; reg_sar2_dig_force ; [28] ; 1'b0 ; R/W ;;;;1: SAR ADC2 controlled by DIG ADC2 CTRL or PWDET CTRL, 0: SAR ADC2 controlled by RTC ADC2 CTRL
+;;;;;N/A; reg_sar2_pwdet_force ; [27] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_sar2_sample_num ; [26:19] ; 8'd0 ; R/W ;;;;
+;;;;;N/A; reg_sar2_clk_gated ; [18] ; 1'b1 ; R/W ;;;;
+;;;;;; reg_sar2_sample_bit ; [17:16] ; 2'd3 ; R/W ;;;;00: for 9-bit width, 01: for 10-bit width, 10: for 11-bit width, 11: for 12-bit width
+;;;;;; reg_sar2_sample_cycle ; [15:8] ; 8'd9 ; R/W ;;;;sample cycles for SAR ADC2
+;;;;;; reg_sar2_clk_div ; [7:0] ; 8'd2 ; R/W ;;;;clock divider
+ 0x0098 ; SAR_MEAS_START2; pclk ; reset_n ;;; reg_sar2_en_pad_force ; [31] ; 1'b0 ; R/W ;;;;1: SAR ADC2 pad enable bitmap is controlled by SW, 0: SAR ADC2 pad enable bitmap is controlled by ULP-coprocessor
+;;;;;; reg_sar2_en_pad ; [30:19] ; 12'b0 ; R/W ;;;;SAR ADC2 pad enable bitmap, only active when reg_sar2_en_pad_force = 1
+;;;;;; reg_meas2_start_force ; [18] ; 1'b0 ; R/W ;;;;1: SAR ADC2 controller (in RTC) is started by SW, 0: SAR ADC2 controller is started by ULP-coprocessor
+;;;;;; reg_meas2_start_sar ; [17] ; 1'b0 ; R/W ;;;;SAR ADC2 controller (in RTC) starts conversion, only active when reg_meas2_start_force = 1
+;;;;;; reg_meas2_done_sar ; [16] ; 1'b0 ; RO ;;;;SAR ADC2 conversion done indication
+;;;;;; reg_meas2_data_sar ; [15:0] ; 16'b0 ; RO ;;;;SAR ADC2 data
+ 0x009c ; SAR_DAC_CTRL1; pclk ; reset_n ;;;; [31:26] ; 6'b0 ; RO ;;;;
+;;;;;; reg_dac_clk_inv ; [25] ; 1'b0 ; R/W ;;;;1: invert PDAC_CLK
+;;;;;; reg_dac_clk_force_high ; [24] ; 1'b0 ; R/W ;;;;1: force PDAC_CLK to high
+;;;;;; reg_dac_clk_force_low ; [23] ; 1'b0 ; R/W ;;;;1: force PDAC_CLK to low
+;;;;;; reg_dac_dig_force ; [22] ; 1'b0 ; R/W ;;;;1: DAC1 & DAC2 use DMA, 0: DAC1 & DAC2 do not use DMA
+;;;;;N/A; reg_debug_bit_sel ; [21:17] ; 5'b0 ; R/W ;;;;
+;;;;;; reg_sw_tone_en ; [16] ; 1'b0 ; R/W ;;;;1: enable CW generator, 0: disable CW generator
+;;;;;; reg_sw_fstep ; [15:0] ; 16'b0 ; R/W ;;;;frequency step for CW generator, can be used to adjust the frequency
+ 0x00a0 ; SAR_DAC_CTRL2; pclk ; reset_n ;;;; [31:26] ; 6'b0 ; RO ;;;;
+;;;;;; reg_dac_cw_en2 ; [25] ; 1'b1 ; R/W ;;;;1: to select CW generator as source to PDAC2_DAC[7:0], 0: to select register reg_pdac2_dac[7:0] as source to PDAC2_DAC[7:0] 
+;;;;;; reg_dac_cw_en1 ; [24] ; 1'b1 ; R/W ;;;;1: to select CW generator as source to PDAC1_DAC[7:0], 0: to select register reg_pdac1_dac[7:0] as source to PDAC1_DAC[7:0] 
+;;;;;; reg_dac_inv2 ; [23:22] ; 2'b0 ; R/W ;;;;00: do not invert any bits, 01: invert all bits, 10: invert MSB, 11: invert all bits except MSB
+;;;;;; reg_dac_inv1 ; [21:20] ; 2'b0 ; R/W ;;;;00: do not invert any bits, 01: invert all bits, 10: invert MSB, 11: invert all bits except MSB
+;;;;;; reg_dac_scale2 ; [19:18] ; 2'b0 ; R/W ;;;;00: no scale, 01: scale to 1/2, 10: scale to 1/4, scale to 1/8
+;;;;;; reg_dac_scale1 ; [17:16] ; 2'b0 ; R/W ;;;;00: no scale, 01: scale to 1/2, 10: scale to 1/4, scale to 1/8
+;;;;;; reg_dac_dc2 ; [15:8] ; 8'b0 ; R/W ;;;;DC offset for DAC2 CW generator
+;;;;;; reg_dac_dc1 ; [7:0] ; 8'b0 ; R/W ;;;;DC offset for DAC1 CW generator
+ 0x00a4 ; SAR_MEAS_CTRL2; pclk ; reset_n ;;;; [31:19] ; 13'b0 ; RO ;;;;
+;;;;;N/A; reg_amp_short_ref_gnd_force ; [18:17] ; 2'b0 ; R/W ;;;;
+;;;;;N/A; reg_amp_short_ref_force ; [16:15] ; 2'b0 ; R/W ;;;;
+;;;;;N/A; reg_amp_rst_fb_force ; [14:13] ; 2'b0 ; R/W ;;;;
+;;;;;N/A; reg_sar2_rstb_force ; [12:11] ; 2'b0 ; R/W ;;;;
+;;;;;N/A; reg_sar_rstb_fsm_idle ; [10] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_xpd_sar_fsm_idle ; [9] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_amp_short_ref_gnd_fsm_idle ; [8] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_amp_short_ref_fsm_idle ; [7] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_amp_rst_fb_fsm_idle ; [6] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_xpd_sar_amp_fsm_idle ; [5] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_sar1_dac_xpd_fsm_idle ; [4] ; 1'b0 ; R/W ;;;;
+;;;;;N/A; reg_sar1_dac_xpd_fsm ; [3:0] ; 4'b0011 ; R/W ;;;;
+0x00a8; SAR_COCPU_CTRL; pclk;reset_n;;;;[31:29];3'b0;RO;;;;
+;;;;;;reg_cocpu_trap;[28];1'b0;RO;;;;check cocpu whether in trap state
+;;;;;;reg_cocpu_eoi;[27];1'b0;RO;;;;check cocpu whether in interrupt state
+;;;;;;reg_cocpu_reset_n;[26];1'b0;RO;;;;check cocpu whether in reset state
+;;;;;;reg_cocpu_clk_en;[25];1'b0;RO;;;;check cocpu whether clk on
+;;;;;;reg_cocpu_reg_int_trigger;[24];1'b0;R/W;;;;trigger cocpu register interrupt
+;;;;;;reg_cocpu_done;[23];1'b0;R/W;;;;done signal used by riscv to control timer. 
+;;;;;;reg_cocpu_done_force;[22];1'b0;R/W;;;;1: select riscv done 0: select ulp done
+;;;;;;reg_cocpu_sel;[21];1'b1;R/W;;;;1: old ULP 0: new riscV
+;;;;;;reg_cocpu_shut_reset_en;[20];1'b0;R/W;;;;to reset cocpu
+;;;;;;reg_cocpu_shut_2_clk_dis;[19:14];6'd24;R/W;;;;time from shut cocpu to disable clk
+;;;;;;reg_cocpu_shut;[13];1'b0;R/W;;;;to shut cocpu
+;;;;;;reg_cocpu_start_2_intr_en;[12:7];6'd16;R/W;;;;time from start cocpu to give start interrupt
+;;;;;;reg_cocpu_start_2_reset_dis;[6:1];6'd8;R/W;;;;time from start cocpu to pull down reset
+;;;;;;reg_cocpu_clk_fo;[0];1'b0;R/W;;;;cocpu clk force on
+0x00ac; SAR_COCPU_INT; pclk; reset_n ;;;;[31:25];7'b0;RO;;;;
+;;;;;;reg_cocpu_ebreak_int;[24];1'b0;RO;;;;int from ebreak
+;;;;;;reg_cocpu_reg_int;[23];1'b0;RO;;;;int from register
+;;;;;;reg_cocpu_start_int;[22];1'b0;RO;;;;int from start
+;;;;;;reg_cocpu_tsens_int;[21];1'b0;RO;;;;int from tsens
+;;;;;;reg_cocpu_saradc_int;[20];1'b0;RO;;;;int from saradc
+;;;;;;;[19:15];5'b0;RO;;;;
+;;;;;;reg_cocpu_ebreak_int_clr;[14];1'b0;WO;;;;int clear entry
+;;;;;;reg_cocpu_reg_int_clr;[13];1'b0;WO;;;;
+;;;;;;reg_cocpu_start_int_clr;[12];1'b0;WO;;;;
+;;;;;;reg_cocpu_tsens_int_clr;[11];1'b0;WO;;;;
+;;;;;;reg_cocpu_saradc_int_clr;[10];1'b0;WO;;;;
+;;;;;;;[9:5];5'b0;RO;;;;
+;;;;;;reg_cocpu_ebreak_int_ena;[4];1'b1;R/W ;;;;int enable entry
+;;;;;;reg_cocpu_reg_int_ena;[3];1'b1;R/W ;;;;
+;;;;;;reg_cocpu_start_int_ena;[2];1'b1;R/W ;;;;
+;;;;;;reg_cocpu_tsens_int_ena;[1];1'b1;R/W ;;;;
+;;;;;;reg_cocpu_saradc_int_ena;[0];1'b1;R/W ;;;;
+ 0x00F8 ; SAR_NOUSE ; pclk ; reset_n ;;N/A;reg_sar_nouse;[31:0];32'h0;R/W;;;;
+ 0x00FC ; SARDATE ; pclk ; reset_n ;;;; [31:28] ; 4'h0 ; R/W ;;;;
+;;;;;N/A; reg_sar_date ; [27:0] ; 28'h1703080; R/W ;;;;

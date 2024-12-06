@@ -1,0 +1,3 @@
+cd py_script
+openocd -f ./dist/romout/CHIP722/FPGA7.0/tumpa.cfg -f ./dist/romout/CHIP722/FPGA7.0/esp32_fpga.cfg -c "init; esp32_attach_proc_pro2"
+

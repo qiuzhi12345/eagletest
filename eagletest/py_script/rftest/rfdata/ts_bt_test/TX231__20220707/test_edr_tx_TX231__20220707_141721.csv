@@ -1,0 +1,1 @@
+rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list

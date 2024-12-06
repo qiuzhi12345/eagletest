@@ -1,0 +1,42 @@
+" Address ";" RegName ";" Clk ";" Rst ";" Port ";" Public ";" Signal ";" BitPos ";" Default ";" SW(R/W) ";" HW(W) ";" MCU(W) ";" MISC ";" Description "
+"0x000";"USB_WRAP_OTG_CONF";" clk ";" reset_n ";" Not";"yes";"reg_clk_en";" [31] ";" 1'h0 ";" R/W ";;;;"Disable auto clock gating of CSR registers "
+;;;;;;;" [30:22]";" 9'h0";" RO   ";;;;
+;;;;;"no";"reg_phy_tx_edge_sel";" [21]";" 1'b0";" R/W ";;;;"Select phy tx signal output clock edge
+1'b0: negedge 
+1'b1: posedge"
+;;;;;"yes";"reg_phy_clk_force_on";" [20]";" 1'b1";" R/W ";;;;"Force phy clock always on"
+;;;;;"yes";"reg_ahb_clk_force_on";" [19]";" 1'b1";" R/W ";;;;"Force ahb clock always on"
+;;;;;"yes";"reg_usb_pad_enable";" [18]";" 1'b0";" R/W ";;;;"Enable USB pad function"
+;;;;;"yes";" reg_pullup_value";" [17]";" 1'b0";" R/W ";;;;"Controlle pullup value
+1'b0: typical value is 2.4K
+1'b1: typical value is 1.2K"
+;;;;;"yes";" reg_dm_pulldown";" [16]";" 1'b0";" R/W ";;;;"Controlle USB D+ pulldown"
+;;;;;"yes";" reg_dm_pullup";" [15]";" 1'b0";" R/W ";;;;"Controlle USB D+ pullup"
+;;;;;"yes";" reg_dp_pulldown";" [14]";" 1'b0";" R/W ";;;;"Controlle USB D+ pulldown"
+;;;;;"yes";" reg_dp_pullup";" [13]";" 1'b0";" R/W ";;;;"Controlle USB D+ pullup"
+;;;;;"yes";" reg_pad_pull_override";" [12]";" 1'b0";" R/W ";;;;"Enable software controlle USB D+ D- pullup pulldown"
+;;;;;"yes";" reg_vref_override";" [11]";" 1'b0";" R/W ";;;;"Enable software controlle input  threshold"
+;;;;;"yes";" reg_vrefl";" [10:9]";" 2'b0";" R/W ";;;;"Control single-end input low threshold,0.8V to 1.04V, step 80mV"
+;;;;;"yes";" reg_vrefh";" [8:7]";" 2'b0";" R/W ";;;;"Control single-end input high threshold,1.76V to 2V, step 80mV"
+;;;;;"yes";"reg_exchg_pins";" [6]";" 1'b0";" R/W ";;;;"USB D+ D- exchange
+1'b0: don't change
+1'b1: exchange D+ D-"
+;;;;;"yes";"reg_exchg_pins_override";" [5]";" 1'b0";" R/W ";;;;"Enable software controlle USB D+ D- exchange"
+;;;;;"yes";"reg_dbnce_fltr_bypass";" [4]";" 1'b0";" R/W ";;;;"Bypass Debounce filters for avalid,bvalid,vbusvalid,session end, id signals"
+;;;;;"yes";"reg_dfifo_pd";" [3]";" 1'b0";" R/W ";;;;"Force the dfifo to go into low power mode. The data in dfifo will not lost."
+;;;;;"yes";"reg_phy_sel";" [2]";" 1'b0";" R/W ";;;;"Select internal external PHY
+1'b0: Select internal PHY
+1'b1: Select external PHY"
+;;;;;"yes";"reg_srp_sessend_value";" [1] ";" 1'b0";" R/W ";;;;"Software over-ride value of srp session end signal."
+;;;;;"yes";"reg_srp_sessend_override";" [0]";" 1'b0";" R/W ";;;;"This bit is used to enable the software over-ride of srp session end signal.
+1'b0: the signal is controlled by the chip input
+1'b1: the signal is controlled by the software"
+"0x004";"USB_WRAP_TEST_CONF";" clk ";" reset_n ";;;;" [31:7]";" 25'd0";" RO   ";;;;
+;;;;;"no";"reg_test_rx_dm";" [6]";" 1'b0";" RO   ";;;;"USB D- rx value in test"
+;;;;;"no";"reg_test_rx_dp";" [5]";" 1'b0";" RO   ";;;;"USB D+ rx value in test"
+;;;;;"no";"reg_test_rx_rcv";" [4]";" 1'b0";" RO   ";;;;"USB differential rx value in test"
+;;;;;"no";"reg_test_tx_dm";" [3]";" 1'b0";" R/W ";;;;"USB D- tx value in test"
+;;;;;"no";"reg_test_tx_dp";" [2]";" 1'b0";" R/W ";;;;"USB D+ tx value in test"
+;;;;;"no";"reg_test_usb_oe";" [1]";" 1'b0";" R/W ";;;;"USB pad oen in test"
+;;;;;"no";"reg_test_enable";" [0]";" 1'b0";" R/W ";;;;"Enable test of the USB pad"
+"0x3FC";"USB_WRAP_DATE";" clk ";" reset_n ";" Not ";"no";"reg_usb_wrap_date ";"[31:0] ";"32'h18092500";" R/W ";;;;"Date register"

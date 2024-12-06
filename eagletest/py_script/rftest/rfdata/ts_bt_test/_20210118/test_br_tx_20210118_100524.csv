@@ -1,0 +1,2 @@
+channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch
+0,DH1,3.86,4.51,-50.40,-12.28,0.37,-840.19,156.45,144.83,167.17,141.90,124.48,159.82,0.91,122.78,698.48,-36.71,-35.38,-35.05,-32.14,-29.45,-30.31,-28.21,-28.35,-31.06,-23.94,3.50,-24.00,-27.24,-28.43,-27.81,-27.92,-28.87,-34.60,-37.64,-38.00,-42.07,
