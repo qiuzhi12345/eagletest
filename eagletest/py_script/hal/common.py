@@ -5,11 +5,83 @@ import pandas as pd
 from math import *
 from hal.hwregister.hwreg.all import HWREG
 import pylink
+from pygdbmi.gdbcontroller import GdbController
+class MEM_GDB(object):
+    def __init__(self):
+        self.open()
+        self.open_c()
+
+    def open(self):
+        self.gdbmin_mem = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb', ['riscv32.elf'])
+
+    def open_c(self):
+        self.gdbmin_mem_c = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb', ['riscv32.elf'])
+
+    def close(self):
+        self.gdbmin_mem.exit()
+    def close_c(self):
+        self.gdbmin_mem_c.exit()
+
+    def rd(self, addr):
+        # self.close()
+        # self.open()
+        for i in range(10):
+            result = self.gdbmin_mem.write("x/x 0x%x"%(addr),timeout_sec=0.1,read_response=True)
+            logdebug(result)
+            result = result[len(result)-1]['payload'].split('\t')[1]
+            # logdebug(result)
+            if len(result) > 0:
+                break
+            else:
+                logerror('no response,please check gdb connect')
+                raise
+        return result
+
+    def rdm(self, addr=0xa04210a0, msb=1, lsb=0):
+        result = self.rd(addr=addr)
+        mask = (1<<(msb+1)) - (1<<lsb);
+        try:
+            result = (eval(result) & mask) >> lsb;
+            # logdebug("resm:" + "0x%x"%result)
+        except:
+            logerror("mem reads " + "%s"%result)
+        return result
+
+    def wr(self, addr=0xa04210a0, value=0x18c619):
+        self.close_c()
+        self.open_c()
+        self.gdbmin_mem.write('set *(unsigned int *) {}={}'.format(addr,value),timeout_sec=0.1,read_response=False)
+        self.gdbmin_mem_c.write('c', timeout_sec=2, read_response=False)
+        res = self.rd(addr)
+
+        if eval(res) != value:
+            logerror('gdb write reg fail')
+            raise
+        else:
+            return res
+
+    def wrm(self, addr, msb, lsb, value, lsb_dis=0):
+        result = self.rd(addr=addr)
+        mask = (1<<(msb+1)) - (1<<lsb);
+        try:
+            if lsb_dis !=0:
+                result = (eval(result) & ~mask) | ((value << lsb) & mask) | (((1<<(msb+1-lsb))-1)<<(lsb+16))
+            else:
+                result = (eval(result) & ~mask) | ((value << lsb) & mask)
+            # logdebug('{}'.format(result))
+            res = self.wr(addr,result)
+            logdebug(res)
+            return self.rdm(addr, msb, lsb)
+        except:
+            logerror("mem write fail, reads  %s"%result)
+            return
 
 class MEM_TS(object):
     """docstring for common"""
     def __init__(self, channel):
         self.channel = channel
+
+
 
     def rd(self, reg_addr):
         for i in range(10):

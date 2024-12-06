@@ -8,6 +8,7 @@ import subprocess
 import platform
 import threading
 import time
+import binascii
 
 class COM(object):
     '''
@@ -166,11 +167,19 @@ class COM(object):
         if self.byte_end_cnt != 0:
             respln=self.ser.read(self.byte_end_cnt)
             return respln
-
         if endstr == 'TS':
-            self.ser.timeout = timeout
-            respln = self.ser.readlines()
-            return respln
+            if self.Hexmd:
+                time.sleep(1)
+                n = self.ser.inWaiting()
+                if n:
+                    data = str(binascii.b2a_hex(self.ser.read(n)))[2:-1]
+                    logdebug('{}'.format(data))
+                    return data
+            else:
+                time.sleep(1)
+                self.ser.timeout = timeout
+                respln = self.ser.readlines()
+                return respln
         else:
             if endstr == "\n":
                 respln=self.ser.readline();

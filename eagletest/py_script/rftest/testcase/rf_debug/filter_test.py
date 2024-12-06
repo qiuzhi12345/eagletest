@@ -191,8 +191,8 @@ class filter_test(object):
 
         pylab.savefig(self.curr_data_path + "tx_filter_gain.png")
 
-    def filter_rx_tx232(self, cfreq=2440, flt_bw_list=['1M','1.5M'], flt_index_list=['cbpf1','cbpf1&2'], rccal_code_val_list=range(1,31,2), cbpf_bw_code_list=[2],
-                        device_spa='N9020A'):
+    def filter_rx_tx232(self, cfreq=2440, cbpf_if_list=['1M','1.5M'], flt_index_list=['cbpf1','cbpf1&2'], rccal_code_val_list=range(1,31,2), cbpf_bw_code_list=[2],
+                        device_spa='N9020A', step_acc=20):
         title = 'rccal_code_val,IF,flt_mode,cbpf_bw_code,step_freq(MHz),measure_freq(KHz),txtone_pwr\n'
         fname = self.wifi.get_filename('ts_bt_test/', 'filter_rx_tx232')
         fw1 = csvreport(fname, title)
@@ -242,7 +242,7 @@ class filter_test(object):
         for rccal_code_val in rccal_code_val_list:
             self.mem_ts.wrm(0xa0421044, 26, 26, 1)
             self.mem_ts.wrm(0xa0421044, 31, 27, rccal_code_val)
-            for flt_bw in flt_bw_list:
+            for flt_bw in cbpf_if_list:
                 if flt_bw == '1M':
                     self.mem_ts.wrm(0xa0421034, 14, 14, 0)  ##Rx CBPF IF select
                 else:
@@ -262,14 +262,15 @@ class filter_test(object):
                         self.mem_ts.wr(0xa0422014, 0x3)  ##manual rxon enable
                         freq_r = []
                         pwr_r = []
-                        step_list = range(-40, 40,1)
+                        step_list = range(-4*1000/step_acc, 4*1000/step_acc,1)
                         delta_txp = []
                         mxg_freq = cfreq
                         for step in step_list:
-                            mxg_freq = cfreq + step/10.0
+                            step = step * step_acc/1000.000
+                            mxg_freq = cfreq + step
                             self.txg.set_cfreq(mxg_freq)
 
-                            self.spa.set_cfreq(abs(step+10)/10.0)
+                            self.spa.set_cfreq(abs(step+1))
 
                             if device_spa == "":
                                 level = self.spa.pk_search(th=-80, pk_excursion=-40)[0][1]
@@ -281,7 +282,7 @@ class filter_test(object):
                                 result = self.spa.pk_search()
                             freq_r.append(result[0][0])
                             pwr_r.append(result[0][1])
-                            fw1.write_data([rccal_code_val,flt_bw,flt_index,cbpf_bw_code,step/10.0,result[0][0],result[0][1]])
+                            fw1.write_data([rccal_code_val,flt_bw,flt_index,cbpf_bw_code,step,result[0][0],result[0][1]])
                             # time.sleep(0.1)
                         # for i in range(len(pwr_r)+1):
                         #     delta_txp.append(pwr_r[i]-pwr_r[0])
@@ -296,6 +297,130 @@ class filter_test(object):
                         pylab.show()
 
                         pylab.savefig(self.curr_data_path + "rx_filter_tx232_{}_{}_{}_{}.png".format(flt_bw,flt_index,rccal_code_val,cbpf_bw_code))
+
+    def filter_rx_tx232_debug(self, cfreq=2440, cbpf_if_list=['1M','1.5M'], flt_index_list=['cbpf1','cbpf1&2'], rccal_code_val_list=range(1,31,2), cbpf_bw_code_list=[2],
+                        device_spa='N9020A', step_acc=20):
+        title = 'cbpf_vcm_trim,cbpf_bias_trim,rccal_code_val,IF,flt_mode,cbpf_bw_code,step_freq(MHz),measure_freq(KHz),txtone_pwr\n'
+        fname = self.wifi.get_filename('ts_bt_test/', 'filter_rx_tx232')
+        fw1 = csvreport(fname, title)
+        self.txg = mxg.MXG()
+        # txg.arb_waveform(rate='LE_1M')
+        self.txg.trriger_para_set(type='CONTinuous', count=1000)
+        self.txg.output_state(1, 0)
+        # txg.arb_state(1)
+        self.txg.para_set(freq=cfreq, power=-60)
+        if device_spa == "":
+            self.spa = HP('SA', cfreq)
+        else:
+            self.spa = Agilent('SA', cfreq, device=device_spa)
+
+        self.mem_ts.wr(0xa0422014, 0x0)
+        self.mem_ts.wrm(0xa0421064, 12, 12, 1)  ##Frequency value manual enable
+        self.mem_ts.wrm(0xa0421064, 11, 0, cfreq)  ##Manual value of frequency (unit: MHz)
+        self.mem_ts.wrm(0xa012005c, 31, 16, 0)  ##
+        self.mem_ts.wrm(0xa0120038, 11, 8, 0)
+        self.mem_ts.wrm(0xa0120060, 7, 0, 0)  ##PC8/9/10/11
+        self.mem_ts.wrm(0xa01200a0, 29, 29, 1)  ##bbpll_bg_pup_ibg_tbuf
+        self.mem_ts.wrm(0xa01200c8, 4, 4, 1)  ##test buf en
+        ##self.mem_ts.wrm(0xa01200c8,3,2,2)	##tx IF test buf
+        self.mem_ts.wrm(0xa01200c8, 3, 2, 1)  ##rx IF test buf
+
+        self.mem_ts.wrm(0xa04210a0, 0, 0, 1)    ##agc off
+        # self.mem_ts.wrm(0xa04210b4, 25, 25, 1)
+        # self.mem_ts.wrm(0xa04210b4, 24, 19, 0x3f)
+        # self.mem_ts.wrm(0xa0422044, 10, 0, 0x7ff)  ##
+        # self.mem_ts.wrm(0xa0422040, 2, 0, 1)  ##tx send all '1's or all '0's
+        # self.mem_ts.wrm(0xa0422040, 8, 8, 1)  ##1: le mode, 0: bt mode
+        # self.mem_ts.wrm(0xa0422040, 9, 9, 1)  ##1: LE2M,	0:LE1M
+        # self.mem_ts.wr(0xa0422014, 0x0)  ##trx manual off
+        # self.mem_ts.wr(0xa0422014, 0xe)  ##manual tx on
+        # self.mem_ts.rfwr(0x22, (chn<<4)+0x4)  ##[10,4]set freq 2402+value MHz
+        # self.mem_ts.rfwr(0x10, 0x15fe)  ##pll cfg0
+        # self.mem_ts.rfwr(0x10, 0x75ff)  ##pll cfg1
+        # self.mem_ts.rfwr(0x24, 0x4)  ##start AFC cal
+        # self.mem_ts.rfwr(0x24, 0x0)  ##end AFC cal
+        # self.mem_ts.wrm(0xa0422040, 23, 23, 1)  ##assert tx ramp, should before modem txon
+        # self.mem_ts.wrm(0xa0422040, 14, 14, 1)  ##assert modem txon
+        # self.mem_ts.wrm(0xa0422040, 6, 4, 1)  ##assert symbol_flag_tx
+        self.spa.set_param(1, span=0.3, rb=1, vb=1)
+        # for cbpf_vcm_trim in range(0,4):
+        for cbpf_vcm_trim in [2]:
+            self.mem_ts.wrm(0xa0421034, 20, 19, cbpf_vcm_trim)
+            # for cbpf_bias_trim in range(0,8):
+            for cbpf_bias_trim in [2]:
+                self.mem_ts.wrm(0xa0421034, 18, 16, cbpf_bias_trim)
+                # for rccal_code_val in rccal_code_val_list:
+                for rccal_code_val in [1]:
+                    self.mem_ts.wrm(0xa0421044, 26, 26, 1)
+                    self.mem_ts.wrm(0xa0421044, 31, 27, rccal_code_val)
+                    for flt_bw in cbpf_if_list:
+                        if flt_bw == '1M':
+                            rx_if = 1
+                            if self.chipv == 'TX232_MPW3':
+                                self.mem_ts.wrm(0xa0421034, 15, 15, 0)  ##Rx CBPF IF select
+                            else:
+                                self.mem_ts.wrm(0xa0421034, 14, 14, 0)  ##Rx CBPF IF select
+                        else:
+                            rx_if = 1.5
+                            if self.chipv == 'TX232_MPW3':
+                                self.mem_ts.wrm(0xa0421024, 21, 20, 3)  ##BLE 2Mbps mode manual control
+                                self.mem_ts.wrm(0xa0421034, 15, 15, 1)  ##Rx CBPF IF select 1.5M
+                            else:
+                                self.mem_ts.wrm(0xa0421034, 14, 14, 1)  ##Rx CBPF IF select
+
+                        for flt_index in flt_index_list:
+                            if flt_index == 'cbpf1':
+                                self.mem_ts.wrm(0xa0421020, 20, 20, 0)  ##Rx CBPF mode
+                            else:
+                                self.mem_ts.wrm(0xa0421020, 20, 20, 1)  ##Rx CBPF mode
+
+                            for cbpf_bw_code in cbpf_bw_code_list:
+                                self.mem_ts.wrm(0xa0421034, 13, 12, cbpf_bw_code)
+
+                                self.mem_ts.wr(0xa0422014, 0x0)  ##manual rxon disable
+                                time.sleep(1)
+                                self.mem_ts.wr(0xa0422014, 0x3)  ##manual rxon enable
+                                freq_r = []
+                                pwr_r = []
+                                # step_list = range(-4*1000/step_acc, 4*1000/step_acc,1)
+                                step_list = range(-4 * 1000 / step_acc, -2 * 1000 / step_acc, 2) + range(-2 * 1000 / step_acc, 2 * 1000 / step_acc, 1) + range(2 * 1000 /
+                                                                                                                                                               step_acc,
+                                                                                                                                                               4 * 1000 /
+                                                                                                                                                               step_acc, 2)
+                                delta_txp = []
+                                mxg_freq = cfreq
+                                for step in step_list:
+                                    step = step * step_acc/1000.000
+                                    mxg_freq = cfreq + step
+                                    self.txg.set_cfreq(mxg_freq)
+
+                                    self.spa.set_cfreq(abs(step+rx_if))
+                                    loginfo('cbpf_vcm_trim,cbpf_bias_trim,rccal_code_val,flt_bw,flt_index,cbpf_bw_code,step\n{} {}  {}  {}  {}  {}  {}'.format(cbpf_vcm_trim,cbpf_bias_trim,rccal_code_val,flt_bw,flt_index,cbpf_bw_code,step))
+                                    if device_spa == "":
+                                        level = self.spa.pk_search(th=-80, pk_excursion=-40)[0][1]
+                                        self.spa.set_reflvl(int(level) + 6)
+                                        result = self.spa.pk_search(th=-80, pk_excursion=-40)
+                                    else:
+                                        ##                level=self.spa.pk_search()[0][1]
+                                        ##                self.spa.set_reflvl(int(level)+6)
+                                        result = self.spa.pk_search()
+                                    freq_r.append(result[0][0])
+                                    pwr_r.append(result[0][1])
+                                    fw1.write_data([cbpf_vcm_trim,cbpf_bias_trim,rccal_code_val,flt_bw,flt_index,cbpf_bw_code,step,result[0][0],result[0][1]])
+                                    # time.sleep(0.1)
+                                # for i in range(len(pwr_r)+1):
+                                #     delta_txp.append(pwr_r[i]-pwr_r[0])
+                                # pylab.ion()
+                                # pylab.figure(100)
+                                # pylab.plot(step_list, pwr_r, label='cbpf IF={}, {},rc_code={},cbpf_bw_code={}'.format(flt_bw,flt_index,rccal_code_val,cbpf_bw_code))
+                                # pylab.xlabel('freq(100KHZ)')
+                                # pylab.ylabel('tx pwr(db)')
+                                # pylab.legend()
+                                # pylab.grid()
+                                # # pylab.savefig(self.curr_data_path + "tx_filter_gain.png")
+                                # pylab.show()
+                                #
+                                # pylab.savefig(self.curr_data_path + "rx_filter_tx232_{}_{}_{}_{}.png".format(flt_bw,flt_index,rccal_code_val,cbpf_bw_code))
 
     def filter_tx_dcap_sweep(self,cfreq=2437, bw=30,  device_spa='E4404B',step=1,bt_en_list=[0,1],dedge_list=[0,7],dcap_list=[15,38,63]):
 

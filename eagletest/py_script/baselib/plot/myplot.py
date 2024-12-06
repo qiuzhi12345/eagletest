@@ -134,8 +134,8 @@ def get_csv_vect(filename,lnoffset,column_offset,mode='data'):
 
 #fft calculate
 def fft_calc(real_data,image_data):
-    cv_data=[real_data[i]+image_data[i]*1j for i in range(0,len(real_data))];
-
+    # cv_data=[real_data[i]+image_data[i]*1j for i in range(0,len(real_data))];
+    cv_data = [(real_data[i]-512) + (image_data[i]-512) * 1j for i in range(0, len(real_data))];
     ll=len(cv_data);
     c_data= np.array(cv_data);
 
@@ -148,6 +148,7 @@ def fft_calc(real_data,image_data):
 
     f_data= pwr_fig*abs_filterdata/(ll**2); #0.3043
 
+    # f_data = abs(np.fft.fft(c_data))
     return f_data;
 
 #fftdata is one array

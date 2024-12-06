@@ -2942,7 +2942,7 @@ class combined_signal_path(cmw_bt):
 				for i in range(len(res)):
 					if res[i] == 'NCAP':
 						res[i] = '-999'
-				if eval(res[0]) == 0:
+				if eval(res[0]) == 0 or eval(res[0]) == 1:
 					logdebug('get freq range measure result success')
 					break
 				elif k == 4:

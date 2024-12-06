@@ -1,4 +1,5 @@
 #File for GPIB VISA control of CMW
+# -*- coding:utf8 -*-
 import time
 import fpformat
 import re
@@ -392,6 +393,8 @@ class Agilent(object):
             self.device.write("INST:SEL SA");
         elif mode=='EMI':
             self.device.write("INST:SEL EMI");
+        elif mode == 'BT':
+            self.device.write("INST:SEL BT")
         return True;
 ##
     def get_mode(self):
@@ -763,6 +766,127 @@ class Agilent(object):
     def get_result(self, name):
     	if name == 'PEAK':
     	    return self.pk_detect();
+
+class BT_TEST(object):
+    def reset(self, timeout=10):
+        # self.device.write('IP;');
+        self.device.write(':SYST:PRES');
+        return True;
+
+    def __init__(self, timeout=10, device="N9020A"):
+        '''
+        mode:   1:  SA
+                14: phase noise test
+                18: wlan
+        '''
+        if platform.platform().find("Linux") != -1:
+            from GPIBImpl import GPIBLinux
+            self.device = GPIBLinux.GPIBDevice(device)  # HP
+        else:
+            from GPIBImpl import GPIBWindows
+            self.device = GPIBWindows.GPIBDevice(device)
+
+        pass
+
+        # instrument initialize
+        self.reset();
+        self.set_mode('BT')
+        self.meas_setup_packettype_auto()
+
+
+    def set_mode(self,mode='BT'):
+        '''
+        1:  SA
+        14: phase noise test
+        18: wlan
+        '''
+        if mode == 'BT':
+            self.device.write('INST:SEL BT')
+
+    def meas_setup_packettype_auto(self):
+        self.device.write('TX:PACK:AUTO ON')
+
+    def AMPTD_adjust(self):
+        self.device.write(':SENSe:POWer:RF:RANGe:OPTimize IMMediate')
+
+    def freq_set(self, freq=2402):
+        '''
+        unit:   MHz
+        range:  dc--26500
+        '''
+        self.device.write('FREQ:CENT {} MHz'.format(freq))
+
+    def trigger_set(self, mode='RFB', abs_value=-20, rel_value=-10):
+        if mode == 'RFB':
+            self.device.write('TRIG:SOUR RFB')
+            self.device.write('TRIG:RFB:LEV:ABS {} dBm'.format(abs_value))
+            self.device.write('TRIG:RFB:LEV:REL {} dB'.format(rel_value))
+        elif mode == 'IMM':
+            self.device.write('TRIG:SOUR IMM')
+
+    def tx_meas_get(self):
+        '''
+        Returns 27 comma-separated scalar results. Results 1 to 12 apply to Basic or Low Energy packets, results 13 to 24 apply to EDR packets and 26–27 is the common results.As
+        the packet type is auto determined the results for the signal being analyzed will be computed. Any results that are not available will return 9.91E+37 (NaN).
+        Results are returned in the following order:
+        1. GFSK Avg Power (dBm)
+        2. GFSK Peak Power (dBm)
+        3. ∆f1 Avg (Hz)
+        4. ∆f2 Avg (Hz)
+        5. Min  ∆f1 Max (Hz)
+        6. Max ∆f1 Max (Hz)
+        7. Min  ∆f2 Max (Hz)
+        8.Max ∆f2 Max (Hz)
+        9. ∆f2 > 115 kHz
+        10.∆f2 Avg/ ∆f1 Avg
+        11.ICFT (Hz)
+        12.Max Frequency Drift (Hz)
+        13.Max Drift Rate (Hz)
+        14.Freq Offset ωi (Hz)
+        15.Freq Offset ω0 (Hz)
+        16.Freq Offset ωi+ω0 (Hz)
+        17.RMS DEVM (%)
+        18.Peak DEVM (%)
+        19. 99% DEVM for EDR modulation (%)
+        20. GFSK Avg Power (dBm)
+        21.DPSK Avg Power (dBm)
+        22.Relative Power (DPSK Avg Power - GFSK Avg Power) (dB)
+        23.BER (%)
+        24.Bit Errors
+        25.Guard Interval (s)
+        26. Packet Type*
+        27. Payload Length (bits)
+        '''
+        self.device.write(':CONFigure:TX')
+        res = self.device.ask('READ:TX1?')
+        return res
+    def meas_setup_method(self, method='FFT'):
+        if method == 'FFT':
+            self.device.write('IBEM:METH FFT')
+            self.device.write('ACP:METH FFT')
+            self.device.write('IBSP:METH FFT')
+        else:
+            self.device.write('IBEM:METH SWEep')
+            self.device.write('ACP:METH SWEep')
+            self.device.write('IBSP:METH SWEep')
+
+    def acp_meas_get(self):
+        self.device.write(':CONFigure:ACPower')
+        self.meas_setup_method('FFT')
+        res = self.device.ask('READ:ACPower2?')
+        return res
+
+    def ibsp_meas_get(self):
+        self.device.write(':CONFigure:IBSPurious')
+        self.meas_setup_method('FFT')
+        res = self.device.ask('READ:IBSPurious2?')
+        return res
+
+    def ibem_meas_get(self):
+        self.device.write('CONFigure:IBEMissions')
+        self.meas_setup_method('FFT')
+        res = self.device.ask('READ:IBEMissions2?')
+        return res
 
 class phnoise(object):
     def reset(self,timeout=10):

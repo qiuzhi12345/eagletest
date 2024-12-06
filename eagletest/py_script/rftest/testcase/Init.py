@@ -48,7 +48,7 @@ else:
     from rftest.testcase.performance.tx_ack_test import ACK_Test
     from rftest.testcase.performance.rf_test_case import RF_TEST_CASE
     from rftest.testcase.performance.tester_cal_pwr import TESTER_CAL_PWR
-    from rftest.testcase.performance.bt_test_cmw import bt_test ,bt_signaling,bt_curr,testpin
+    from rftest.testcase.performance.bt_test_cmw import bt_test ,bt_signaling,bt_curr,testpin,BQB_autotest,gdb_load_code,gdb_server
 
 data_path = './rftest/rfdata'
 file_name_lst = ['bt_auto_data','i2c_auto_data','rf_curr_data','rf_acpr_data','rf_wifi_autotest_data','sweep_tx_gain','sar_pwrdet_data','pa_outpwr_data','rf_wifi_qickly_test_data','rf_rxfreqtol_data','rf_bin_test']

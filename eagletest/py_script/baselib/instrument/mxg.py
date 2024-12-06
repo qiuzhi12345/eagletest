@@ -76,7 +76,7 @@ class MXG(object):
 
 	@log()
 	def set_cfreq(self, freq=2402):
-		self.device.write(':SOURce:FREQuency:FIXed {:.2f} MHz'.format(freq))
+		self.device.write(':SOURce:FREQuency:FIXed {:.3f} MHz'.format(freq))
 		self.wait()
 
 	@log()

@@ -41,7 +41,7 @@ from docx.shared import Inches #设置图像大小
 from docx.shared import Pt #设置像素、缩进等
 from docx.shared import RGBColor #设置字体颜色
 from docx.shared import Length #设置宽度
-import win32api
+
 import shutil
 
 
@@ -100,43 +100,6 @@ class csv_data():
             outfile_name = sub_path + file_name
 
         return outfile_name
-from pygdbmi.gdbcontroller import GdbController
-class gdb_load_code(object):
-
-    def __init__(self, core='N22'):
-        self.core = core
-        if self.core == 'N22':
-            self.gdbmin = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb', ['riscv32.elf'])
-        else:
-            self.gdbmin = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5f\bin\riscv32-elf-gdb', ['riscv32.elf'])
-    def close(self):
-        self.gdbmin.exit()
-    def open(self):
-        if self.core == 'N22':
-            self.gdbmin = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb', ['riscv32.elf'])
-        else:
-            self.gdbmin = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5f\bin\riscv32-elf-gdb', ['riscv32.elf'])
-    def load_file(self,filepath=''):
-        self.close()
-        self.open()
-        self.gdbmin.write('monitor reset', timeout_sec=20, read_response=False)
-        self.gdbmin.write('file {}'.format(filepath.replace('\\','/')),timeout_sec=5,read_response=False)
-        self.gdbmin.write('load',timeout_sec=20,read_response=False)
-        self.gdbmin.write('c',timeout_sec=20,read_response=False)
-
-class gdb_server(object):
-    def __init__(self,core='N22'):
-
-        if core == 'N22':
-            win32api.ShellExecute(0, 'open', 'JLinkGDBServer.exe',
-                              '-select USB -device rv32 -endian little -if JTAG -speed 5000 -ir -LocalhostOnly -nologtofile -port 2335 -SWOPort 2336 -TelnetPort 2337 -jtagconf 5,1',
-                              '', 1)
-        else:
-            win32api.ShellExecute(0, 'open', 'JLinkGDBServer.exe',
-                              '-select USB -device rv32 -endian little -if JTAG -speed 5000 -ir -LocalhostOnly -nologtofile -port 2331 -SWOPort 2332 -TelnetPort 2333',
-                              '', 1)
-
-
 class bt_curr(object):
     def __init__(self, comport, chipv='TX232', jlink='59610138'):
         self.comport = comport
@@ -148,9 +111,9 @@ class bt_curr(object):
         self.tp = testpin(self.comport, chipv=self.chipv, jlink=self.jlink)
         self.bttest = bt_test(self.comport, chipv=self.chipv, jlink=self.jlink)
 
-    def curr_paramp_tx_carrier(self, device_name='MY49260023', freq_list=[2402], vdd_pa_list=[3.3], cable_loss=2.6, tpmode=1, name_str='tpmode'):
+    def curr_paramp_tx_carrier(self, device_name='MY49260023', freq_list=[2402], vdd_pa_list=[3.3], cable_loss=2.6):
         title = 'freq(MHz),vdd_pa(mv),pa_ramp,tx_carrier_pwr(dBm),curr_vddpa(mA),curr_vline3(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_pa_tx_carrier_{}'.format(name_str))
+        fname = self.wifi.get_filename('ts_bt_test/', 'curr_pa_tx_carrier')
         fw1 = csvreport(fname, title)
         self.jlink.wrm(0xa0120080,9,9,0)
         self.jlink.wrm(0xa0120080,28,25,0)
@@ -166,11 +129,9 @@ class bt_curr(object):
             myspa.set_param(freq, 100)
             for vdd_pa in vdd_pa_list:
                 DM_VDDPA.device.write('VOLT {}'.format(vdd_pa/1000.00))
-                time.sleep(2)
-
                 for ramp in range(63,0,-1):
                     bttest.tx_carrier_stop()
-                    bttest.tx_carrier(freq,0xff,ramp,tpmode)
+                    bttest.tx_carrier(freq,0xff,ramp)
                     res = myspa.pk_search_timesleep(timesleep=1.5)
                     txp = res[0][1]+cable_loss
                     curr_vddpa = eval(DM_VDDPA.device.ask('SENS:CURR?'))*1000
@@ -590,14 +551,15 @@ class bt_curr(object):
         self.jlink.wrm(0xa0000144, 14, 12, bbpll_ldo_trim_init)
 
 class testpin(object):
-    def __init__(self, comport, chipv='tx232', jlink_en=1, jlink='59610138'):
+    def __init__(self, comport, chipv='tx232', jlink='59610138'):
         self.comport = comport
         self.chipv = chipv
+        self.bt = BTAPI(self.comport,self.chipv)
+        self.wifi = WIFILIB(self.comport,self.chipv)
         self.mem_ts = MEM_TS(self.comport)
-        if jlink_en!=0:
-            self.jlink = jlink
-            self.jlink.wrm(0xa0200258, 10, 6, 6)
-        self.bttest = bt_test(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=jlink)
+        self.jlink = jlink
+        self.jlink.wrm(0xa0200258, 10, 6, 6)
+        self.bttest = bt_test(self.comport, chipv=self.chipv, jlink=self.jlink)
 
     def bbpll_en(self, en=1):
 
@@ -688,24 +650,6 @@ class testpin(object):
         self.bbpll_en(1)
         self.jlink.wrm(0xa00000a8, 1, 0, mclk0_sel)
 
-    def sys_clk_set(self, clk=170):
-        pllput_div_init = self.jlink.rdm(0xa00000a4, 31, 24)
-        clkbus_div_init = self.jlink.rdm(0xa0000054, 31, 0)
-        clkm4_div_init = self.jlink.rdm(0xa0000058, 31, 0)
-        loginfo('pllput_div_init:   {}  clkbus_div_init:    {}  clkm4_div_init: {}'.format(hex(pllput_div_init),hex(clkbus_div_init),hex(clkm4_div_init)))
-
-        self.jlink.wrm(0xa00000a8, 1, 0, 1)     ##mclk0 set rc48m
-        self.frac_pll(1)    ##fracpll enable
-        self.frac_pll_freq_set(clk)
-        self.jlink.wrm(0xa00000a4, 31, 24, 0)   ##pllout div set 0
-        self.jlink.wrm(0xa0000054, 31, 0, 0)  ##mclk0_g div/ahb/apb2/apb0 div set 0
-        self.jlink.wrm(0xa0000058, 31, 0, 0)  ##m4_ap_system_clk/m4_system_clk div set 0
-
-        time.sleep(0.5)
-        self.jlink.wrm(0xa00000a8, 3, 3, 1)  ##mclk0 pll sel fracpll
-        self.jlink.wrm(0xa00000a8, 1, 0, 0)  ##mclk0 set pll
-
-
     def frac_pll_freq_set(self, freq=150):
         '''
         freq
@@ -715,7 +659,7 @@ class testpin(object):
         '''
         self.jlink.wrm(0xa000014c, 1, 1, 0)  ##frac_pll_resetn disable
         self.jlink.wrm(0xa000014c, 2, 2, 1)  ##frac divider enable
-        fn = int((freq/8)-18)
+        fn = (freq/8)-18
         divf =int(((freq%8)/8.000)*(2**16))
         loginfo('{}     {}'.format(fn,divf))
         self.jlink.wrm(0xa000014c, 7, 3, fn)  ##FN select
@@ -812,24 +756,17 @@ class testpin(object):
                     plt.pause(0.01)
                 loop = loop+1
 
-    def rw_validate(self,diag_cntl=0x29):
-        '''
-
-        '''
-        self.jlink.wrm(0xa0200258,11,6,14)  ##{bt_sys_bt_dbg1,bt_sys_bt_dbg2}
-        self.jlink.wrm(0xa0200240,26,3,3|(3<<3)|(3<<6)|(3<<9)|(3<<12)|(3<<15)|(3<<18)|(3<<21))  ##PA1--8 set testpin
-        self.jlink.wrm(0xa0400450, 23, 23, 1)   ##bt_sys_bt_dbg2 enable
-        self.jlink.wrm(0xa0400450, 22, 16, diag_cntl)   ##diag_cntl
 
 
 
 
 class bt_test(object):
-    def __init__(self, comport, chipv='TX232_MPW3', jlink='59610138',jlink_en=1,board_name=''):
+    def __init__(self, comport, chipv='ESP32', jlink='59610138',jlink_en=1):
         self.comport = comport
         self.chipv = chipv
+        self.bt = BTAPI(self.comport,self.chipv)
+        self.wifi = WIFILIB(self.comport,self.chipv)
         self.mem_ts = MEM_TS(self.comport)
-        self.board_name = board_name
         self.jlink = jlink
         self.jlink_en = jlink_en
         # if jlink_en !=0:
@@ -887,19 +824,14 @@ class bt_test(object):
         self.comport.req_com(cmdstr='\x01\x05\x0c\x03\x02\x00\x02', timeout=1, endstr='TS')
 
     def dut_signal_mode_set(self):
-
-        res = self.comport.req_com(cmdstr='signaltest', wr_end='\r\n', timeout=5)
-        logdebug(res)
-        if res.find('signal test')!=-1:
-            self.comport.Hexmd = 1
-            self.hci_reset()
-            self.hci_read_buffer_size()
-            self.hci_enable_under_test_mode()
-            self.hci_enable_write_both_scan()
-            self.hci_auto_accept_all_connection()
-            self.comport.Hexmd = 0
-        else:
-            logwarn('can not enter signal test mode')
+        self.comport.req_com(cmdstr='signaltest', wr_end='\r\n', timeout=5)
+        self.comport.Hexmd = 1
+        self.hci_reset()
+        self.hci_read_buffer_size()
+        self.hci_enable_under_test_mode()
+        self.hci_enable_write_both_scan()
+        self.hci_auto_accept_all_connection()
+        self.comport.Hexmd = 0
 
     def BT_INIT(self, rate='LE1M'):
         if rate not in ['BR','EDR','LE1M','LE2M','LELR']:
@@ -1023,7 +955,7 @@ class bt_test(object):
         self.mem_ts.wrm(0xa042100c, 31, 26, gain)  ##Manual control of Tx PA target power value
 
 
-    def tx_carrier(self, freq=2402 , dac_gain=0xff, pa_gain=63, tp_mode=0):
+    def tx_carrier(self, freq=2402 , dac_gain=0xff, pa_gain=63):
         self.mem_ts.wr(0xa0422014, 0x0)  ##manual tx off
         self.mem_ts.wrm(0xa0421004, 22, 22, 1)  ##Manual control of Tx PA target power enable
         self.mem_ts.wrm(0xa042100c, 31, 26, pa_gain)  ##Manual control of Tx PA target power value
@@ -1034,22 +966,13 @@ class bt_test(object):
         ##chip.mem_ts.wr(0xa042100c,0x103e0249)  	##rf_ctrl_clk_manual
         self.mem_ts.wrm(0xa01200cc, 23, 22, 3)  ##rf_aon_xo_en_clk_adcdac_dig & rf_aon_xo_en_clk_ana_dig
         self.mem_ts.wrm(0xa01200cc, 20, 20, 1)  ##rf_aon_xo_en_clk_ref_dig
-        ##IQ MODE
-        if tp_mode==0:
-            self.mem_ts.wrm(0xa0421020, 25, 24, 0)
-            self.mem_ts.wrm(0xa04210e8, 26, 26, 1)  ##txdcoc sw mode
-            self.mem_ts.wrm(0xa04210e8, 25, 18, dac_gain)  ##Manual TX DAC value for q-path gain index 7
-            self.mem_ts.wrm(0xa04210e8, 17, 10, dac_gain)  ##Manual TX DAC value for i-path gain index 7
-        ##TP MODE
-        else:
-            self.mem_ts.wrm(0xa0421020, 25, 24, 1)
-            self.mem_ts.wrm(0xa0421088, 20, 20, 1)  ##txdcoc sw mode
-            self.mem_ts.wrm(0xa0421088, 28, 21, dac_gain)  ##TP modulation dac code manual value
 
+        self.mem_ts.wrm(0xa04210e8, 26, 26, 1)  ##txdcoc sw mode
+        self.mem_ts.wrm(0xa04210e8, 25, 18, dac_gain)  ##Manual TX DAC value for q-path gain index 7
+        self.mem_ts.wrm(0xa04210e8, 17, 10, dac_gain)  ##Manual TX DAC value for i-path gain index 7
         self.mem_ts.wr(0xa0422014, 0xe)  ##manual tx on
 
     def tx_carrier_stop(self):
-        self.mem_ts.wrm(0xa0421020, 25, 24, 0)
         self.mem_ts.wrm(0xa0421004, 22, 22, 0)  ##Manual control of Tx PA target power disable
         self.mem_ts.wrm(0xa0421064, 12, 12, 0)  ##Frequency value manual enable
         self.mem_ts.wr(0xa0422014, 0x0)  ##manual tx off
@@ -1091,7 +1014,6 @@ class bt_test(object):
         else:
             cmdstr = 'bttestend'
         for i in range(10):
-            time.sleep(1)
             res = self.comport.req_com(cmdstr, endstr='TS', wr_end='\r\n', timeout=1)
             logdebug(res)
             if len(res) != 0:
@@ -1119,11 +1041,11 @@ class bt_test(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
             title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
             title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_br_tx_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','test_br_tx')
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_br_tx_report_{}'.format(self.board_name))
+            fname2 = self.wifi.get_filename('ts_bt_test/','test_br_tx_report')
             fw2=csvreport(fname2,title2)
             item = ['channel', 'DH', u'Tx/01 - Output Power  - Average', u'- Peak',
                     u'@   - Leakage',
@@ -1316,7 +1238,7 @@ class bt_test(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
             title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
             title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_br_tx_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','test_br_tx')
             fw1=csvreport(fname,title)
 
         tester = tester_cmw(mode=0, rfport=rfport, cable_loss=cable_loss, bt_mode='BR', freq=2402,
@@ -1497,11 +1419,11 @@ class bt_test(object):
             title = 'rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),'
             title = title + 'wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,'
             title = title + 'PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list\n'
-            fname = self.get_filename('ts_bt_test/', 'test_edr_tx_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/', 'test_edr_tx')
             fw1 = csvreport(fname, title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_edr_tx_report_{}'.format(self.board_name))
+            fname2 = self.wifi.get_filename('ts_bt_test/','test_edr_tx_report')
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'Tx/10 - EDR Relative Transmit Power - PGFSK - Max Power', u' - PDPSK',
                     u'- PDPSK - PGFSK',
@@ -1640,7 +1562,7 @@ class bt_test(object):
             title = 'rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),'
             title = title + 'wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,'
             title = title + 'PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list\n'
-            fname = self.get_filename('ts_bt_test/', 'test_edr_tx_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/', 'test_edr_tx')
             fw1 = csvreport(fname, title)
 
         tester = tester_cmw(mode=0, rfport=rfport, cable_loss=cable_loss, bt_mode='EDR', freq=2402, target_power=target_power, burst_type='EDR', asyn='OFF', bdaddr='050604010203')
@@ -1750,11 +1672,11 @@ class bt_test(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),'
             title = title + 'delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),'
             title = title + 'acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_le_tx_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','test_le_tx')
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_le_tx_report_{}'.format(self.board_name))
+            fname2 = self.wifi.get_filename('ts_bt_test/','test_le_tx_report')
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'TP/TRM-LE/CA/BV-01-C - Output power  - Average Power', u' - Peak Power',
                     u'- Peak - Average Power',
@@ -1956,7 +1878,7 @@ class bt_test(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),'
             title = title + 'delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),'
             title = title + 'acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_le_tx_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','test_le_tx')
             fw1=csvreport(fname,title)
 
         tester = tester_cmw(mode=0, rfport=rfport, cable_loss=cable_loss, bt_mode='LE1M', freq=2402, target_power=target_power, burst_type='LE', asyn='ON', bdaddr='050604010203')
@@ -2117,7 +2039,7 @@ class bt_test(object):
         title = 'tx_pa_gain,tx_mixer_gain,tx_dig_gain,channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
         title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
         title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-        fname = self.get_filename('ts_bt_test/','test_br_tx_gain_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/','test_br_tx_gain')
         fw1=csvreport(fname,title)
 
         for pa_gain in range(2, 8):
@@ -2146,7 +2068,7 @@ class bt_test(object):
         title = 'tx_pa_gain,tx_mixer_gain,tx_dig_gain,channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
         title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
         title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-        fname = self.get_filename('ts_bt_test/','test_br_tx_gain_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/','test_br_tx_gain')
         fw1=csvreport(fname,title)
 
         for pa_gain in range(0, 4):
@@ -2161,7 +2083,7 @@ class bt_test(object):
         title = 'ramp_tgt_val,channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
         title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
         title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-        fname = self.get_filename('ts_bt_test/','test_tx_br_gain_tx232_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/','test_tx_br_gain_tx232')
         fw1=csvreport(fname,title)
         self.mem_ts.wrm(0xa0421004, 22, 22, 1)  ##Manual control of Tx PA target power enable
         for gain in range(63,0,-1):
@@ -2177,83 +2099,34 @@ class bt_test(object):
                 fw1.write_data([gain] + res[i])
         self.mem_ts.wrm(0xa0421004, 22, 22, 0)
 
-    def test232_tp_gain_cal(self,mode=1, freq=2441):
+    def test232_tp_gain_cal(self,mode=1):
         '''
         mode:
         0:  le1m mode
         other:  le2m mode
-
-        freq:   MHz
         '''
-        if self.jlink_en==0:
-            if mode != 0:
-                self.mem_ts.wrm(0xa0421064, 12, 12, 1)  ##Frequency value manual enable
-                self.mem_ts.wrm(0xa0421064, 11, 0, freq)  ##Manual value of frequency (unit: MHz)
-                self.mem_ts.wrm(0xa0421010, 3, 3, 0)
-                self.mem_ts.wrm(0xa0421024, 21, 18, 0xf)
-                self.mem_ts.wrm(0xa0422014, 3, 0, 0x0)
-                self.mem_ts.wrm(0xa0422014, 3, 0, 0xe)
-                time.sleep(0.2)
-                res = self.mem_ts.rdm(0xa04210f8, 10, 0)
-                tp_gian_cal_le2m = res & 0x7ff
-                logdebug('tp_gian_cal_le2m: {}'.format(tp_gian_cal_le2m))
-            else:
-                self.mem_ts.wrm(0xa0421064, 12, 12, 1)  ##Frequency value manual enable
-                self.mem_ts.wrm(0xa0421064, 11, 0, freq)  ##Manual value of frequency (unit: MHz)
-                self.mem_ts.wrm(0xa0421010, 3, 3, 0)
-                self.mem_ts.wrm(0xa0421024, 21, 18, 0x0)
-                self.mem_ts.wrm(0xa0422014, 3, 0, 0x0)
-                self.mem_ts.wrm(0xa0422014, 3, 0, 0xe)
-                time.sleep(0.2)
-                res = self.mem_ts.rdm(0xa04210f8, 10, 0)
-                tp_gian_cal_le1m = res & 0x7ff
-                logdebug('tp_gian_cal_le1m: {}'.format(tp_gian_cal_le1m))
-            self.mem_ts.wrm(0xa0422014, 3, 0, 0x0)
-            self.mem_ts.wrm(0xa0421010, 3, 3, 1)
-            self.mem_ts.wrm(0xa0421024, 21, 18, 0x0)
-            self.mem_ts.wrm(0xa0421064, 12, 12, 0)  ##Frequency value auto
-        else:
-            if mode !=0:
-                self.jlink.wrm(0xa0421064, 12, 12, 1)  ##Frequency value manual enable
-                self.jlink.wrm(0xa0421064, 11, 0, freq)  ##Manual value of frequency (unit: MHz)
-                self.jlink.wrm(0xa0421010, 3, 3, 0)
-                self.jlink.wrm(0xa0421024,21,18,0xf)
-                self.jlink.wrm(0xa0422014,3,0,0x0)
-                self.jlink.wrm(0xa0422014, 3, 0, 0xe)
-                time.sleep(0.2)
-                res = self.jlink.rdm(0xa04210f8,10,0)
-                tp_gian_cal_le2m = res & 0x7ff
-                logdebug('tp_gian_cal_le2m: {}'.format(tp_gian_cal_le2m))
-            else:
-                self.jlink.wrm(0xa0421064, 12, 12, 1)  ##Frequency value manual enable
-                self.jlink.wrm(0xa0421064, 11, 0, freq)  ##Manual value of frequency (unit: MHz)
-                self.jlink.wrm(0xa0421010, 3, 3, 0)
-                self.jlink.wrm(0xa0421024,21,18,0x0)
-                self.jlink.wrm(0xa0422014,3,0,0x0)
-                self.jlink.wrm(0xa0422014, 3, 0, 0xe)
-                time.sleep(0.2)
-                res = self.jlink.rdm(0xa04210f8,10,0)
-                tp_gian_cal_le1m = res & 0x7ff
-                logdebug('tp_gian_cal_le1m: {}'.format(tp_gian_cal_le1m))
-            self.jlink.wrm(0xa0422014, 3, 0, 0x0)
-            self.jlink.wrm(0xa0421010, 3, 3, 1)
-            self.jlink.wrm(0xa0421024, 21, 18, 0x0)
-            self.jlink.wrm(0xa0421064, 12, 12, 0)  ##Frequency value manual enable
-        return res
+        if mode !=0:
+            self.jlink.wrm(0xa0421010, 3, 3, 0)
+            self.jlink.wrm(0xa0421024,21,18,0xf)
+            self.jlink.wrm(0xa0422014,3,0,0x0)
+            self.jlink.wrm(0xa0422014, 3, 0, 0xe)
+            time.sleep(0.2)
+            res = self.jlink.rdm(0xa04210f8,10,0)
+            tp_gian_cal_le2m = res & 0x7ff
+            logdebug('tp_gian_cal_le2m: {}'.format(tp_gian_cal_le2m))
 
-    def test232_tp_gain_cal_scan(self):
-        title = 'mode,channel,tp_gain_cal_value\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_tp_gain_cal_scan_{}'.format(self.board_name))
-        fw1 = csvreport(fname, title)
-        for mode in [0,1]:
-            if mode == 0:
-                rate = 'LE1M'
-            else:
-                rate = 'LE2M'
-            for chan in range(0,40):
-                tp_gain_cal_value = self.test232_tp_gain_cal(mode=mode,freq=2402+chan*2)
-                logdebug('tp_gain_cal_value:    {}'.format(tp_gain_cal_value))
-                fw1.write_data([rate,chan,tp_gain_cal_value])
+        else:
+            self.jlink.wrm(0xa0421010, 3, 3, 0)
+            self.jlink.wrm(0xa0421024,21,18,0x0)
+            self.jlink.wrm(0xa0422014,3,0,0x0)
+            self.jlink.wrm(0xa0422014, 3, 0, 0xe)
+            time.sleep(0.2)
+            res = self.jlink.rdm(0xa04210f8,10,0)
+            tp_gian_cal_le1m = res & 0x7ff
+            logdebug('tp_gian_cal_le1m: {}'.format(tp_gian_cal_le1m))
+        self.jlink.wrm(0xa0422014, 3, 0, 0x0)
+        self.jlink.wrm(0xa0421010, 3, 3, 1)
+        self.jlink.wrm(0xa0421024, 21, 18, 0x0)
 
     def test232_dig_gain_set(self, mode=0, gfsk_gain=0x7f,dpsk_gain=0x98):
         '''
@@ -2270,7 +2143,6 @@ class bt_test(object):
     def test232_bbpll_en(self, en=1):
         if en!=0:
             if self.chipv == 'TX232_MPW3':
-                self.mem_ts.wrm(0xa00000a8, 1, 0, 1)
                 self.mem_ts.wrm(0xa0000144, 25, 25, 1)  ##bbpll_bg_pup_ibg_bbpll
                 self.mem_ts.wrm(0xa0000144, 29, 29, 1)  ##bbpll_bg_pup_ibg_tbuf
                 self.mem_ts.wrm(0xa0000144, 20, 20, 1)  ##bbpll_bg_fc on
@@ -2322,7 +2194,7 @@ class bt_test(object):
                 2:  bbpll ldo output test
         diag_code is useful for mode2
         '''
-        self.test232_bbpll_en(1)
+        self.test232_bbpll_en()
         if self.chipv == 'TX232_MPW3':
             self.mem_ts.wrm(0xa0000148, 0, 0, 0)  ##bbpll_ck6p144m_test_en
             self.mem_ts.wrm(0xa0000148, 3, 3, 0)  ##bbpll_ck_test_en
@@ -2356,11 +2228,11 @@ class bt_test(object):
                 self.mem_ts.wrm(0xa01200e0, 16, 16, 1)  ##bbpll_ldo_diag_sel
                 self.mem_ts.wrm(0xa01200e0, 15, 13, diag_code)  ##bbpll_diag_code
 
-    def test232_ldo_bbpll_trim_diag(self, device_name='MY50180049'):
+    def test232_ldo_bbpll_trim_diag(self):
         title = 'bbpll_bg_trim,ldo_bbpll_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_bbpll_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_ldo_bbpll_trim_diag')
         fw1 = csvreport(fname, title)
-        mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
+        mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.test232_bbpll_en()
         self.test232_bbpll_diag(2,1)
         if self.chipv == 'TX232_MPW3':
@@ -2370,8 +2242,7 @@ class bt_test(object):
                 self.mem_ts.wrm(0xa01200c8, 7, 5, bg_trim)
                 for value in range(0, 8):
                     self.mem_ts.wrm(0xa0000144, 14, 12, value)
-                    for diag_code in range(1, 2):
-                    # for diag_code in range(1, 8):
+                    for diag_code in range(1, 8):
                         self.mem_ts.wrm(0xa0000148, 6, 4, diag_code)
                         time.sleep(0.2)
                         dd = mydm.device.ask('MEAS:VOLT? 10, 0.0001')
@@ -2446,63 +2317,9 @@ class bt_test(object):
         self.mem_ts.wrm(0xa0421024, 2, 0, diag_code)  ##RF diag code select
         loginfo("{}     diag code:  {}".format(diag_dic[mode],diag_code))
 
-    def test232_pkd_trim_diag(self, device_name='MY49260023',cableloss=1.5):
-        title = 'pkd_ref,VDD,VREF(V),VREF1(V),VREF2(V)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_pkd_trim_diag{}'.format(self.board_name))
-        fw1 = csvreport(fname, title)
-        mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
-        init_value = self.mem_ts.rdm(0xa0421028, 25, 19)
-
-        self.mem_ts.wrm(0xa0421024, 3, 3, 0)
-        self.mem_ts.wrm(0xa0421024, 17, 17, 1)
-        self.mem_ts.wrm(0xa0421028, 31, 31, 1)      ##diag select pkd
-        self.mem_ts.wrm(0xa0422014, 7,0,0x3)             ##rxon enable
-
-        for value in range(0,2**7):
-            self.mem_ts.wrm(0xa0421028, 25, 19, value)
-            res_list=[]
-            for diag_code in [2,4,5,6]:
-                self.mem_ts.wrm(0xa0421024, 2, 0, diag_code)
-                time.sleep(2)
-                dd = mydm.device.ask('MEAS:VOLT? 10, 0.0001')
-                res = eval(dd)
-                res_list.append(res)
-
-                loginfo('pkd_ref:{}     diag_code:{}       volt:{}'.format(value, diag_code, res))
-            fw1.write_data([value]+res_list, float_num=4)
-        self.mem_ts.wrm(0xa0421028, 25, 19, init_value)
-
-        fw1.write_string('pkd_ref,rx_gain_index,input_level(dbm),VIN(V)\n')
-        txg = mxg.MXG()
-        # txg.arb_waveform(rate='LE_1M')
-        txg.trriger_para_set(type='CONTinuous', count=1000)
-        txg.output_state(1, 0)
-        # txg.arb_state(1)
-        txg.set_cfreq(2475)
-        self.mem_ts.wrm(0xa0421064,12,12,1)
-        self.mem_ts.wrm(0xa0421064, 11, 0, 2475)    ##set freq
-        self.mem_ts.wrm(0xa04210A0, 0, 0, 0x1)  ##AGC OFF
-        pkd_ref = self.mem_ts.rdm(0xa0421028, 25, 19)
-        rx_gain_index = self.mem_ts.rdm(0xa04210a0, 20, 17)
-        self.mem_ts.wrm(0xa0421024, 2, 0, 3)
-        for rxlevel in range(-990,10,5):
-            self.mem_ts.wrm(0xa0422014, 7,0,0x0)
-            txg.set_power(rxlevel/10.0+cableloss)
-            time.sleep(0.2)
-            self.mem_ts.wrm(0xa0422014, 7,0,0x3)
-            dd = mydm.device.ask('MEAS:VOLT? 10, 0.0001')
-            res = eval(dd)
-            loginfo('pkd_ref:{}     rx_gain_index:{}   rxlevel:{}    VIN:{}'.format(pkd_ref, rx_gain_index,rxlevel, res))
-            fw1.write_data([pkd_ref,rx_gain_index,rxlevel,res], float_num=4)
-
-        self.mem_ts.wrm(0xa04210A0, 0, 0, 0x0)  ##AGC ON
-        self.mem_ts.wrm(0xa0421064, 12, 12, 0)  ##freq auto
-        self.mem_ts.wrm(0xa0422014, 7,0,0x0)
-
-
     def test232_bg_trim_diag(self):
         title = 'bg_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_bg_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_bg_trim_diag')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.test232_rf_diag(4,1)
@@ -2523,7 +2340,7 @@ class bt_test(object):
 
     def test232_ldo_trxhf_trim_diag(self):
         title = 'ldo_trxhf_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_trxhf_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_ldo_trxhf_trim_diag')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.test232_rf_diag(6, 1)
@@ -2544,7 +2361,7 @@ class bt_test(object):
 
     def test232_ldo_trxlf_trim_diag(self):
         title = 'ldo_trxlf_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_trxlf_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_ldo_trxlf_trim_diag')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.test232_rf_diag(7, 1)
@@ -2565,7 +2382,7 @@ class bt_test(object):
 
     def test232_ldo_rfpll_trim_diag(self):
         title = 'ldo_rfpll_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_rfpll_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_ldo_rfpll_trim_diag')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.test232_rf_diag(8, 1)
@@ -2586,7 +2403,7 @@ class bt_test(object):
 
     def test232_ldo_vco_trim_diag(self):
         title = 'ldo_vco_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_vco_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_ldo_vco_trim_diag')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.test232_rf_diag(9, 1)
@@ -2605,14 +2422,14 @@ class bt_test(object):
         self.mem_ts.wrm(0xa0421028, 15, 14, init_value)
         self.mem_ts.wr(0xa0422014, 0x0)
 
-    def test232_ldo_xo_trim_diag(self, device_name='MY50180049'):
+    def test232_ldo_xo_trim_diag(self):
         '''
         TX232_MPW3 xo使用bbpll bg，MPW2使用的是rfpll bg
         '''
         title = 'bg_trim,ldo_xo_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_xo_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_ldo_xo_trim_diag')
         fw1 = csvreport(fname, title)
-        mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
+        mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.test232_rf_diag(3, 1)
         init_value = self.mem_ts.rdm(0xa01200cc, 5, 4)
         if self.chipv == 'TX232_MPW3':
@@ -2642,7 +2459,7 @@ class bt_test(object):
             bg_trim_init = self.mem_ts.wrm(0xa0421028, 2, 0, bg_trim_init)
         self.mem_ts.wr(0xa0422014, 0x0)
 
-    def test232_rf_ldo_trim_diag(self, device_name='MY50180049'):
+    def test232_rf_ldo_trim_diag(self):
         ldo_diag_dic = {
                     # 3:  'LDO_XO',
                     # 4:  'Bandgap',
@@ -2662,9 +2479,9 @@ class bt_test(object):
             9: '0xa0421028 15 14',
             }
         title = 'item,bg_trim,trim value,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rf_ldo_trim_diag_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_rf_ldo_trim_diag')
         fw1 = csvreport(fname, title)
-        mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
+        mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         bg_trim_init = self.mem_ts.rdm(0xa0421028,2,0)
         self.mem_ts.wr(0xa0422014, 0x3)
         for val in range(5,10):
@@ -2680,8 +2497,7 @@ class bt_test(object):
                 self.mem_ts.wrm(0xa0421028, 2, 0, bg_trim)
                 for trim_value in range(0,2**(ldo_trim_reg_msb-ldo_trim_reg_lsb+1)):
                     self.mem_ts.wrm(ldo_trim_reg_addr, ldo_trim_reg_msb, ldo_trim_reg_lsb, trim_value)
-                    for diag_code in range(1, 2):
-                    # for diag_code in range(1, 8):
+                    for diag_code in range(1, 8):
                         self.mem_ts.wrm(0xa0421024, 2, 0, diag_code)
                         time.sleep(0.2)
                         dd = mydm.device.ask('MEAS:VOLT? 10, 0.001')
@@ -2692,13 +2508,10 @@ class bt_test(object):
             self.mem_ts.wrm(ldo_trim_reg_addr, ldo_trim_reg_msb, ldo_trim_reg_lsb, init_value)
         self.mem_ts.wr(0xa0422014, 0x0)
 
-        # self.test232_ldo_bbpll_trim_diag(device_name=device_name)
-        self.test232_ldo_xo_trim_diag(device_name=device_name)
-
 
     def test232_rfpll_vtune(self):
         title = 'freq(MHz),rfpll_vtune(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rfpll_vtune')
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_rfpll_vtune')
         fw1 = csvreport(fname, title)
         mydm=dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         # self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
@@ -2729,46 +2542,6 @@ class bt_test(object):
             self.mem_ts.wrm(0xa01200c8,3,2,2)	##tx IF test buf
         else:
             self.mem_ts.wrm(0xa01200c8, 3, 2, 1)  ##rx IF test buf
-
-    def test232_cfo_est_test(self,chan_list=[0],signal_freq_oft=400):
-        title = 'channel,signal_freq(khz),cfo_est, cfo_est_step\n'
-        fname = self.get_filename('ts_bt_test/','test232_cfo_est_test_{}'.format(self.board_name))
-        fw1 = csvreport(fname,title)
-        txg = mxg.MXG()
-        txg.arb_waveform(rate='LE_1M')
-        txg.arb_state(1)
-        txg.trriger_para_set(type='CONTinuous', count=1000)
-        txg.output_state(1, 1)
-        txg.set_power(-40)
-        for chan in chan_list:
-            self.cmdstop(0)
-            time.sleep(0.5)
-            self.LE_RX(chan=chan,phy=1,mod=0)
-            signal_freq_base = 2402+2*chan
-            cfo_est_init = 0
-            for freq_oft in range(-signal_freq_oft,signal_freq_oft+1):
-                while 1:
-                    recv_pkt1 = self.jlink.rdm(0xa04008d8, 15, 0)
-                    time.sleep(0.1)
-                    recv_pkt2 = self.jlink.rdm(0xa04008d8, 15, 0)
-                    recv_pkt = recv_pkt2 - recv_pkt1
-                    if recv_pkt != 0:
-                        freq = signal_freq_base+freq_oft/1000.000
-                        txg.set_cfreq(freq)
-                        time.sleep(0.5)
-                        cfo_est = self.jlink.rdm(0xa04202f0,15,0)
-                        if cfo_est>>15 ==1:
-                            cfo_est = cfo_est - 65535
-                        cfo_est_step = cfo_est - cfo_est_init
-                        cfo_est_init = cfo_est
-                        loginfo('chan:{}    signal_freq:{}      cfo_est:{}      step:{}'.format(chan, freq, cfo_est, cfo_est_step))
-                        fw1.write_data([chan,freq,cfo_est,cfo_est_step])
-                        break
-                    else:
-                        self.cmdstop(0)
-                        time.sleep(0.5)
-                        self.LE_RX(chan=chan, phy=1, mod=0)
-
 
     def test232_rxdcoc_code_rd(self):
         res1_i = self.mem_ts.rdm(0xa04210f4,11,6)
@@ -2825,7 +2598,7 @@ class bt_test(object):
 
     def test232_rxdcoc_scan_lna_gain(self, device_name='MY50180049',idac_code=30,qdac_code=28):
         title = 'idac_code,qdac_code,hgain_code,lgain_code,atten,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_lna_gain_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_lna_gain')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
@@ -2914,134 +2687,11 @@ class bt_test(object):
             fw1.write_data([idac_code, qdac_code, hgain_code, lgain_code, atten, rxdcoc_qn, rxdcoc_qp, rxdcoc_in, rxdcoc_ip ])
         self.mem_ts.wrm(0xa04210b4, 16, 15, 0)
         self.mem_ts.wrm(0xa04210b4, 25, 17, 0x1ff)
-    def test232_rxdcoc_cal_diff(self, device_name='MY50180049',board_name=''):
-        mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
-        self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
-        self.mem_ts.wrm(0xa0421024, 3, 3, 0)  ##RF diag  enable
-        self.mem_ts.wrm(0xa0421024, 11, 11, 1)
-        self.mem_ts.wrm(0xa04210a0, 0, 0, 1)  ##agc off
-        self.mem_ts.wrm(0xa04210a0, 20, 17, 0)  ##agc index set 0
-        self.mem_ts.wrm(0xa04210cc, 14, 13, 3)  ##cbpf gain1&2 on
 
-        title = 'cbpf2_en,cbpf1_idac_code,cbpf1_qdac_code,cbpf2_idac_code,cbpf2_qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_cal_diff_{}'.format(board_name))
+    def test232_rxdcoc_scan(self, device_name='MY50180049'):
+        title = 'idac_code,qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_rxdcoc_scan')
         fw1 = csvreport(fname, title)
-        for cbpf_en in [0,1]:
-            self.mem_ts.wrm(0xa0422014, 3, 0, 0)
-            self.mem_ts.wrm(0xa0421020, 20, 20, cbpf_en)
-            self.mem_ts.wrm(0xa0421010, 6, 5, 3)
-            self.mem_ts.wrm(0xa0421058, 12, 12, 1)  ##cbpf1 rxdcoc code manual
-            self.mem_ts.wrm(0xa042105c, 12, 12, 1)  ##cbpf2 rxdcoc code manual
-            self.mem_ts.wrm(0xa042105c, 18, 13, 32)
-            self.mem_ts.wrm(0xa042105c, 24, 19, 32)
-            self.mem_ts.wrm(0xa0421058, 18, 13, 32)
-            self.mem_ts.wrm(0xa0421058, 24, 19, 32)
-            self.mem_ts.wrm(0xa0422014, 3, 0, 3)
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 1)  ##RF diag code select
-            res_qn = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 2)  ##RF diag code select
-            res_qp = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 3)  ##RF diag code select
-            res_in = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 4)  ##RF diag code select
-            res_ip = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            loginfo("rxdcoc_qn: {}     rxdcoc_qp: {}     rxdcoc_in: {}     rxdcoc_ip: {}     ".format(res_qn, res_qp, res_in, res_ip))
-            rxdcoc_qn = res_qn
-            rxdcoc_qp = res_qp
-            rxdcoc_in = res_in
-            rxdcoc_ip = res_ip
-
-            fw1.write_data([cbpf_en, 32, 32, 32, 32, rxdcoc_qn, rxdcoc_qp, rxdcoc_in, rxdcoc_ip])
-
-            self.mem_ts.wrm(0xa0421058, 12, 12, 0)  ##cbpf1 rxdcoc code auto
-            self.mem_ts.wrm(0xa042105c, 12, 12, 0)  ##cbpf2 rxdcoc code auto
-            time.sleep(2)
-            self.mem_ts.wrm(0xa0421010, 6, 5, 0)  ##rxdcoc cal bypass disable
-            self.mem_ts.wrm(0xa0422014, 3, 0, 0)
-            self.mem_ts.wrm(0xa0422014, 3, 0, 3)
-            time.sleep(0.5)
-            ro_rxdcoc1_q_code = self.mem_ts.rdm(0xa04210f4,17,12)
-            ro_rxdcoc1_i_code = self.mem_ts.rdm(0xa04210f4,11,6)
-            ro_rxdcoc2_q_code = self.mem_ts.rdm(0xa04210f4,23,18)
-            ro_rxdcoc2_i_code = self.mem_ts.rdm(0xa04210f4,29,24)
-            self.mem_ts.wrm(0xa0421024, 2, 0, 1)  ##RF diag code select
-            res_qn = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 2)  ##RF diag code select
-            res_qp = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 3)  ##RF diag code select
-            res_in = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 4)  ##RF diag code select
-            res_ip = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            loginfo("rxdcoc_qn: {}     rxdcoc_qp: {}     rxdcoc_in: {}     rxdcoc_ip: {}     ".format(res_qn, res_qp, res_in, res_ip))
-            rxdcoc_qn = res_qn
-            rxdcoc_qp = res_qp
-            rxdcoc_in = res_in
-            rxdcoc_ip = res_ip
-            fw1.write_data([cbpf_en, ro_rxdcoc1_i_code, ro_rxdcoc1_q_code, ro_rxdcoc2_i_code, ro_rxdcoc2_q_code, rxdcoc_qn, rxdcoc_qp, rxdcoc_in, rxdcoc_ip])
-
-    def test232_rxdcoc_cal_diff_loop(self, device_name='MY50180049',board_name='',loop=100):
-        mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
-        self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
-        self.mem_ts.wrm(0xa0421024, 3, 3, 0)  ##RF diag  enable
-        self.mem_ts.wrm(0xa0421024, 11, 11, 1)
-        self.mem_ts.wrm(0xa04210a0, 0, 0, 1)  ##agc off
-        self.mem_ts.wrm(0xa04210a0, 20, 17, 0)  ##agc index set 0
-        self.mem_ts.wrm(0xa04210cc, 14, 13, 3)  ##cbpf gain1&2 on
-        self.mem_ts.wrm(0xa0421020, 20, 20, 1)
-
-        title = 'cbpf2_en,cbpf1_idac_code,cbpf1_qdac_code,cbpf2_idac_code,cbpf2_qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_cal_diff_{}'.format(board_name))
-        fw1 = csvreport(fname, title)
-        for i in range(loop):
-            # self.mem_ts.wrm(0xa0421010, 6, 5, 3)
-            # self.mem_ts.wrm(0xa0421058, 12, 12, 1)  ##cbpf1 rxdcoc code manual
-            # self.mem_ts.wrm(0xa042105c, 12, 12, 1)  ##cbpf2 rxdcoc code manual
-            # self.mem_ts.wrm(0xa042105c, 18, 13, 32)
-            # self.mem_ts.wrm(0xa042105c, 24, 19, 32)
-            # self.mem_ts.wrm(0xa0421058, 18, 13, 32)
-            # self.mem_ts.wrm(0xa0421058, 24, 19, 32)
-            self.mem_ts.wrm(0xa0422014, 3, 0, 0)
-            self.mem_ts.wrm(0xa0421058, 12, 12, 0)  ##cbpf1 rxdcoc code auto
-            self.mem_ts.wrm(0xa042105c, 12, 12, 0)  ##cbpf2 rxdcoc code auto
-            time.sleep(0.1)
-            # self.mem_ts.wrm(0xa0421010, 6, 5, 0)  ##rxdcoc cal bypass disable
-            self.mem_ts.wrm(0xa0422014, 3, 0, 3)
-            time.sleep(0.5)
-            ro_rxdcoc1_q_code = self.mem_ts.rdm(0xa04210f4,17,12)
-            ro_rxdcoc1_i_code = self.mem_ts.rdm(0xa04210f4,11,6)
-            ro_rxdcoc2_q_code = self.mem_ts.rdm(0xa04210f4,23,18)
-            ro_rxdcoc2_i_code = self.mem_ts.rdm(0xa04210f4,29,24)
-            self.mem_ts.wrm(0xa0421024, 2, 0, 1)  ##RF diag code select
-            res_qn = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 2)  ##RF diag code select
-            res_qp = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 3)  ##RF diag code select
-            res_in = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            self.mem_ts.wrm(0xa0421024, 2, 0, 4)  ##RF diag code select
-            res_ip = eval(mydm.device.ask('MEAS:VOLT?'))
-
-            loginfo("rxdcoc_qn: {}     rxdcoc_qp: {}     rxdcoc_in: {}     rxdcoc_ip: {}     ".format(res_qn, res_qp, res_in, res_ip))
-            rxdcoc_qn = res_qn
-            rxdcoc_qp = res_qp
-            rxdcoc_in = res_in
-            rxdcoc_ip = res_ip
-            fw1.write_data([1, ro_rxdcoc1_i_code, ro_rxdcoc1_q_code, ro_rxdcoc2_i_code, ro_rxdcoc2_q_code, rxdcoc_qn, rxdcoc_qp, rxdcoc_in, rxdcoc_ip])
-
-
-    def test232_rxdcoc_scan(self, device_name='MY50180049', cbpf1_en=1, cbpf2_en=1):
-
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
         self.mem_ts.wrm(0xa0421024, 3, 3, 0)  ##RF diag  enable
@@ -3053,89 +2703,32 @@ class bt_test(object):
         self.test232_rxdcoc_offset_wr(32, 32)
         self.mem_ts.wrm(0xa0422014, 3, 0, 3)
 
-        if cbpf1_en!=0:
-            title = 'idac_code,qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-            fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_cbpf1_{}'.format(self.board_name))
-            fw1 = csvreport(fname, title)
-            self.mem_ts.wrm(0xa0421020, 20, 20, 0)  ##cbpf2 disable
-            for idac_code in range(64):
-                for qdac_code in range(64):
-                    self.test232_rxdcoc_offset_wr(idac_code, qdac_code)
-                    # res = self.test232_rxdcoc_volt_rd()
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 1)  ##RF diag code select
-                    res_qn = eval(mydm.device.ask('MEAS:VOLT?'))
+        for idac_code in range(64):
+            for qdac_code in range(64):
+                self.test232_rxdcoc_offset_wr(idac_code, qdac_code)
+                # res = self.test232_rxdcoc_volt_rd()
+                self.mem_ts.wrm(0xa0421024, 2, 0, 1)  ##RF diag code select
+                res_qn = eval(mydm.device.ask('MEAS:VOLT?'))
 
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 2)  ##RF diag code select
-                    res_qp = eval(mydm.device.ask('MEAS:VOLT?'))
+                self.mem_ts.wrm(0xa0421024, 2, 0, 2)  ##RF diag code select
+                res_qp = eval(mydm.device.ask('MEAS:VOLT?'))
 
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 3)  ##RF diag code select
-                    res_in = eval(mydm.device.ask('MEAS:VOLT?'))
+                self.mem_ts.wrm(0xa0421024, 2, 0, 3)  ##RF diag code select
+                res_in = eval(mydm.device.ask('MEAS:VOLT?'))
 
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 4)  ##RF diag code select
-                    res_ip = eval(mydm.device.ask('MEAS:VOLT?'))
+                self.mem_ts.wrm(0xa0421024, 2, 0, 4)  ##RF diag code select
+                res_ip = eval(mydm.device.ask('MEAS:VOLT?'))
 
-                    loginfo("rxdcoc_qn: {}     rxdcoc_qp: {}     rxdcoc_in: {}     rxdcoc_ip: {}     ".format(res_qn, res_qp, res_in, res_ip))
-                    rxdcoc_qn = res_qn
-                    rxdcoc_qp = res_qp
-                    rxdcoc_in = res_in
-                    rxdcoc_ip = res_ip
+                loginfo("rxdcoc_qn: {}     rxdcoc_qp: {}     rxdcoc_in: {}     rxdcoc_ip: {}     ".format(res_qn, res_qp, res_in, res_ip))
+                rxdcoc_qn = res_qn
+                rxdcoc_qp = res_qp
+                rxdcoc_in = res_in
+                rxdcoc_ip = res_ip
 
-                    fw1.write_data([idac_code, qdac_code, rxdcoc_qn, rxdcoc_qp, rxdcoc_in, rxdcoc_ip, ])
-        if cbpf2_en!=0:
-            self.mem_ts.wrm(0xa0421020, 20, 20, 0)  ##cbpf2 disable
-            self.mem_ts.wrm(0xa0422014, 3, 0, 0)
-            self.test232_rxdcoc_cal_bypass(0)
-            self.mem_ts.wrm(0xa0421058, 12, 12, 0)
-            self.mem_ts.wrm(0xa04210cc, 14, 13, 3)  ##cbpf gain1&2 on
-            self.mem_ts.wrm(0xa0422014, 3, 0, 3)    ##rxon
-            time.sleep(0.5)
-            ro_rxdcoc1_q_code = self.mem_ts.rdm(0xa04210f4,17,12)
-            ro_rxdcoc1_i_code = self.mem_ts.rdm(0xa04210f4,11,6)
-            ro_rxdcoc2_q_code = self.mem_ts.rdm(0xa04210f4,23,18)
-            ro_rxdcoc2_i_code = self.mem_ts.rdm(0xa04210f4,29,24)
-            self.test232_rxdcoc_offset_wr(ro_rxdcoc1_i_code, ro_rxdcoc1_q_code)
-            self.mem_ts.wrm(0xa0422014, 3, 0, 0)
-            self.mem_ts.wrm(0xa0421020, 20, 20, 1)  ##cbpf2 enable
-            self.mem_ts.wrm(0xa042105c, 12, 12, 1)  ##cbpf2 rxdcoc code manual
-            self.mem_ts.wrm(0xa0422014, 3, 0, 3)  ##rxon
-
-            title = 'ro_rxdcoc1_q_code={},ro_rxdcoc1_i_code={},ro_rxdcoc2_q_code={},ro_rxdcoc2_i_code={}\n'.format(ro_rxdcoc1_q_code,ro_rxdcoc1_i_code,ro_rxdcoc2_q_code,ro_rxdcoc2_i_code)
-            title = title + 'idac_code,qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-            fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_cbpf2')
-            fw1 = csvreport(fname, title)
-            for idac_code in range(64):
-                self.mem_ts.wrm(0xa042105c, 18, 13, idac_code)
-                for qdac_code in range(64):
-                    self.mem_ts.wrm(0xa042105c, 24, 19, qdac_code)
-                    # res = self.test232_rxdcoc_volt_rd()
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 1)  ##RF diag code select
-                    res_qn = eval(mydm.device.ask('MEAS:VOLT?'))
-
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 2)  ##RF diag code select
-                    res_qp = eval(mydm.device.ask('MEAS:VOLT?'))
-
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 3)  ##RF diag code select
-                    res_in = eval(mydm.device.ask('MEAS:VOLT?'))
-
-                    self.mem_ts.wrm(0xa0421024, 2, 0, 4)  ##RF diag code select
-                    res_ip = eval(mydm.device.ask('MEAS:VOLT?'))
-
-                    loginfo("rxdcoc_qn: {}     rxdcoc_qp: {}     rxdcoc_in: {}     rxdcoc_ip: {}     ".format(res_qn, res_qp, res_in, res_ip))
-                    rxdcoc_qn = res_qn
-                    rxdcoc_qp = res_qp
-                    rxdcoc_in = res_in
-                    rxdcoc_ip = res_ip
-
-                    fw1.write_data([idac_code, qdac_code, rxdcoc_qn, rxdcoc_qp, rxdcoc_in, rxdcoc_ip, ])
-            self.mem_ts.wrm(0xa042105c, 18, 13, ro_rxdcoc2_i_code)
-            self.mem_ts.wrm(0xa042105c, 24, 19, ro_rxdcoc2_q_code)
-            self.mem_ts.wrm(0xa0421020, 20, 20, 0)  ##cbpf2 disable
-            self.mem_ts.wrm(0xa042105c, 12, 12, 0)  ##cbpf2 rxdcoc code manual
-
-
+                fw1.write_data([idac_code, qdac_code, rxdcoc_qn, rxdcoc_qp, rxdcoc_in, rxdcoc_ip, ])
     def test232_rxdcoc_manual_cal(self, device_name='MY50180049'):
         title = 'idac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v),cbpf_outi,cbpf_outq\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_manual_cal_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_rxdcoc_manual_cal')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
@@ -3215,7 +2808,7 @@ class bt_test(object):
 
     def test232_txdcoc_allchannel_rd(self):
         title = 'channel,txdcoc_i_code,txdcoc_q_code\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_txdcoc_allchannel_rd_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test232_txdcoc_allchannel_rd')
         fw1 = csvreport(fname, title)
         self.mem_ts.wrm(0xa0421064, 12, 12, 1)  ##Frequency value manual enable
         for channel in range(0,79):
@@ -3230,7 +2823,7 @@ class bt_test(object):
     def test232_tx_gain_scan(self, csv_save=True):
         if csv_save:
             title = 'tx pa tpr value,tx carrier power(dbm)\n'
-            fname = self.get_filename('ts_bt_test/','test232_tx_gain_scan_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','test232_tx_gain_scan')
             fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -3255,7 +2848,7 @@ class bt_test(object):
         title = 'tx_pa_gain,tx_mixer_gain,tx_dig_gain,rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),'
         title = title + 'wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,'
         title = title + 'PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list\n'
-        fname = self.get_filename('ts_bt_test/', 'test_edr_tx_gain_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test_edr_tx_gain')
         fw1 = csvreport(fname, title)
 
         # for pa_gain in range(2,8):
@@ -3281,7 +2874,7 @@ class bt_test(object):
         title = 'tx_pa_gain,tx_mixer_gain,tx_dig_gain,rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),'
         title = title + 'wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,'
         title = title + 'PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list\n'
-        fname = self.get_filename('ts_bt_test/', 'test_edr_tx_gain_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/', 'test_edr_tx_gain')
         fw1 = csvreport(fname, title)
 
         for pa_gain in range(0,4):
@@ -3302,7 +2895,7 @@ class bt_test(object):
         title = 'tx_pa_gain,tx_mixer_gain,tx_dig_gain,channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),'
         title = title + 'delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),'
         title = title + 'acp_list_21ch\n'
-        fname = self.get_filename('ts_bt_test/','test_le_tx_gain_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/','test_le_tx_gain')
         fw1 = csvreport(fname, title)
 
         for pa_gain in range(2,8):
@@ -3325,7 +2918,7 @@ class bt_test(object):
         title = 'tx_pa_gain,tx_mixer_gain,tx_dig_gain,channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),'
         title = title + 'delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),'
         title = title + 'acp_list_21ch\n'
-        fname = self.get_filename('ts_bt_test/','test_le_tx_gain_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/','test_le_tx_gain')
         fw1 = csvreport(fname, title)
 
         for pa_gain in range(0,4):
@@ -3338,7 +2931,7 @@ class bt_test(object):
     def rw_per(self, rfport=2, cable_loss=5, chan=0, rate='1M_DH1', rxpwr_range=[-98,-20], pkt_num=1000, dirty_en=0, csv_save=True, device='CMW', num_of_machine=1):
         if csv_save:
             title = 'channel,rate,rxpwr,rev_pkg,total_pkg,err_bit,total_bit,err_bit_ratio(%)\n'
-            fname = self.get_filename('ts_bt_test/','rw_per_{}_{}'.format(rate,chan))
+            fname = self.wifi.get_filename('ts_bt_test/','rw_per_{}_{}'.format(rate,chan))
             fw1 = csvreport(fname,title)
         perform_list = []
         rxpwr_max = max(rxpwr_range)
@@ -3376,7 +2969,7 @@ class bt_test(object):
         # self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'channel,rate,rxpwr,total_pkg,rev_pkg,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_per_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','le_per')
             fw1 = csvreport(fname,title)
         perform_list = []
         rxpwr_max = max(rxpwr_range)
@@ -3434,7 +3027,7 @@ class bt_test(object):
         # self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,total_pkg,rev_pkg,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','le_rx_ci_{}'.format(rxgain))
             fw1 = csvreport(fname,title)
         for chan in chan_list:
             for rate in rate_list:
@@ -3503,7 +3096,7 @@ class bt_test(object):
         self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'rxgain,signal_channel,rate,freq_interference,rxpwr_interference,total_pkg,rev_pkg,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','le_rx_ci')
             fw1 = csvreport(fname,title)
         for rxgain in rxgain_list:
             for chan in chan_list:
@@ -3559,7 +3152,7 @@ class bt_test(object):
         # self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'rate,freq_blocking_1,freq_blocking_2,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_blocking_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','le_rx_blocking')
             fw1 = csvreport(fname,title)
         freq_blocking_1_list = []
         freq_blocking_2_list = []
@@ -3643,7 +3236,7 @@ class bt_test(object):
         self.cmdstop(1)
         if csv_save:
             title = 'channel,lna_itrim,cbpf_bias_trim,LNA_HGAIN,LNA_LGAIN,LNA_ATTEN,FLT_GAIN1,FLT_GAIN2,RF_pwr(dbm),IF_pwr(dbm),dalta\n'
-            fname = self.get_filename('ts_bt_test/','rxgain_scan_tx232_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','rxgain_scan_tx232')
             fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -3654,10 +3247,10 @@ class bt_test(object):
         txg.output_state(1, 0)
         # txg.arb_state(1)
         self.mem_ts.wrm(0xa04210A0, 0, 0, 0x1)  ##AGC OFF
-        self.mem_ts.wrm(0xa0421020, 20, 20, 0x0)
+        self.mem_ts.wrm(0xa0421020, 20, 20, 0x1)
         self.mem_ts.wrm(0xa0120038, 11, 8, 0)
         self.mem_ts.wrm(0xa012005c, 31, 16, 0)  ##
-        self.mem_ts.wrm(0xa0200240, 17, 6, 0)  ##PA5/4/3/2 高阻
+        self.mem_ts.wrm(0xa0120060, 7, 0, 0)  ##PC8/9/10/11 高阻
         self.mem_ts.wrm(0xa01200a0, 29, 29, 1)  ##bbpll_bg_pup_ibg_tbuf
         self.mem_ts.wrm(0xa01200c8, 4, 4, 1)  ##test buf en
         ##self.mem_ts.wrm(0xa01200c8,3,2,2)	##tx IF test buf
@@ -3776,7 +3369,7 @@ class bt_test(object):
         self.cmdstop(1)
         if csv_save:
             title = 'channel,LNA_GAIN,LNA_ATTEN_R,LNA_ATTEN_C,FLT_GAIN1,FLT_GAIN2,RF_pwr(dbm),IF_pwr(dbm),dalta\n'
-            fname = self.get_filename('ts_bt_test/','rxgain_scan_tx231_{}'.format(self.board_name))
+            fname = self.wifi.get_filename('ts_bt_test/','rxgain_scan_tx231')
             fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -4002,7 +3595,7 @@ class bt_test(object):
                          interference_offset_freq=3):
 
         title = 'flt_pkd_value,agc_tgt,agc_sat,interference_pwr(dbm)@offset {}MHz,signal_pwr(dbm),IF_pwr(dbm),dalta\n'.format(interference_offset_freq)
-        fname = self.get_filename('ts_bt_test/','test231_agc_scan_{}'.format(self.board_name))
+        fname = self.wifi.get_filename('ts_bt_test/','test231_agc_scan')
         fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -4066,7 +3659,7 @@ class bt_test(object):
                          interference_offset_freq=3):
 
         title = 'agc_tgt,agc_sat,interference_pwr(dbm)@offset {}MHz,signal_pwr(dbm),IF_pwr(dbm),dalta,agc_gain_idx\n'.format(interference_offset_freq)
-        fname = self.get_filename('ts_bt_test/','test232_agc_scan_{}M'.format(interference_offset_freq))
+        fname = self.wifi.get_filename('ts_bt_test/','test232_agc_scan_{}M'.format(interference_offset_freq))
         fw1 = csvreport(fname,title)
         self.test232_agc_gain_table_set()
         spa = Agilent()
@@ -4113,32 +3706,6 @@ class bt_test(object):
         txg.output_state(0, 0)
         tester.srx.gen_switch('OFF')
 
-    def test232_agc_vs_gainindex(self, channel_list=[0], rf_cableloss=7):
-        title = 'mode,channel,signal_pwr(dbm),agc_gain_idx\n'
-        fname = self.get_filename('ts_bt_test/','test232_agc_vs_gainindex_{}'.format(self.board_name))
-        fw1 = csvreport(fname,title)
-        txg = mxg.MXG()
-        txg.arb_waveform(rate='LE_1M')
-        txg.arb_state(1)
-        txg.trriger_para_set(type='CONTinuous', count=1000)
-        txg.output_state(1, 1)
-        for channel in channel_list:
-            self.cmdstop(0)
-            self.cmdstop(1)
-            self.LE_RX(chan=channel, phy=1, mod=0, countMode=0)
-            txg.para_set(freq=2402 + 2*channel, power=-67)
-            for signal_pwr in range(-97,10):
-                txg.set_power(signal_pwr + rf_cableloss)
-                time.sleep(1)
-                gain_index = self.jlink.rdm(0xa04210dc, 11, 8)
-
-                fw1.write_data(['LE1M',channel,signal_pwr,gain_index])
-
-
-
-
-
-
     def le_rx_sniff(self, chan=0, rxpwr=-60):
         import matplotlib.pyplot as plt
         import numpy as np
@@ -4174,501 +3741,51 @@ class bt_test(object):
             plt.plot(t_list,per_list, '-r')
             plt.pause(0.01)
 
-    def test232_rssi_print(self):
-        self.comport.ser.flushInput()
-        self.comport.ser.flushOutput()
-        self.rssi_print_end = 0
-        while 1:
 
-            self.rssi_print = self.comport.ser.readline()
-            loginfo('{}'.format(self.rssi_print))
-            if self.rssi_print_end == 1:
-                break
-            # elif self.rssi_print == '':
-            #     break
-
-    def test232_rssi_scan(self, freq=2476, mode=0, cable_loss=7, name_str=''):
-        '''
-        freq:   range2402--2480;unit:MHz
-        mode:   0: br dh1;  1: LE1M
-        '''
-
-        title = 'rate,freq(MHz),instrument_tx_level(dBm),rssi/agc_gain_index\n'
-        fname = self.get_filename('ts_bt_test/','test232_rssi_scan_{}'.format(name_str))
-        fw1 = csvreport(fname,title)
-        tester_signal = mxg.MXG('N5182B', 1)
-        if mode!=0:
-            tester_signal.arb_waveform(rate='LE_1M')
-            rate = 'LE_1M'
-        else:
-            tester_signal.arb_waveform(rate='1M_DH1')
-            rate = '1M_DH1'
-        tester_signal.trriger_para_set(type='SINGle', count=100)
-        tester_signal.output_state(1, 1)
-        tester_signal.arb_state(1)
-        tester_signal.para_set(freq=freq, power=-67 + cable_loss)
-        time.sleep(2)
-
-        # rssi_rd = threading.Thread(target=self.test232_rssi_print)
-        # rssi_rd.start()
-        for pwr in range(-97,0):
-            tester_signal.set_power(pwr+cable_loss)
-            time.sleep(1)
-            if mode != 0:
-                self.LE_RX(chan=(freq - 2402) / 2, phy=1, mod=0, countMode=0)
-            else:
-                self.BR_RX(chan=freq - 2402, len=27, ptype=5, rate=1, ltaddr=1, uap=0x0, lap=0x8)
-            self.comport.ser.readlines()
-            for num in range(10):
-                tester_signal.trigger_on()
-
-                time.sleep(1)
-                rssi_print = self.comport.ser.readlines()
-                # loginfo('{}'.format(rssi_print))
-                if rssi_print != []:
-                    break
-
-            rssi_list=[]
-            for i in range(1,len(rssi_print)):
-                if rssi_print[i].find('rssi=')!=-1:
-                    rssi_val = rssi_print[i].split('rssi=')[1].split(',')[0]
-                    loginfo('{}'.format(rssi_val))
-                    agc_gain_index = rssi_print[i].split('agc_gain_index=')[1]
-                    loginfo('agc_gain_index:    {}'.format(agc_gain_index))
-                    rssi_list.append(eval(rssi_val))
-                    rssi_list.append(eval(agc_gain_index))
-
-            # agc_gain_index = self.jlink.rdm(0xa04210dc,11,8)
-
-            fw1.write_data([rate,freq,pwr]+rssi_list)
-
-            if mode != 0:
-                self.cmdstop(0)
-            else:
-                self.cmdstop(1)
 
     def rf_reg_read_all(self,file_path=''):
-        # import docx
-        # from docx import Document
-        # title = 'reg_addr,reg_msb,reg_lsb,RW,reg_name,description,value_default,value_present_{}\n'.format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-        # fname = self.get_filename('ts_bt_test/', 'rf_reg_read_all')
-        # fw1 = csvreport(fname, title)
-        # document = Document(file_path)
-        # tables = document.tables
-        # for i in range(1,len(tables)):
-        #     table = tables[i]
-        #     reg_addr = 0xa0421000 + (i-1)*4
-        #     for table_row in range(1,len(table.rows)):
-        #         reg_bit = table.cell(table_row,0).text.encode('utf-8')
-        #         reg_bit_num = reg_bit.split(':')
-        #         msb = reg_bit_num[0]
-        #         if len(reg_bit_num) > 1 :
-        #             lsb = reg_bit_num[1]
-        #         elif len(reg_bit_num) > 2 :
-        #             logerror('{} bit read fail'.format(reg_addr))
-        #         else:
-        #             lsb = msb
-        #         value = self.mem_ts.rdm(reg_addr,eval(msb),eval(lsb))
-        #
-        #         reg_rw = table.cell(table_row,1).text.encode('utf-8')
-        #         reg_value_default = table.cell(table_row,2).text.encode('utf-8')
-        #         reg_name = table.cell(table_row,3).text.encode('utf-8')
-        #         reg_description = table.cell(table_row,4).text.encode('utf-8')
-        #         reg_description = reg_description.replace('\n', '; ').replace('\r', '; ')
-        #         reg_description = r'{}'.format(reg_description)
-        #         print(msb,lsb,reg_rw,reg_name,reg_description,reg_value_default)
-        #         fw1.write_data([str(hex(reg_addr)),msb,lsb,reg_rw,reg_name,reg_description,reg_value_default,str(hex(value))],float_num=0)
-
-        df=pd.read_excel(file_path,header=None,names=['a','b','c','d','e','f'])
-        reg_addr_offset = 0
-        for i in df['a'].index:
-            offset = df.iloc[i,0]
-            logdebug(offset)
-            if str(offset).find('Offset:')!=-1:
-                reg_addr_offset = offset.split('Offset:')[1]
-                reg_addr_offset = eval(reg_addr_offset)
-            reg_addr = 0xa0421000 + reg_addr_offset
-            logdebug(reg_addr)
-            if df.iloc[i,2] == 'RW' or df.iloc[i,2] == 'R':
-                reg_bit = df.iloc[i,0]
-                if reg_bit.find(':')!=-1:
-                    bit_msb = reg_bit.split(':')[0]
-                    bit_lsb = reg_bit.split(':')[1]
-                else:
-                    bit_msb = reg_bit
-                    bit_lsb = reg_bit
-                reg_value_pre = self.mem_ts.rdm(reg_addr,eval(bit_msb),eval(bit_lsb))
-                df.iloc[i, 5] = hex(reg_value_pre)
-        df.to_excel(r'E:\360MoveData\Users\123\Desktop\bt_rf_mpw3.xlsx',header=False,index=False)
-
-
-    def rf_top_reg_to_code(self, file_path=''):
         import docx
         from docx import Document
+        title = 'reg_addr,reg_msb,reg_lsb,RW,reg_name,description,value_default,value_present_{}\n'.format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+        fname = self.wifi.get_filename('ts_bt_test/', 'rf_reg_read_all')
+        fw1 = csvreport(fname, title)
         document = Document(file_path)
         tables = document.tables
-        paragraph_list = []
-        fname = self.get_filename('ts_bt_test/', 'rf_top_reg_to_code')
-        logtime = time.strftime('%Y%m%d_%H%M%S', time.localtime(time.time()))
-        with open('{}_{}.txt'.format(fname,logtime),'w+') as f:
-            f.write('/*\n * DEFINES\n *****************************************************************************************\n */\n')
-            # f.write('#define    RF_TOP_BASE_ADDR                0xA0421000\n')
-            for paragraph in document.paragraphs:
-                logdebug('{}'.format(paragraph.text))
-                if paragraph.text.find('(offset:') != -1:
-                    stru_name = paragraph.text.split('(offset:')[0].split(' ')[1]
-                    offset = paragraph.text.split('(offset:')[1].split(')')[0].replace(' ','')
-                    reg_addr = 0xa0421000 + eval(offset)
-                    w_str = '#define    {}_REG'.format(stru_name)
-                    w_str = w_str + (40-len(w_str))*' ' + '{}\n'.format(hex(reg_addr).replace('L',''))
-                    f.write(w_str)
+        for i in range(1,len(tables)):
+            table = tables[i]
+            reg_addr = 0xa0421000 + (i-1)*4
+            for table_row in range(1,len(table.rows)):
+                reg_bit = table.cell(table_row,0).text.encode('utf-8')
+                reg_bit_num = reg_bit.split(':')
+                msb = reg_bit_num[0]
+                if len(reg_bit_num) > 1 :
+                    lsb = reg_bit_num[1]
+                elif len(reg_bit_num) > 2 :
+                    logerror('{} bit read fail'.format(reg_addr))
+                else:
+                    lsb = msb
+                value = self.mem_ts.rdm(reg_addr,eval(msb),eval(lsb))
+
+                reg_rw = table.cell(table_row,1).text.encode('utf-8')
+                reg_value_default = table.cell(table_row,2).text.encode('utf-8')
+                reg_name = table.cell(table_row,3).text.encode('utf-8')
+                reg_description = table.cell(table_row,4).text.encode('utf-8')
+                reg_description = reg_description.replace('\n', '; ').replace('\r', '; ')
+                reg_description = r'{}'.format(reg_description)
+                print(msb,lsb,reg_rw,reg_name,reg_description,reg_value_default)
+                fw1.write_data([str(hex(reg_addr)),msb,lsb,reg_rw,reg_name,reg_description,reg_value_default,str(hex(value))],float_num=0)
 
 
-            for paragraph in document.paragraphs:
-                logdebug('{}'.format(paragraph.text))
-                if paragraph.text.find('(offset:') != -1:
-                    stru_name = paragraph.text.split('(offset:')[0].split(' ')[1]
-                    offset = paragraph.text.split('(offset:')[1].split(')')[0].replace(' ','')
-                    table_num = eval(offset)/4 +1
-                    logdebug('table_num: {}'.format(table_num))
-                    table = tables[table_num]
-                    struct_wstr1 = 'typedef union{\n    struct{\n'
-                    struct_wstr2_list = ''
-                    struct_reset_list = ''
-                    for table_row in range(len(table.rows)-1,0,-1):
-                        logdebug('lens: {} ;table_row: {}'.format(len(table.rows),table_row))
-                        reg_bit = table.cell(table_row,0).text.encode('utf-8')
-                        reg_bit_num = reg_bit.split(':')
-                        msb = eval(reg_bit_num[0])
-                        if len(reg_bit_num) > 1 :
-                            lsb = eval(reg_bit_num[1])
-                        elif len(reg_bit_num) > 2 :
-                            logerror('{} bit read fail'.format(stru_name))
-                        else:
-                            lsb = msb
-                        reg_rw = table.cell(table_row,1).text.encode('utf-8')
-                        reg_value_default = table.cell(table_row,2).text.encode('utf-8')
-                        reg_name = table.cell(table_row,3).text.encode('utf-8')
-                        reg_description = table.cell(table_row,4).text.encode('utf-8')
-                        reg_description = reg_description.replace('\n', '; ').replace('\r', '; ')
-                        reg_description = r'{}'.format(reg_description)
-                        struct_wstr2 = '        unsigned int {} : {};'.format(reg_name,(msb-lsb+1))
-                        struct_wstr2 = struct_wstr2 + (60-len(struct_wstr2))*' ' + '/* bit[{}:{}]; {}; {} */\n'.format(lsb,msb,reg_rw,reg_description)
-                        struct_wstr2_list = struct_wstr2_list + struct_wstr2
-                        if reg_rw == 'RW':
-                            struct_reset = '    {}->{}_BIT.{} = {};\n'.format(stru_name,stru_name,reg_name,reg_value_default)
-                            struct_reset_list = struct_reset_list + struct_reset
-                    # struct_wstr3 = '    }'+'{}_BIT;\n    uint32_t    {}_BYTE;\n'.format(stru_name,stru_name)+'}'+'_{};\n'.format(stru_name)
-                    struct_wstr3 = '    }' + 'BF;\n    uint32_t    U32;\n' + '}' + '_{};\n'.format(stru_name)
-                    struct_wstr4 = 'volatile _{} *{} = (_{}*){}_REG;\n'.format(stru_name,stru_name,stru_name,stru_name)
-                    struct_wstr5 = 'extern void {}_reset(void)\n'.format(stru_name.lower()) +'{\n'+ struct_reset_list + '}\n'
-                    f.write(struct_wstr1+struct_wstr2_list+struct_wstr3+struct_wstr4+struct_wstr5)
-
-    def excel_to_c(self,filepath=''):
-        import xlrd
-        from glob import glob
-        '''
-        获取要转换的excel文件路径
-        '''
-        # path_name_list=[]
-        # if os.path.isdir(filepath):
-        #     path_names = os.listdir(filepath)
-        #     for _path_name in path_names:
-        #         if _path_name.find('bt_') !=-1:
-        #             _path_name = os.path.join(filepath,_path_name)
-        #             path_name_list.append(_path_name)
-        path_name_list = glob(filepath+'\\bt_*.xlsx')
-        '''
-        读取excel表格并转换为c代码
-        '''
-        for path_name in path_name_list:
-            datafile = xlrd.open_workbook(filename=path_name)
-            names = datafile.sheet_names()
-            for name in names:
-                logdebug(name)
-                fname = self.get_filename('ts_bt_test/', name)
-                with open('{}.h'.format(fname), 'w+') as f:
-                    # f.write('struct {}'.format(name.upper())+'{\n')
-                    f.write('#ifndef __{}_H__\n'.format(name.upper()))
-                    f.write('#define __{}_H__\n \n'.format(name.upper()))
-                    f.write('#include "chip_public.h"\n \n')
-                    if name == 'bt_modem':
-                        table = datafile.sheet_by_name(name)
-                        nrows = table.nrows
-                        logdebug(nrows)
-                        struct_name_list = []
-                        for i in range(nrows):
-                            if table.cell_value(i,0).find('0x')!=-1:            ##addr offset所在行查找
-                                addr_offset = table.cell_value(i,0)
-                                struct_name = table.cell_value(i,1)
-                                struct_name_list.append([struct_name,addr_offset])
-                                logdebug('addr_offset: {};   struct_name:   {}'.format(addr_offset,struct_name))
-                                w_str = '//offset address: {}\n'.format(addr_offset)+'  union REG_{}\n'.format(struct_name.upper())+'  {\n'+'    DRV_IOM uint32_t raw;\n'+'    ' \
-                                                                                                                                                                       'struct'+'{\n'
-                                for j in range(40):
-                                    if table.cell_value(i+j,0).find(':0]')!=-1 or table.cell_value(i+j,0) == '0]':          ##一个32位寄存器所有bit定义的起始行查找
-                                        w_bit_row_start = i+j
-                                        w_bit_row_stop = i+1
-                                        logdebug('w_bit_row_start:  {}; w_bit_row_stop: {}'.format(w_bit_row_start,w_bit_row_stop))
-                                        break
-                                bit_num_check = 0
-                                for row in range(w_bit_row_start,i,-1):                         ##bit位定义，bit位数确定以及定义，描述
-                                    reg_bit = table.cell_value(row,0).replace(']','').replace('[','')
-                                    logdebug('reg_bit:  {}'.format(reg_bit))
-                                    if reg_bit.find(':')!=-1:
-                                        _reg_bit = reg_bit.split(':')
-                                        bit_num = eval(_reg_bit[0])-eval(_reg_bit[1])+1
-                                    elif reg_bit == '':
-                                        continue
-                                    else:
-                                        bit_num = 1
-                                    logdebug('bit_num:  {}'.format(bit_num))
-                                    bit_num_check = bit_num_check + bit_num
-                                    reg_name = table.cell_value(row,1).replace('reserved','  ')
-                                    reg_name = reg_name.split('[')[0]
-                                    reg_desc = table.cell_value(row,4).replace('\n',';  ')
-                                    logdebug('reg_name:{}    reg_desc:{}'.format(reg_name,reg_desc))
-                                    w_bit = '      DRV_IOM uint32_t {}'.format(reg_name)+(40-len(reg_name))*' '+':{} ;      //{}\n'.format(bit_num,reg_desc)
-                                    w_str = w_str + w_bit
-                                if bit_num_check != 32:
-                                    logerror('{}    {}      bit total is {},please check table!'.format(name,struct_name,bit_num_check))
-                                    raise
-                                w_str = w_str + '         }' +'bits;\n' + '  }' + ';\n'+'\n'
-                                f.write(w_str)
-
-                        w_str = 'typedef struct {}_reg\n'.format(name) + '{\n'
-                        f.write(w_str)
-                        addr_offset_pre = 0
-                        addr_step_flag = 0
-                        for struct_name_t in struct_name_list:
-                            addr_offset_now = eval(struct_name_t[1])
-                            addr_step = addr_offset_now - addr_offset_pre
-                            if addr_step >4:
-                                w_str_addr_offset = 'DRV_IOM uint32_t  rev_{}[({} - {}) / 4 - 1];\n'.format(addr_step_flag,addr_offset_now,addr_offset_pre)
-                                addr_step_flag = addr_step_flag+1
-                                f.write(w_str_addr_offset)
-                            w_str_name_t = 'union REG_{}'.format(struct_name_t[0].upper()) + (40-len(struct_name_t[0]))*' ' + '{};\n'.format(struct_name_t[0].upper())
-                            f.write(w_str_name_t)
-                            addr_offset_pre = addr_offset_now
-                        f.write('}'+'{}_reg_t;\n \n'.format(name))
-                        add_str = "#define {}_READ_REG(_BA, _REG)                             (_BA->_REG.raw)\n".format(name.upper())
-                        add_str = add_str + "#define {}_WRITE_REG(_BA, _REG, _V)                        (_BA->_REG.raw = _V)\n".format(name.upper())
-                        add_str = add_str + "#define {}_READ_BITS(_BA, _REG, _FLD)".format(name.upper())+"                      ({union REG_##_REG _r;_r.raw = " \
-                                                                                                         "_BA->_REG.raw;_r.bits._FLD;})\n"
-                        add_str = add_str + "#define {}_WRITE_BITS(_BA, _REG, _FLD, _V)".format(name.upper()) + "                 ({union REG_##_REG _r;_r.raw = # _BA->_REG.raw;_r.bits._FLD = _V;_BA->_REG.raw = _r.raw;})\n"
-                        add_str = add_str + "#define {}_READ_MULTI_BITS(_BA, _REG, ELEMENT, _FLD)".format(name.upper()) + "       ({union REG_##_REG _r;_r.raw = _BA->_REG.raw;_r.ELEMENT._FLD;})\n"
-                        add_str = add_str + "#define {}_WRITE_MULTI_BITS(_BA, _REG, ELEMENT, _FLD, _V)".format(name.upper()) + "  ({union REG_##_REG _r;_r.raw = _BA->_REG.raw;_r.ELEMENT._FLD = " \
-                                            "_V;_BA->_REG.raw = _r.raw;})\n"
-                        add_str = add_str + "#define {}_WRITE_BITS_MSK(_BA, _REG, _FLD, _V)".format(name.upper()) + "             ({union REG_##_REG _r;_r.raw = _BA->_REG.raw;_r.bits._FLD = " \
-                                            "_V;_r.bits._FLD##_msk = 1;_BA->_REG.raw = _r.raw;})\n"
-
-                        f.write(add_str)
-                        f.write('#define {}                                (({}_reg_t *) {}_BASE)\n \n#endif'.format(name.upper(),name,name.upper()))
-                        f.close()
-                    # elif name == 'bt_rf':
-                    #     table = datafile.sheet_by_name(name)
-                    #     nrows = table.nrows
-                    #     logdebug(nrows)
-                    #     struct_name_list = []
-                    #     for i in range(nrows):
-                    #         if type(table.cell_value(i, 1)) == int or type(table.cell_value(i, 1)) == float:
-                    #             aa = str(table.cell_value(i, 1))
-                    #         else:
-                    #             aa = table.cell_value(i, 1)
-                    #         logdebug(aa.encode('utf-8'))
-                    #         if aa.encode('utf-8').find('Offset:') != -1:
-                    #             addr_offset = table.cell_value(i, 0).split(':')[1]
-                    #             if name == 'bt_core_reg':
-                    #                 struct_name = table.cell_value(i - 1, 0).split('(')[0].replace(' ', '')
-                    #             else:
-                    #                 struct_name = table.cell_value(i - 1, 0).split('(')[1].replace(')', '')
-                    #             logdebug('addr_offset: {};   struct_name:   {}'.format(addr_offset, struct_name))
-                    #             struct_name_list.append([struct_name, addr_offset])
-                    #             w_str = '//offset address: {}\n'.format(addr_offset) + '  union REG_{}\n'.format(
-                    #                 struct_name.upper()) + '  {\n' + '    DRV_IOM uint32_t raw;\n' + '    ' \
-                    #                                                                                  'struct' + '{\n'
-                    #             for j in range(1, 40):
-                    #                 if str(table.cell_value(i + j, 0)).find(':0') != -1 or str(table.cell_value(i + j, 0)) == '0' or str(table.cell_value(i + j, 0)) == '0.0':
-                    #                     w_bit_row_start = i + j
-                    #                     w_bit_row_stop = i + 1
-                    #                     logdebug('w_bit_row_start:  {}; w_bit_row_stop: {}'.format(w_bit_row_start, w_bit_row_stop))
-                    #                     break
-                    #             bit_num_check = 0
-                    #             for row in range(w_bit_row_start, i + 1, -1):
-                    #                 reg_bit = str(table.cell_value(row, 0)).replace(']', '').replace('[', '')
-                    #                 logdebug('reg_bit:  {}'.format(reg_bit))
-                    #                 if reg_bit.find(':') != -1:
-                    #                     _reg_bit = reg_bit.split(':')
-                    #                     bit_num = eval(_reg_bit[0]) - eval(_reg_bit[1]) + 1
-                    #                 elif reg_bit == '':
-                    #                     continue
-                    #                 else:
-                    #                     bit_num = 1
-                    #                 logdebug('bit_num:  {}'.format(bit_num))
-                    #                 bit_num_check = bit_num_check + bit_num
-                    #                 reg_name = table.cell_value(row, 1).replace('NA', '  ').replace('reserved', '  ')
-                    #                 # reg_name = table.cell_value(row, 2).replace('reserved', '  ')
-                    #                 reg_name = reg_name.split('[')[0]
-                    #                 reg_desc = table.cell_value(row, 4).replace('-', '').replace('\n', ';  ').encode('utf-8')
-                    #                 logdebug('reg_name:{}    reg_desc:{}'.format(reg_name, reg_desc))
-                    #                 w_bit = '      DRV_IOM uint32_t {}'.format(reg_name) + (40 - len(reg_name)) * ' ' + ':{} ;      //{}\n'.format(bit_num, reg_desc)
-                    #                 w_str = w_str + w_bit
-                    #             if bit_num_check != 32:
-                    #                 logerror('{}    {}      bit total is {},please check table!'.format(name, struct_name, bit_num_check))
-                    #                 raise
-                    #             w_str = w_str + '         }' + 'bits;\n' + '  }' + ';\n' + '\n'
-                    #             f.write(w_str)
-                    #
-                    #     w_str = 'typedef struct {}_reg\n'.format(name) + '{\n'
-                    #     f.write(w_str)
-                    #     addr_offset_pre = 0
-                    #     addr_step_flag = 0
-                    #     for struct_name_t in struct_name_list:
-                    #         addr_offset_now = eval(struct_name_t[1])
-                    #         addr_step = addr_offset_now - addr_offset_pre
-                    #         if addr_step > 4:
-                    #             w_str_addr_offset = 'DRV_IOM uint32_t  rev_{}[({} - {}) / 4 - 1];\n'.format(addr_step_flag, addr_offset_now, addr_offset_pre)
-                    #             addr_step_flag = addr_step_flag + 1
-                    #             f.write(w_str_addr_offset)
-                    #         w_str_name_t = 'union REG_{}'.format(struct_name_t[0].upper()) + (40 - len(struct_name_t[0])) * ' ' + '{};\n'.format(struct_name_t[0].upper())
-                    #         f.write(w_str_name_t)
-                    #         addr_offset_pre = addr_offset_now
-                    #     f.write('}' + '{}_reg_t;\n \n'.format(name))
-                    #     f.write('#define {}                                (({}_reg_t *) {}_BASE)\n \n#endif'.format(name.upper(), name, name.upper()))
-                    #     f.close()
-                    else:
-                        table = datafile.sheet_by_name(name)
-                        nrows = table.nrows
-                        logdebug(nrows)
-                        struct_name_list = []
-                        for i in range(nrows):
-                            if type(table.cell_value(i, 0)) == int or type(table.cell_value(i, 0)) == float :
-                                aa = str(table.cell_value(i, 0))
-                            else:
-                                aa = table.cell_value(i, 0)
-                            logdebug(aa.encode('utf-8'))
-                            if aa.encode('utf-8').find('Offset:') != -1:
-                                addr_offset = table.cell_value(i,0).split(':')[1]
-                                if name == 'bt_core_reg':
-                                    struct_name = table.cell_value(i - 1, 0).split('(')[0].replace(' ', '')
-                                else:
-                                    struct_name = table.cell_value(i-1,0).split('(')[1].replace(')','')
-                                logdebug('addr_offset: {};   struct_name:   {}'.format(addr_offset,struct_name))
-                                struct_name_list.append([struct_name,addr_offset])
-                                w_str = '//offset address: {}\n'.format(addr_offset)+'  union REG_{}\n'.format(struct_name.upper())+'  {\n'+'    DRV_IOM uint32_t raw;\n'+'    ' \
-                                                                                                                                                                       'struct'+'{\n'
-                                for j in range(1,40):
-                                    if str(table.cell_value(i+j,0)).find(':0')!=-1 or str(table.cell_value(i+j,0)) == '0' or str(table.cell_value(i+j,0)) == '0.0':
-                                        w_bit_row_start = i+j
-                                        w_bit_row_stop = i+1
-                                        logdebug('w_bit_row_start:  {}; w_bit_row_stop: {}'.format(w_bit_row_start,w_bit_row_stop))
-                                        break
-                                bit_num_check = 0
-                                for row in range(w_bit_row_start,i+1,-1):
-                                    reg_bit = str(table.cell_value(row,0)).replace(']','').replace('[','')
-                                    logdebug('reg_bit:  {}'.format(reg_bit))
-                                    if reg_bit.find(':')!=-1:
-                                        _reg_bit = reg_bit.split(':')
-                                        bit_num = eval(_reg_bit[0])-eval(_reg_bit[1])+1
-                                    elif reg_bit == '':
-                                        continue
-                                    else:
-                                        bit_num = 1
-                                    logdebug('bit_num:  {}'.format(bit_num))
-                                    bit_num_check = bit_num_check + bit_num
-                                    reg_name = table.cell_value(row,1).replace('NA','  ').replace('reserved', '  ')
-                                    # reg_name = table.cell_value(row, 1).replace('reserved', '  ')
-                                    reg_name = reg_name.split('[')[0]
-                                    reg_desc = table.cell_value(row,4).replace('-','').replace('\n',';  ').encode('utf-8')
-                                    logdebug('reg_name:{}    reg_desc:{}'.format(reg_name,reg_desc))
-                                    w_bit = '      DRV_IOM uint32_t {}'.format(reg_name)+(40-len(reg_name))*' '+':{} ;      //{}\n'.format(bit_num,reg_desc)
-                                    w_str = w_str + w_bit
-                                if bit_num_check != 32:
-                                    logerror('{}    {}      bit total is {},please check table!'.format(name,struct_name,bit_num_check))
-                                    raise
-                                w_str = w_str + '         }' + 'bits;\n' + '  }' + ';\n' + '\n'
-                                f.write(w_str)
-
-                        w_str = 'typedef struct {}_reg\n'.format(name) + '{\n'
-                        f.write(w_str)
-                        addr_offset_pre = 0
-                        addr_step_flag = 0
-                        for struct_name_t in struct_name_list:
-                            addr_offset_now = eval(struct_name_t[1])
-                            addr_step = addr_offset_now - addr_offset_pre
-                            if addr_step >4:
-                                w_str_addr_offset = 'DRV_IOM uint32_t  rev_{}[({} - {}) / 4 - 1];\n'.format(addr_step_flag,addr_offset_now,addr_offset_pre)
-                                addr_step_flag = addr_step_flag+1
-                                f.write(w_str_addr_offset)
-                            w_str_name_t = 'union REG_{}'.format(struct_name_t[0].upper()) + (40-len(struct_name_t[0]))*' ' + '{};\n'.format(struct_name_t[0].upper())
-                            f.write(w_str_name_t)
-                            addr_offset_pre = addr_offset_now
-                        f.write('}'+'{}_reg_t;\n \n'.format(name))
-                        add_str = "#define {}_READ_REG(_BA, _REG)                             (_BA->_REG.raw)\n".format(name.upper())
-                        add_str = add_str + "#define {}_WRITE_REG(_BA, _REG, _V)                        (_BA->_REG.raw = _V)\n".format(name.upper())
-                        add_str = add_str + "#define {}_READ_BITS(_BA, _REG, _FLD)".format(name.upper())+"                      ({union REG_##_REG _r;_r.raw = " \
-                                                                                                         "_BA->_REG.raw;_r.bits._FLD;})\n"
-                        add_str = add_str + "#define {}_WRITE_BITS(_BA, _REG, _FLD, _V)".format(name.upper()) + "                 ({union REG_##_REG _r;_r.raw = # _BA->_REG.raw;_r.bits._FLD = _V;_BA->_REG.raw = _r.raw;})\n"
-                        add_str = add_str + "#define {}_READ_MULTI_BITS(_BA, _REG, ELEMENT, _FLD)".format(name.upper()) + "       ({union REG_##_REG _r;_r.raw = _BA->_REG.raw;_r.ELEMENT._FLD;})\n"
-                        add_str = add_str + "#define {}_WRITE_MULTI_BITS(_BA, _REG, ELEMENT, _FLD, _V)".format(name.upper()) + "  ({union REG_##_REG _r;_r.raw = _BA->_REG.raw;_r.ELEMENT._FLD = " \
-                                            "_V;_BA->_REG.raw = _r.raw;})\n"
-                        add_str = add_str + "#define {}_WRITE_BITS_MSK(_BA, _REG, _FLD, _V)".format(name.upper()) + "             ({union REG_##_REG _r;_r.raw = _BA->_REG.raw;_r.bits._FLD = " \
-                                            "_V;_r.bits._FLD##_msk = 1;_BA->_REG.raw = _r.raw;})\n"
-
-                        f.write(add_str)
-                        f.write('#define {}                                (({}_reg_t *) {}_BASE)\n \n#endif'.format(name.upper(),name,name.upper()))
-                        f.close()
-
-    def get_filename(self, folder, file_name, sub_folder=''):
-        '''
-        :folder: file store folder
-        :file_name:  file name
-        :sub_folder: if not need, it may be default ""
-        '''
-        if rfglobal.file_folder=="":
-            rfdata_path = './rftest/rfdata/'
-        else:
-            rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
-            if os.path.exists(rfdata_path) == False:
-                os.mkdir(rfdata_path)
-
-        data_path1 = rfdata_path+'%s/'%(folder)
-        if os.path.exists(data_path1) == False:
-            os.mkdir(data_path1)
-
-        filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
-        # mac = self.read_mac()
-        mac = ''
-
-        gen_folder = '_%s'%(filetime[0:8])
-        data_path2 = data_path1 +'%s/'%(gen_folder)
-        if os.path.exists(data_path2) == False:
-            os.mkdir(data_path2)
-
-        fname = '%s'%(file_name)
-        outfile_name = data_path2 + fname
-
-        if sub_folder != '':
-            gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
-            sub_path = data_path2+'%s/'%(gen_folder)
-            if os.path.exists(sub_path) == False:
-                os.mkdir(sub_path)
-
-            outfile_name = sub_path + file_name
-
-        return outfile_name
 
 class bt_signaling(object):
 
-    def __init__(self, comport, chipv='TX212',board_name='', jlink='', rfport=1, atten=4.6, le_com_baudrate='B500K'):
+    def __init__(self, comport, chipv='TX212', jlink='' ,rfport=1, atten=4.6):
         self.rfport = rfport
         self.atten = atten
         self.comport = comport
         self.chipv = chipv
-        self.board_name = board_name
         self.jlink = jlink
         self.comport.Hexmd=1
-        self.le_com_baudrate = le_com_baudrate
         # if jlink_en !=0:
         #     self.jlink = jlink(jlink_sn=jlink_sn)
             # self.jlink = pylink.JLink()
@@ -4747,17 +3864,14 @@ class bt_signaling(object):
         self.comport.req_com(cmdstr='\x01\x05\x0c\x03\x02\x00\x02', timeout=1, endstr='TS')
 
     def dut_signal_mode_set(self):
-        res = self.comport.req_com(cmdstr='signaltest', wr_end='\r\n', timeout=5)
-        if res.find('signal test')!=-1:
-            self.comport.Hexmd = 1
-            self.hci_reset()
-            self.hci_read_buffer_size()
-            self.hci_enable_under_test_mode()
-            self.hci_enable_write_both_scan()
-            self.hci_auto_accept_all_connection()
-            self.comport.Hexmd = 0
-        else:
-            logwarn('can not enter signal test mode')
+        self.comport.req_com(cmdstr='signaltest', timeout=1, endstr='TS')
+        self.comport.Hexmd = 1
+        self.hci_reset()
+        self.hci_read_buffer_size()
+        self.hci_enable_under_test_mode()
+        self.hci_enable_write_both_scan()
+        self.hci_auto_accept_all_connection()
+        self.comport.Hexmd = 0
 
     def config_per_le_connect_usb(self, rate='LE1M', packet_len=37):
         self.csp.reset()
@@ -4772,12 +3886,12 @@ class bt_signaling(object):
         self.csp.sig_le_phy(phy=rate)
         self.csp.RF_Frequency_Settings_rx(mode='DTM', ch_tx=0)
         self.csp.RF_Power_settings(rx_level=-40, tx_power=10,margin=8)
-        self.csp.RF_Power_settings_autoranging(1)
+        self.csp.RF_Power_settings_autoranging()
         self.csp.config_connect_le_packet_len(rate=rate, len=packet_len)
         self.csp.config_connect_le_packet_pattern(rate=rate, pattern='PRBS9')
         self.csp.config_hwinterface('RS232')
         self.csp.config_comport()
-        self.csp.config_comport_baudrate(self.le_com_baudrate)
+        self.csp.config_comport_baudrate('B115k')
         self.csp.check_le_connect_usb()
         time.sleep(1)
 
@@ -4843,73 +3957,6 @@ class bt_signaling(object):
             else:
                 logwarn('connect fail, state: {} , please try again'.format(res))
 
-    def le_tx_tp_debug(self, chan_list=[0,19,39]):
-        '''
-
-        '''
-        title = 'type,tp_gain_value,channel,nominal_pow(dBm),'
-        title = title + 'delta_f1_avg(KHz),delta_f1_avg_max(KHz),delta_f2_avg(KHz),delta_f2_avg_max(KHz),mod_ratio,delta_f2_99(KHz),'
-        title = title + '\n'
-        fname = self.get_filename('ts_bt_test/','le_tx_tp_debug_{}'.format(self.board_name))
-        fw1=csvreport(fname,title)
-        self.config_per_le_connect_usb(rate='LE1M', packet_len=37)
-        self.csp.config_rx_level(rxpwr=-67)
-        self.csp.tx_measure_para(tout=5, repetition='SINGleshot', count=1000, MOEXception='OFF')
-        for rate in ['LE1M','LE2M']:
-            if rate == 'LE500k':
-                _rate = 'LELR'
-                coding = 'S2'
-                mode = 'LRANge'
-                self.csp.sig_le_lr_coding(coding=coding)
-            elif rate == 'LE125K':
-                _rate = 'LELR'
-                coding = 'S8'
-                mode = 'LRANge'
-                self.csp.sig_le_lr_coding(coding=coding)
-            else:
-                mode = rate
-                _rate = rate
-
-            self.csp.mode_set(mode=mode)
-            self.csp.sig_le_phy(phy=_rate)
-            bttest = bt_test(self.comport,self.chipv,self.jlink)
-            self.jlink.wrm(0xa0421020,25,24,0x1)
-            for tp_gain_val_chan in [0,19,39]:
-                if rate == 'LE1M':
-                    tp_gain_cal_value = bttest.test232_tp_gain_cal(0,2402+tp_gain_val_chan*2)
-                else:
-                    tp_gain_cal_value = bttest.test232_tp_gain_cal(1, 2402 + tp_gain_val_chan * 2)
-                for chan in chan_list:
-                    self.csp.RF_Frequency_Settings_tx(mode='DTM', ch_tx=chan)
-                    self.csp.config_connect_le_packet_pattern(rate=_rate, pattern='P44')
-                    res = self.csp.get_modulation_measure_res(rate=mode,data_type='AVER')
-                    logdebug('{}'.format(res))
-                    delta_f1_avg = eval(res[6]) / 1000.00
-                    nominal_pow = eval(res[12])
-
-                    res = self.csp.get_modulation_measure_res(rate=mode, data_type='MAX')
-                    logdebug('{}'.format(res))
-                    delta_f1_avg_max = eval(res[6]) / 1000.00
-
-
-                    time.sleep(0.5)
-
-                    self.csp.config_connect_le_packet_pattern(rate=_rate, pattern='P11')
-                    res = self.csp.get_modulation_measure_res(rate=mode,data_type='AVER')
-                    logdebug('{}'.format(res))
-
-                    delta_f2_99 = eval(res[2]) / 1000.00
-                    delta_f2_avg = eval(res[9]) / 1000.00
-                    mod_ratio = delta_f2_avg / delta_f1_avg
-
-                    res = self.csp.get_modulation_measure_res(rate=mode, data_type='MAX')
-                    logdebug('{}'.format(res))
-                    delta_f2_avg_max = eval(res[9]) / 1000.00
-
-                    fw1.write_data([rate,tp_gain_cal_value,chan,nominal_pow,delta_f1_avg,delta_f1_avg_max,delta_f2_avg,delta_f2_avg_max,mod_ratio,delta_f2_99])
-
-
-
     def le_tx_meas(self, chan_list=[0], rate_list=['LE1M'], packet_len=37, csv_save=True, report_save=True, fig_en=0):
         '''
         rate_list:  LE1M、LE2M、LE500K、LE125K
@@ -4918,11 +3965,11 @@ class bt_signaling(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),'
             title = title + 'delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),'
             title = title + 'acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_le_tx_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/','test_le_tx')
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_le_tx_report_{}'.format(self.board_name))
+            fname2 = self.get_filename('ts_bt_test/','test_le_tx_report')
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'TP/TRM-LE/CA/BV-01-C - Output power  - Average Power', u' - Peak Power',
                     u'- Peak - Average Power',
@@ -5110,11 +4157,11 @@ class bt_signaling(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
             title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
             title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_br_tx_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/','test_br_tx')
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_br_tx_report_{}'.format(self.board_name))
+            fname2 = self.get_filename('ts_bt_test/','test_br_tx_report')
             fw2=csvreport(fname2,title2)
             item = ['channel', 'DH', u'Tx/01 - Output Power  - Average', u'- Peak',
                     u'@   - Leakage',
@@ -5278,11 +4325,11 @@ class bt_signaling(object):
             title = 'rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),'
             title = title + 'wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,'
             title = title + 'PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list\n'
-            fname = self.get_filename('ts_bt_test/', 'test_edr_tx_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/', 'test_edr_tx')
             fw1 = csvreport(fname, title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_edr_tx_report_{}'.format(self.board_name))
+            fname2 = self.get_filename('ts_bt_test/','test_edr_tx_report')
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'Tx/10 - EDR Relative Transmit Power - PGFSK - Max Power', u' - PDPSK',
                     u'- PDPSK - PGFSK',
@@ -5413,10 +4460,10 @@ class bt_signaling(object):
         return res_list
 
 
-    def bedr_rx_sens(self, chan_list=[0,38,78], rate_list=['DH1'], rx_level=-60, tx_power=10, packet_num=2000, step=0.5, csv_save=True):
+    def bedr_rx_sens(self, chan_list=[0,38,78], rate_list=['DH1'], rx_level=-60, tx_power=10, packet_num=2000, step=0.5, csv_save=True, name_str='rxgain_0xfb'):
         if csv_save:
             title = 'rate,channel,ber,per,NAK,hec_err,crc_err,packet_type_err,pay_err,sens\n'
-            fname = self.get_filename('ts_bt_test/', 'br_rx_sens_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/', 'br_rx_sens_{}'.format(name_str))
             fw1 = csvreport(fname, title)
         for chan in chan_list:
             self.config_classic_ber(rate='BR',chan=chan, rx_level=rx_level, tx_power=tx_power)
@@ -5460,10 +4507,11 @@ class bt_signaling(object):
                 if csv_save:
                     fw1.write_data([rate,chan,ber,per,NAK,hec_err,crc_err,packet_type_err,pay_err,sens])
 
-    def bedr_rx_range(self, chan_list=[0,38,78], rate_list=['DH1'], rx_level=-60, tx_power=10, packet_num=2000, rxpwr_range=range(-98,0),  csv_save=True):
+    def bedr_rx_range(self, chan_list=[0,38,78], rate_list=['DH1'], rx_level=-60, tx_power=10, packet_num=2000, rxpwr_range=range(-98,0),  csv_save=True,
+                    name_str='rxgain_0xfb'):
         if csv_save:
             title = 'rate,channel,ber,per,NAK,hec_err,crc_err,packet_type_err,pay_err,sens\n'
-            fname = self.get_filename('ts_bt_test/', 'bedr_rx_range_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/', 'bedr_rx_range_{}'.format(name_str))
             fw1 = csvreport(fname, title)
 
         self.config_classic_ber(rate='BR', chan=1, rx_level=rx_level, tx_power=tx_power)
@@ -5514,7 +4562,7 @@ class bt_signaling(object):
                     if csv_save:
                         fw1.write_data([rate,chan,ber,per,NAK,hec_err,crc_err,packet_type_err,pay_err,rxpwr])
 
-    def bedr_rx_ci(self, chan_list=[0,38,78], rate_list=['DH1'], cable_loss=4.6,rx_level=-60, tx_power=10, packet_num=2000,  csv_save=True):
+    def bedr_rx_ci(self, chan_list=[0,38,78], rate_list=['DH1'], cable_loss=4.6,rx_level=-60, tx_power=10, packet_num=2000,  csv_save=True, name_str='cbpf2'):
         self.dict_pwr_inter_freqoffset = {
             0: range(-85, -40),
             1: range(-65, -10),
@@ -5533,11 +4581,11 @@ class bt_signaling(object):
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,ber(%), per(%),agc_gain_index,agc_tgt,agc_sat\n'
-            fname = self.get_filename('ts_bt_test/','bedr_rx_ci_data_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/','bedr_rx_ci_data_{}'.format(name_str))
             fw1 = csvreport(fname,title)
 
             title1 = 'signal_channel,rate,freq_interference,rxpwr_interference(dbm),ci(db),agc_tgt,agc_sat\n'
-            fname1 = self.get_filename('ts_bt_test/','bedr_rx_ci_report_{}'.format(self.board_name))
+            fname1 = self.get_filename('ts_bt_test/','bedr_rx_ci_report_{}'.format(name_str))
             fw2 = csvreport(fname1,title1)
 
         self.config_classic_ber(rate='BR', chan=1, rx_level=rx_level, tx_power=tx_power)
@@ -5732,9 +4780,9 @@ class bt_signaling(object):
                                             break
         self.tester_inter.output_state(0, 0)
 
-    def bedr_rx_blocking(self, rate_list=['DH1'],  packet_num=1500, inter_loss=11, inter_rxpwr=[-30], freq_range=[]):
+    def bedr_rx_blocking(self, rate_list=['DH1'],  packet_num=1500, inter_loss=11, inter_rxpwr=[-30], freq_range=[], name_str='rxgain_0xfb'):
         title = 'rate,blocking_level,freq_blocking_1,freq_blocking_2,ber,per(%)\n'
-        fname = self.get_filename('ts_bt_test/', 'bedr_rx_blocking_{}'.format(self.board_name))
+        fname = self.get_filename('ts_bt_test/', 'bedr_rx_blocking_{}'.format(name_str))
         fw1 = csvreport(fname, title)
         self.tester_inter = mxg.MXG(device_name='N5182B',num_of_machine=1)
         self.tester_inter.para_set(30,-30+inter_loss)
@@ -5889,9 +4937,9 @@ class bt_signaling(object):
         self.tester_inter.output_state(0, 0)
         return freq_inter_list+freq_inter_list2
 
-    def le_rx_blocking(self, rate_list=['LE1M'], packet_len=37, packet_num=1500, inter_loss=11, inter_rxpwr=-10, freq_range_le=[]):
+    def le_rx_blocking(self, rate_list=['LE1M'], packet_len=37, packet_num=1500, inter_loss=11, inter_rxpwr=-10, freq_range_le=[], name_str='rxgain_0xfb'):
         title = 'rate,blocking_level,freq_blocking_1,freq_blocking_2,per(%)\n'
-        fname = self.get_filename('ts_bt_test/', 'le_rx_blocking_{}'.format(self.board_name))
+        fname = self.get_filename('ts_bt_test/', 'le_rx_blocking_{}'.format(name_str))
         fw1 = csvreport(fname, title)
         self.tester_inter = mxg.MXG(device_name='N5182B',num_of_machine=1)
         self.tester_inter.para_set(30,-30+inter_loss)
@@ -5973,7 +5021,7 @@ class bt_signaling(object):
             #     fw1.write_data([rate, pwr-inter_loss, freq_blocking_1, freq_blocking_2, per])
 
 
-    def le_rx_ci(self,  cable_loss=5, chan_list=[0], rate_list=['LE_1M'], packet_len=37, pkt_num=2000,  csv_save=True, cbpf2_en=0,agc_tgt_sat_list=[[300,400]]):
+    def le_rx_ci(self,  cable_loss=5, chan_list=[0], rate_list=['LE_1M'], packet_len=37, pkt_num=2000,  csv_save=True, name_str='rxgain_0xfb',cbpf2_en=0,agc_tgt_sat_list=[[300,400]]):
         self.dict_pwr_inter_freqoffset = {
             0: range(-80, -50),
             1: range(-75, -20),
@@ -5986,11 +5034,11 @@ class bt_signaling(object):
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,per(%),agc_gain_index,agc_tgt,agc_sat\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(name_str))
             fw1 = csvreport(fname,title)
 
             title1 = 'signal_channel,rate,freq_interference,rxpwr_interference(dbm),ci(db),agc_tgt,agc_sat\n'
-            fname1 = self.get_filename('ts_bt_test/','le_rx_ci_report_{}'.format(self.board_name))
+            fname1 = self.get_filename('ts_bt_test/','le_rx_ci_report_{}'.format(name_str))
             fw2 = csvreport(fname1,title1)
         if self.chipv == 'TX232':
             if cbpf2_en !=0:
@@ -6051,13 +5099,13 @@ class bt_signaling(object):
 
         self.tester_inter.output_state(0, 0)
 
-    def test_le_sens(self, chan_list=[], rate_list=[], rx_pwr_range=[-99,-90], cable_loss=5, csv_save=True):
+    def test_le_sens(self, chan_list=[], rate_list=[], rx_pwr_range=[-99,-90], cable_loss=5, csv_save=True, name_str='QFN60'):
         if csv_save:
             title = 'rate,channel,sensitivity,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','test_le_per_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/','test_le_per_{}'.format(name_str))
             fw1 = csvreport(fname,title)
         for rate in rate_list:
-            if rate == 'LE_1M' or rate == 'LE1M':
+            if rate == 'LE_1M':
                 _rate = 'LE1M'
             else:
                 _rate = 'LE2M'
@@ -6065,7 +5113,6 @@ class bt_signaling(object):
             self.csp.RF_Frequency_Settings_rx(mode='DTM', ch_tx=0)
             self.csp.config_rxq_le_packets(rate=_rate, num=1500)
             self.csp.config_rx_level(rxpwr=-67)
-            self.csp.RF_Power_settings_autoranging(0)  # 打开autorange会导致接收per 概率性100%
             time.sleep(1)
             for chan in chan_list:
                 self.csp.RF_Frequency_Settings_rx(mode='DTM', ch_tx=chan)
@@ -6086,7 +5133,7 @@ class bt_signaling(object):
 
 
 
-    def le_rx_intermod(self,  cable_loss=5, chan_list=[0], rate_list=['LE_1M'], packet_len=37, pkt_num=2000,  csv_save=True):
+    def le_rx_intermod(self,  cable_loss=5, chan_list=[0], rate_list=['LE_1M'], packet_len=37, pkt_num=2000,  csv_save=True, name_str='rxgain_0xfb'):
         self.dict_pwr_inter_freqoffset = {
             0: range(-90, -60),
             1: range(-85, -50),
@@ -6099,7 +5146,7 @@ class bt_signaling(object):
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference_tone,freq_interference_mod,rxpwr_interference,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(name_str))
             fw1 = csvreport(fname,title)
         for chan in chan_list:
             for rate in rate_list:
@@ -6144,7 +5191,7 @@ class bt_signaling(object):
                         fw1.write_data([chan, rate, freq_inter2, freq_inter1,  power_inter + cable_loss,  per])
 
 
-    def le_rx_sniff(self, chan=0, rxpwr=-60, tx_power=15, time_interval=0.5):
+    def le_rx_sniff(self, chan=0, rxpwr=-60, time_interval=0.5):
         import matplotlib.pyplot as plt
         import numpy as np
         import time
@@ -6155,8 +5202,7 @@ class bt_signaling(object):
         self.config_per_le_connect_usb(rate='LE1M', packet_len=37)
         self.csp.RF_Frequency_Settings_rx(mode='DTM', ch_tx=chan)
         self.csp.config_rxq_le_packets(rate='LE1M', num=1500)
-        self.csp.RF_Power_settings(rx_level=rxpwr, tx_power=tx_power,margin=8)
-        self.csp.RF_Power_settings_autoranging(0)   #打开autorange会导致接收per 概率性100%
+        self.csp.config_rx_level(rxpwr=rxpwr)
         time.sleep(1)
         per_list=[]
         t=0
@@ -6167,13 +5213,9 @@ class bt_signaling(object):
             time.sleep(time_interval)
             t = t+time_interval
             per = eval(res[1])
-            rxpkt_count = self.jlink.rd(0xa04008d8)
-            loginfo('rxpkt_count:{}'.format(rxpkt_count))
-            # per_list.append(per)
-            # t_list.append(t)
-            # plt.plot(t_list,per_list, '.r')
-            plt.plot(t, per, '.r')
-            plt.draw()
+            per_list.append(per)
+            t_list.append(t)
+            plt.plot(t_list,per_list, '.r')
             plt.pause(0.01)
 
     def br_rx_sniff(self, chan=0, rxpwr=-60, time_interval=0.5, count=10000):
@@ -6211,13 +5253,13 @@ class bt_signaling(object):
             ber = eval(res[1])
             per = eval(res[2])
             loginfo('ber  {}   per  {}'.format(ber,per))
-            # ber_list.append(ber)
-            # per_list.append(per)
-            # t_list.append(t)
+            ber_list.append(ber)
+            per_list.append(per)
+            t_list.append(t)
             plt.subplot(211)
-            plt.plot(t,ber, '.r')
+            plt.plot(t_list,ber_list, '.r')
             plt.subplot(212)
-            plt.plot( t, per, '.b')
+            plt.plot( t_list, per_list, '.b')
             plt.pause(0.01)
 
     def get_filename(self, folder, file_name, sub_folder=''):
