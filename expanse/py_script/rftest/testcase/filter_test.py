@@ -338,7 +338,7 @@ class filter_test(object):
                 tx_power=[]
                 i_amp=[]
                 for row in f_csv:
-                    print row[0],row[1]
+                    print (row[0],row[1])
                     freq.append(float(row[0]))
                     tx_power.append(float(row[1]))
 ##                    rx_pwr.append(10*np.log10(float(row[1])))
@@ -361,7 +361,7 @@ class filter_test(object):
                 tx_power=[]
                 i_amp=[]
                 for row in f_csv:
-                    print row[0],row[1]
+                    print (row[0],row[1])
                     freq.append(float(row[0]))
 ##                    tx_power.append(float(row[1]))
                     rx_pwr.append(10*np.log10(float(row[1])))

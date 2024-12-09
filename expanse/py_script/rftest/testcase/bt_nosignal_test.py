@@ -234,7 +234,7 @@ class bt_nosignal_test(object):
                 leakage_pow = eval(res1[4])
                 PacketTiming = eval(res1[5])
                 acp_list = [eval(i) for i in res2[1:]]
-                print acp_list
+                print (acp_list)
 
                 acp_center = 10
                 acp_max_pwr = acp_list[acp_center]
@@ -307,7 +307,7 @@ class bt_nosignal_test(object):
                     df_value = [chan,DH,nominal_pow,peak_pow,leakage_pow,PacketTiming,frange_l,frange_h,obw_l,obw_h,obw,acp_max_pwr,acp_l4,acp_l3,
                                                            acp_l2,acp_l1,acp_r1,acp_r2,acp_r3,acp_r4,delta_f1_avg,delta_f2_avg,delta_f2_99,mod_ratio,freq_accuracy,'',freq_drift,
                                                            '','',drift_rate,'','','']
-                    print len(df_value)
+                    print (len(df_value))
                     df['channel_{}_{}'.format(chan,DH)] = df_value
                     df.to_csv(fw2.filename,index=False)
                 if csv_save:

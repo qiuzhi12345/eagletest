@@ -2,6 +2,8 @@
 # -*- coding:utf8 -*-
 
 import re
+from exceptions import StandardError
+
 from baselib.loglib.log_lib import *
 from baselib.plot import *
 from baselib.instrument import *
@@ -642,7 +644,7 @@ class bt_signaling(object):
                     df_value = [chan,rate,nominal_pow,peak_pow,leakage_pow,PacketTiming,frange_l,frange_h,obw_l,obw_h,obw,acp_max_pwr,acp_l4,acp_l3,
                                                            acp_l2,acp_l1,acp_r1,acp_r2,acp_r3,acp_r4,delta_f1_avg,delta_f2_avg,delta_f2_99,mod_ratio,freq_accuracy,'',freq_drift,
                                                            '','',drift_rate,'','','']
-                    print len(df_value)
+                    print (len(df_value))
                     df['channel_{}_{}'.format(chan,rate)] = df_value
                     df.to_csv(fw2.filename,index=False)
                 if csv_save:
