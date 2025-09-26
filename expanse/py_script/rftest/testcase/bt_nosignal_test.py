@@ -70,7 +70,9 @@ class bt_nosignal_test(object):
         self.jlink_en = jlink_en
         if jlink_en!=0:
             self.jlink = jlink
-        self.btapi = bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=self.jlink)
+            self.btapi = bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=self.jlink)
+        else:
+            self.btapi = bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en)
         self.br_len_dic = {
             'DH1': 27,
             'DH3': 183,
@@ -125,7 +127,7 @@ class bt_nosignal_test(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
             title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
             title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_br_tx_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','test_br_tx_{}'.format(self.board_name))
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
@@ -322,11 +324,11 @@ class bt_nosignal_test(object):
             title = 'rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),'
             title = title + 'wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,'
             title = title + 'PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list\n'
-            fname = self.get_filename('ts_bt_test/', 'test_edr_tx_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/', 'test_edr_tx_{}'.format(self.board_name))
             fw1 = csvreport(fname, title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_edr_tx_report_{}'.format(self.board_name))
+            fname2 = rfglobal.get_filename('ts_bt_test/','test_edr_tx_report_{}'.format(self.board_name))
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'Tx/10 - EDR Relative Transmit Power - PGFSK - Max Power', u' - PDPSK',
                     u'- PDPSK - PGFSK',
@@ -467,11 +469,11 @@ class bt_nosignal_test(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),'
             title = title + 'delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),'
             title = title + 'acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_le_tx_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','test_le_tx_{}'.format(self.board_name))
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_le_tx_report_{}'.format(self.board_name))
+            fname2 = rfglobal.get_filename('ts_bt_test/','test_le_tx_report_{}'.format(self.board_name))
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'TP/TRM-LE/CA/BV-01-C - Output power  - Average Power', u' - Peak Power',
                     u'- Peak - Average Power',
@@ -672,7 +674,7 @@ class bt_nosignal_test(object):
     def bt_per(self, rfport=2, cable_loss=5, chan=0, rate='1M_DH1', rxpwr_range=[-98,-20], pkt_num=1000, dirty_en=0, csv_save=True, device='CMW', num_of_machine=1):
         if csv_save:
             title = 'channel,rate,rxpwr,rev_pkg,total_pkg,err_bit,total_bit,err_bit_ratio(%)\n'
-            fname = self.get_filename('ts_bt_test/','rw_per_{}_{}'.format(rate,chan))
+            fname = rfglobal.get_filename('ts_bt_test/','rw_per_{}_{}'.format(rate,chan))
             fw1 = csvreport(fname,title)
         perform_list = []
         rxpwr_max = max(rxpwr_range)
@@ -710,7 +712,7 @@ class bt_nosignal_test(object):
         # self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'channel,rate,rxpwr,total_pkg,rev_pkg,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_per_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','le_per_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
         perform_list = []
         rxpwr_max = max(rxpwr_range)
@@ -768,7 +770,7 @@ class bt_nosignal_test(object):
         # self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,total_pkg,rev_pkg,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
         for chan in chan_list:
             for rate in rate_list:
@@ -837,7 +839,7 @@ class bt_nosignal_test(object):
         self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'rxgain,signal_channel,rate,freq_interference,rxpwr_interference,total_pkg,rev_pkg,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
         for rxgain in rxgain_list:
             for chan in chan_list:
@@ -893,7 +895,7 @@ class bt_nosignal_test(object):
         # self.mem_ts.wrm(0xa0420004,30,16,0x1c4)
         if csv_save:
             title = 'rate,freq_blocking_1,freq_blocking_2,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_blocking_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','le_rx_blocking_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
         freq_blocking_1_list = []
         freq_blocking_2_list = []
@@ -973,41 +975,41 @@ class bt_nosignal_test(object):
                 perform_list = self.bt_per(rfport=rfport, cable_loss=cable_loss, chan=chan, rate= rate, rxpwr_range=rxpwr_range, pkt_num=pkt_num, dirty_en=dirty_en)
 
 
-    def get_filename(self, folder, file_name, sub_folder=''):
-        '''
-        :folder: file store folder
-        :file_name:  file name
-        :sub_folder: if not need, it may be default ""
-        '''
-        if rfglobal.file_folder=="":
-            rfdata_path = './rftest/rfdata/'
-        else:
-            rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
-            if os.path.exists(rfdata_path) == False:
-                os.mkdir(rfdata_path)
-
-        data_path1 = rfdata_path+'%s/'%(folder)
-        if os.path.exists(data_path1) == False:
-            os.mkdir(data_path1)
-
-        filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
-        # mac = self.read_mac()
-        mac = ''
-
-        gen_folder = '_%s'%(filetime[0:8])
-        data_path2 = data_path1 +'%s/'%(gen_folder)
-        if os.path.exists(data_path2) == False:
-            os.mkdir(data_path2)
-
-        fname = '%s'%(file_name)
-        outfile_name = data_path2 + fname
-
-        if sub_folder != '':
-            gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
-            sub_path = data_path2+'%s/'%(gen_folder)
-            if os.path.exists(sub_path) == False:
-                os.mkdir(sub_path)
-
-            outfile_name = sub_path + file_name
-
-        return outfile_name
+    # def get_filename(self, folder, file_name, sub_folder=''):
+    #     '''
+    #     :folder: file store folder
+    #     :file_name:  file name
+    #     :sub_folder: if not need, it may be default ""
+    #     '''
+    #     if rfglobal.file_folder=="":
+    #         rfdata_path = './rftest/rfdata/'
+    #     else:
+    #         rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
+    #         if os.path.exists(rfdata_path) == False:
+    #             os.mkdir(rfdata_path)
+    #
+    #     data_path1 = rfdata_path+'%s/'%(folder)
+    #     if os.path.exists(data_path1) == False:
+    #         os.mkdir(data_path1)
+    #
+    #     filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
+    #     # mac = self.read_mac()
+    #     mac = ''
+    #
+    #     gen_folder = '_%s'%(filetime[0:8])
+    #     data_path2 = data_path1 +'%s/'%(gen_folder)
+    #     if os.path.exists(data_path2) == False:
+    #         os.mkdir(data_path2)
+    #
+    #     fname = '%s'%(file_name)
+    #     outfile_name = data_path2 + fname
+    #
+    #     if sub_folder != '':
+    #         gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
+    #         sub_path = data_path2+'%s/'%(gen_folder)
+    #         if os.path.exists(sub_path) == False:
+    #             os.mkdir(sub_path)
+    #
+    #         outfile_name = sub_path + file_name
+    #
+    #     return outfile_name

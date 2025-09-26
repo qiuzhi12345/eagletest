@@ -16,6 +16,7 @@ from rftest.rflib.rfpll import rfpll
 from rftest.rflib.rfcal import rfcal
 from rftest.rflib.pbus import pbus
 from rftest.rflib.saradc import SARADC
+from rftest.rflib import rfglobal
 from baselib.instrument.tester_serv.instrum_server import instru_server
 from rftest.testcase.current.current_meas import RF_Curr
 
@@ -49,7 +50,7 @@ else:
     from rftest.testcase.performance.rf_test_case import RF_TEST_CASE
     from rftest.testcase.performance.tester_cal_pwr import TESTER_CAL_PWR
     from rftest.testcase.performance.bt_test_cmw import bt_test ,bt_signaling,bt_curr,testpin,BQB_autotest,gdb_load_code,gdb_server
-
+    from rftest.testcase.performance.bt_test_cmw import BT_MODEM_BASE,BT_RF_BASE,BT_CORE_BASE
 data_path = './rftest/rfdata'
 file_name_lst = ['bt_auto_data','i2c_auto_data','rf_curr_data','rf_acpr_data','rf_wifi_autotest_data','sweep_tx_gain','sar_pwrdet_data','pa_outpwr_data','rf_wifi_qickly_test_data','rf_rxfreqtol_data','rf_bin_test']
 
@@ -57,7 +58,7 @@ file_name_lst = ['bt_auto_data','i2c_auto_data','rf_curr_data','rf_acpr_data','r
 
 class RFTCS(object):
     """docstring for TCS"""
-    def __init__(self, comport, chipv = "AUTO", jlink_en=1, jlink_sn='59610042'):
+    def __init__(self, comport, chipv = "AUTO", jlink_en=1, jlink_sn='601012495'):
         self.comport = comport
         # try:
         self.hals = HALS(self.comport, chipv)
@@ -72,6 +73,18 @@ class RFTCS(object):
         #     self.jlink.connect('ARMCM4_FP')
 
 
+        if self.chipv == "epm9062":
+            rfglobal.BT_MODEM_BASE = 0x50420000
+            rfglobal.BT_RF_BASE = 0x50421000
+            rfglobal.BT_CORE_BASE = 0x50422000
+            rfglobal.BT_BASEBAND = 0x50400000
+
+        elif self.chipv == "TX232_MPW3":
+            rfglobal.BT_MODEM_BASE = 0xA0420000
+            rfglobal.BT_RF_BASE = 0xA0421000
+            rfglobal.BT_CORE_BASE = 0xA0422000
+            rfglobal.BT_BASEBAND = 0xa0400000
+
         #common
 ##        self.wifitx_api = WIFITX_API(self.comport,self.chipv)
 ##        self.wifirx_api = WIFIRX_API(self.comport,self.chipv)
@@ -83,11 +96,14 @@ class RFTCS(object):
         self.i2c = HWI2C(self.comport,self.chipv)
         self.mem = MEM(self.comport,self.chipv)
         self.MEM = MEM(self.comport,self.chipv)
-        self.mem_ts = MEM_TS(self.comport)
-        self.MEM_TS = MEM_TS(self.comport)
+        self.mem_ts = MEM_TS(self.comport,self.chipv)
+        self.MEM_TS = MEM_TS(self.comport,self.chipv)
         if jlink_en != 0:
-            self.JLINK = jlink(jlink_sn=jlink_sn)
-
+            if self.chipv == "epm9062":
+                gdb_server('N22')
+                self.JLINK = MEM_GDB()
+            elif self.chipv == "TX232_MPW3":
+                self.JLINK = jlink(jlink_sn=jlink_sn)
         #rflib
         self.adc_dump = DUMP(self.comport,self.chipv)
 ##        self.wifitx = WIFITX(self.comport,self.chipv)

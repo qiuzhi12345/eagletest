@@ -7,6 +7,46 @@ pbus_table.xlsx - pbus register settings for pbus.pbus_rc and pbus.pbus_wc
 
 """
 
+import time
+import os
+def get_filename(self, folder, file_name, sub_folder=''):
+    '''
+    :folder: file store folder
+    :file_name:  file name
+    :sub_folder: if not need, it may be default ""
+    '''
+    if file_folder == "":
+        rfdata_path = './rftest/rfdata/'
+    else:
+        rfdata_path = './rftest/rfdata/%s/' % file_folder
+        if os.path.exists(rfdata_path) == False:
+            os.mkdir(rfdata_path)
+
+    data_path1 = rfdata_path + '%s/' % (folder)
+    if os.path.exists(data_path1) == False:
+        os.mkdir(data_path1)
+
+    filetime = time.strftime('%Y%m%d_%H%M%S', time.localtime(time.time()));
+    # mac = self.read_mac()
+    mac = ''
+
+    gen_folder = '_%s' % (filetime[0:8])
+    data_path2 = data_path1 + '%s/' % (gen_folder)
+    if os.path.exists(data_path2) == False:
+        os.mkdir(data_path2)
+
+    fname = '%s' % (file_name)
+    outfile_name = data_path2 + fname
+
+    if sub_folder != '':
+        gen_folder = '%s_%s' % (sub_folder, filetime[0:8])
+        sub_path = data_path2 + '%s/' % (gen_folder)
+        if os.path.exists(sub_path) == False:
+            os.mkdir(sub_path)
+
+        outfile_name = sub_path + file_name
+
+    return outfile_name
 def rate2addr(rate_sym):
     """Return mem.addr for rate_sym"""
     rate_num = ratedic[rate_sym]

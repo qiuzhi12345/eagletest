@@ -53,11 +53,11 @@ class HP(object):
            self.set_span(span);
 
         self.sweep_ctrl();
-        print 'Initialize Spectrum Analyzer OK!'
+        logdebug('Initialize Spectrum Analyzer OK!')
 
     #CMW related command below:
     def meas_stat(self):
-        return self.device.ask('TRSTAT?');
+        return self.device.ask('TRSTAT?;*WAI');
 
     def meas_start(self):
         self.device.write('TS');  #take sweep
@@ -79,7 +79,7 @@ class HP(object):
         return True;
 
     def get_mode(self):
-        return self.device.ask("MEASURE?");
+        return self.device.ask("MEASURE?;*WAI");
 
     def set_pwr(self,pwr):
         self.device.write('SRCPWR %fDM'%pwr);
@@ -90,7 +90,7 @@ class HP(object):
         return True;
 
     def get_pwr(self):
-        pwr=self.device.ask('SRCPWR?');
+        pwr=self.device.ask('SRCPWR?;*WAI');
         return float(pwr);
 
     def set_cfreq(self,cfreq): #cfreq unit is MHz
@@ -166,14 +166,14 @@ class HP(object):
 ##        self.device.write('MKP TRA;');
             amp=float(self.device.ask('MKA?;'));
             freq=float(self.device.ask('MKF?;'))/1000000.0;
-            print 'amp:%ddBm,freq:%dMHz'%(amp,freq);
+            logdebug('amp:%ddBm,freq:%dMHz'%(amp,freq));
             pklst.append((freq,amp));
         return pklst;
 
     #search peaks in all measure range(1M-6GHz)
     def pk_scan(self,th=-60,pk_excursion=6,start_freq=1,end_freq=6000,store_path='null'):
         if start_freq<0 or end_freq>6000 or start_freq>=end_freq:
-            print 'scan out of freq range';
+            logdebug('scan out of freq range');
             return [];
 
         span=self.get_span(); #unit: MHz
@@ -188,7 +188,7 @@ class HP(object):
             cfreq=cfreq0+i*span-i*overlap_span;
             self.set_param(cfreq,span,rb);
 
-            print '\nSearch peaks from %dMHz to %dMHz'%(cfreq-span/2,cfreq+span/2);
+            logdebug('\nSearch peaks from %dMHz to %dMHz'%(cfreq-span/2,cfreq+span/2)) ;
             pklst_new=self.pk_search(th,pk_excursion);
             #check if there have peaks overlap
             for j,pk_data in enumerate(pklst_new):
@@ -197,7 +197,7 @@ class HP(object):
                     k=last_index;
                 while pk_data[0]<=pklst_all[k][0]+rb*0.001:
                     if abs(pk_data[0]-pklst_all[k][0])<=rb*0.001:
-                        print 'find overlap peak!';
+                        logdebug('find overlap peak!') ;
                         j=-1; #flag the pk is dealt
                         break;
                     elif k==0:
@@ -248,7 +248,7 @@ class HP(object):
         self.device.write('CHP;');
 
         if '0'!=self.device.ask('ACPERR?;'):
-           print 'fail to get power value!';
+           logdebug('fail to get power value!');
            return [];
         else:
            ch_pwr=float(self.device.ask('CHPWR?;'));
@@ -370,7 +370,7 @@ class Agilent(object):
             self.set_span(span);
 
 ##        self.sweep_ctrl();
-        print 'Initialize Spectrum Analyzer OK!'
+        logdebug('Initialize Spectrum Analyzer OK!')
 
     #CMW related command below:
 ##    def meas_stat(self):
@@ -437,7 +437,7 @@ class Agilent(object):
 	   return float(stopfreq)/1000000.0;
 
     def set_rb(self,rb):
-        self.device.write(':SENSE:BAND:RES %dKHZ;'%rb);
+        self.device.write(':SENSE:BAND:RES %dHZ;'%(rb*1000));
         return True;
 ##
     def set_rb_HZ(self,rb):
@@ -449,7 +449,7 @@ class Agilent(object):
         return float(rb)/1000.0;
 ##
     def set_vb(self,vb):
-        self.device.write(':SENSE:BAND:VIDeo %dKHZ;'%vb);
+        self.device.write(':SENSE:BAND:VIDeo %dHZ;'%(vb*1000));
         return True;
 
     def set_vb_HZ(self, vb):
@@ -492,7 +492,7 @@ class Agilent(object):
         return True
 
     def trace_avghold(self,trace):
-        self.device.write('TRAC%d:TYPE AVER'%trace);
+        self.device.write('TRAC%d:TYPE AVER;*WAI'%trace);
         return True
 
 
@@ -550,7 +550,7 @@ class Agilent(object):
 ##        freq=float(self.device.ask('CALC:TXP:MARK1:X?'))/1000000.0;
         amp=float(self.device.ask('CALC:MARK1:Y?'));
         freq=float(self.device.ask('CALC:MARK1:X?'))/1000000.0;
-        print 'amp:%fdBm,freq:%fMHz'%(amp,freq);
+        logdebug('amp:%fdBm,freq:%fMHz'%(amp,freq));
         pklst.append((freq,amp));
         return pklst;
 
@@ -570,7 +570,7 @@ class Agilent(object):
             freq = float(self.device.ask('CALC:MARK1:X?')) / 1000000.0;
             if amp != -1000:
                 break
-        print 'amp:%fdBm,freq:%fMHz' % (amp, freq);
+        logdebug('amp:%fdBm,freq:%fMHz' % (amp, freq));
         pklst.append((freq, amp));
         return pklst;
 
@@ -585,7 +585,7 @@ class Agilent(object):
         ##        freq=float(self.device.ask('CALC:TXP:MARK1:X?'))/1000000.0;
         amp = float(self.device.ask('CALC:MARK1:Y?'));
         freq = float(self.device.ask('CALC:MARK1:X?')) / 1000000.000;
-        print 'amp:%fdBm,freq:%fMHz' % (amp, freq);
+        logdebug('amp:%fdBm,freq:%fMHz' % (amp, freq));
         pklst.append((freq, amp));
         return pklst;
 ##
@@ -767,41 +767,41 @@ class Agilent(object):
     	if name == 'PEAK':
     	    return self.pk_detect();
 
-class BT_TEST(object):
-    def reset(self, timeout=10):
-        # self.device.write('IP;');
-        self.device.write(':SYST:PRES');
-        return True;
-
-    def __init__(self, timeout=10, device="N9020A"):
-        '''
-        mode:   1:  SA
-                14: phase noise test
-                18: wlan
-        '''
-        if platform.platform().find("Linux") != -1:
-            from GPIBImpl import GPIBLinux
-            self.device = GPIBLinux.GPIBDevice(device)  # HP
-        else:
-            from GPIBImpl import GPIBWindows
-            self.device = GPIBWindows.GPIBDevice(device)
-
-        pass
-
-        # instrument initialize
-        self.reset();
-        self.set_mode('BT')
-        self.meas_setup_packettype_auto()
-
-
-    def set_mode(self,mode='BT'):
-        '''
-        1:  SA
-        14: phase noise test
-        18: wlan
-        '''
-        if mode == 'BT':
-            self.device.write('INST:SEL BT')
+# class BT_TEST(object):
+#     def reset(self, timeout=10):
+#         # self.device.write('IP;');
+#         self.device.write(':SYST:PRES');
+#         return True;
+#
+#     def __init__(self, timeout=10, device="N9020A"):
+#         '''
+#         mode:   1:  SA
+#                 14: phase noise test
+#                 18: wlan
+#         '''
+#         if platform.platform().find("Linux") != -1:
+#             from GPIBImpl import GPIBLinux
+#             self.device = GPIBLinux.GPIBDevice(device)  # HP
+#         else:
+#             from GPIBImpl import GPIBWindows
+#             self.device = GPIBWindows.GPIBDevice(device)
+#
+#         pass
+#
+#         # instrument initialize
+#         self.reset();
+#         self.set_mode('BT')
+#         self.meas_setup_packettype_auto()
+#
+#
+#     def set_mode(self,mode='BT'):
+#         '''
+#         1:  SA
+#         14: phase noise test
+#         18: wlan
+#         '''
+#         if mode == 'BT':
+#             self.device.write('INST:SEL BT')
 
     def meas_setup_packettype_auto(self):
         self.device.write('TX:PACK:AUTO ON')
@@ -824,6 +824,11 @@ class BT_TEST(object):
         elif mode == 'IMM':
             self.device.write('TRIG:SOUR IMM')
 
+    def trigger_type_set(self, trigger_typ = 'REL'):
+        '''
+        trigger_typ:    REL;   ABS
+        '''
+        self.device.write(':TRIGger:SEQuence:RFBurst:LEVel:TYPE {}'.format(trigger_typ))
     def tx_meas_get(self):
         '''
         Returns 27 comma-separated scalar results. Results 1 to 12 apply to Basic or Low Energy packets, results 13 to 24 apply to EDR packets and 26–27 is the common results.As
@@ -858,7 +863,9 @@ class BT_TEST(object):
         27. Payload Length (bits)
         '''
         self.device.write(':CONFigure:TX')
-        res = self.device.ask('READ:TX1?')
+        res = self.device.ask('READ:TX1?;*WAI')
+        res = res.split(',')
+        logdebug( res)
         return res
     def meas_setup_method(self, method='FFT'):
         if method == 'FFT':
@@ -873,19 +880,19 @@ class BT_TEST(object):
     def acp_meas_get(self):
         self.device.write(':CONFigure:ACPower')
         self.meas_setup_method('FFT')
-        res = self.device.ask('READ:ACPower2?')
+        res = self.device.ask('READ:ACPower2?;*WAI')
         return res
 
     def ibsp_meas_get(self):
         self.device.write(':CONFigure:IBSPurious')
         self.meas_setup_method('FFT')
-        res = self.device.ask('READ:IBSPurious2?')
+        res = self.device.ask('READ:IBSPurious2?;*WAI')
         return res
 
     def ibem_meas_get(self):
         self.device.write('CONFigure:IBEMissions')
         self.meas_setup_method('FFT')
-        res = self.device.ask('READ:IBEMissions2?')
+        res = self.device.ask('READ:IBEMissions2?;*WAI')
         return res
 
 class phnoise(object):
@@ -918,7 +925,7 @@ class phnoise(object):
             self.set_span(offset_start=1,offset_stop=40000)
             self.carrier_search()
 
-        print 'Initialize Spectrum Analyzer OK!'
+        logdebug('Initialize Spectrum Analyzer OK!')
 
     def set_mode(self,mode=14):
         '''
@@ -961,8 +968,8 @@ class phnoise(object):
         self.device.write(':SENSe:LPLot:AVERage:COUNt %d'%num)
 
     def get_result(self,trace=1):
-        res=self.device.ask(':READ:LPLot%d?'%(trace+2))
-        time.sleep(2)
+        res=self.device.ask(':READ:LPLot%d?;*WAI'%(trace+2))
+        # time.sleep(2)
         return res
 
 

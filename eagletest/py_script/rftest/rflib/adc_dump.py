@@ -26,7 +26,7 @@ class DUMP(object):
         self.comport = comport
         self.chipv = chipv
         self.mem = MEM(self.comport,self.chipv)
-        self.mem_ts = MEM_TS(self.comport)
+        self.mem_ts = MEM_TS(self.comport,self.chipv)
         self.pbus = PBUS(self.comport,self.chipv)
         self.chipid = CHIP_ID(self.comport, self.chipv)
         self.wifi = WIFILIB(self.comport,self.chipv)

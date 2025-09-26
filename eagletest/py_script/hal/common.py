@@ -1,3 +1,5 @@
+import time
+
 from baselib.loglib.log_lib import *
 import os, sys
 import socket
@@ -8,15 +10,20 @@ import pylink
 from pygdbmi.gdbcontroller import GdbController
 class MEM_GDB(object):
     def __init__(self):
+        os.environ['PATH'] = os.environ['PATH'] + ';' + r'G:\TOOLS\V5.3.0\cygwin\bin'
         self.open()
         self.open_c()
 
     def open(self):
-        self.gdbmin_mem = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb', ['riscv32.elf'])
-
+        self.gdbmin_mem = GdbController(r'G:\TOOLS\V5.3.0\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb.exe', ['riscv32.elf'])
+        # self.gdbmin_mem = GdbController(
+        #     r'G:\TOOLS\V5.3.0\V5.3.0\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb',
+        #     ['riscv32.elf'])
     def open_c(self):
-        self.gdbmin_mem_c = GdbController(r'E:\project_audio\expanse\tx232_driver_src\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb', ['riscv32.elf'])
-
+        self.gdbmin_mem_c = GdbController(r'G:\TOOLS\V5.3.0\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb.exe', ['riscv32.elf'])
+        # self.gdbmin_mem = GdbController(
+        #     r'G:\TOOLS\V5.3.0\V5.3.0\toolchains\nds32le-elf-mculib-v5\bin\riscv32-elf-gdb',
+        #     ['riscv32.elf'])
     def close(self):
         self.gdbmin_mem.exit()
     def close_c(self):
@@ -51,7 +58,8 @@ class MEM_GDB(object):
         self.close_c()
         self.open_c()
         self.gdbmin_mem.write('set *(unsigned int *) {}={}'.format(addr,value),timeout_sec=0.1,read_response=False)
-        self.gdbmin_mem_c.write('c', timeout_sec=2, read_response=False)
+        self.gdbmin_mem_c.write('c', timeout_sec=0.1, read_response=False)
+        time.sleep(1)
         res = self.rd(addr)
 
         if eval(res) != value:
@@ -78,19 +86,22 @@ class MEM_GDB(object):
 
 class MEM_TS(object):
     """docstring for common"""
-    def __init__(self, channel):
+    def __init__(self, channel, chipv):
         self.channel = channel
-
-
+        self.chipv = chipv
 
     def rd(self, reg_addr):
-        for i in range(10):
-            result = self.channel.req_com("rl 0x%x"%(reg_addr), wr_end='\r\n')
+        for i in range(5):
+            if self.chipv == 'epm9062':
+                result = self.channel.req_com("cli_rl 0x%x"%(reg_addr), wr_end='\r\n')
+            else:
+                result = self.channel.req_com("rl 0x%x"%(reg_addr), wr_end='\r\n')
+            # result = self.channel.req_com("rl 0x%x"%(reg_addr), wr_end='\r\n')
             if result.find('value:') != -1:
             #logdebug("res:" + result)
                 result = result.split('value:')[1]
                 break
-            elif i == 9:
+            elif i == 4:
                 logwarn('rd fail,result:{} ,try agian {}'.format(result,i))
         try:
             result_int = int(result, 16)
@@ -99,8 +110,12 @@ class MEM_TS(object):
             return result
 
     def wr(self, reg_addr, value):
-        for i in range(10):
-            result = self.channel.req_com("wl 0x%x 0x%x"%(reg_addr, value), wr_end='\r\n')
+        for i in range(5):
+            if self.chipv == 'epm9062':
+                result = self.channel.req_com("cli_wl 0x%x 0x%x"%(reg_addr, value), wr_end='\r\n')
+            else:
+                result = self.channel.req_com("wl 0x%x 0x%x"%(reg_addr, value), wr_end='\r\n')
+            # result = self.channel.req_com("wl 0x%x 0x%x"%(reg_addr, value), wr_end='\r\n')
             if result.find('value:') != -1:
             # logdebug("res:" + result)
                 result = result.split('value:')[1]
@@ -108,7 +123,7 @@ class MEM_TS(object):
             elif result.find('val:') != -1:
                 result = result.split('val:')[1]
                 break
-            elif i == 9:
+            elif i == 4:
                 logwarn('wr fail,result:{} ,try agian {}'.format(result,i))
         try:
             result_int = int(result, 16)
@@ -126,16 +141,20 @@ class MEM_TS(object):
             logerror("mem reads " + "%s"%result)
         return result
 
-    def wrm(self, reg_addr,msb,lsb,value):
+    def wrm(self, reg_addr,msb,lsb,value,lsb_dis=0):
         result = self.rd(reg_addr);
         mask = (1<<(msb+1)) - (1<<lsb);
         try:
-            result = (result & ~mask) | ((value << lsb) & mask);
+            if lsb_dis ==1:
+                result = (result & ~mask) | ((value << lsb) & mask) | (((1<<(msb+1-lsb))-1)<<(lsb+16))
+            else:
+                result = (result & ~mask) | ((value << lsb) & mask)
+            logdebug('{}'.format(result))
             return self.wr(reg_addr,result);
+
         except:
             logerror("mem write fail, reads  %s"%result)
             return
-
     def rfrd(self, reg_addr):
         for i in range(10):
             result = self.channel.req_com("rfrl 0x%x"%(reg_addr), wr_end='\r\n')
@@ -233,7 +252,7 @@ class jlink(object):
         res = self.rd(addr)
 
     def wrm(self, addr, msb, lsb, value, lsb_dis=0):
-        result = self.rd(addr=addr)
+        result = self.rd(addr)
         mask = (1<<(msb+1)) - (1<<lsb);
         try:
             if lsb_dis !=0:
@@ -241,7 +260,7 @@ class jlink(object):
             else:
                 result = (eval(result) & ~mask) | ((value << lsb) & mask)
             logdebug('{}'.format(result))
-            return self.wr(addr,result);
+            return self.wr(addr,result)
         except:
             logerror("mem write fail, reads  %s"%result)
             return

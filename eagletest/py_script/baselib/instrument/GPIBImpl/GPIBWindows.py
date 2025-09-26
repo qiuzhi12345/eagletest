@@ -64,12 +64,14 @@ class GPIBDevice(object):
         pass
 
     def write(self, data):
+        data = data + ";*OPC"
         logdebug(data)
         res = self.device.write(data)
         logdebug(res)
         return res
 
     def ask(self, data, delay=None):
+        data = data + ";*WAI"
         logdebug(data)
         res = self.device.ask(data, delay=delay)
         logdebug(res)

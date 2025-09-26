@@ -268,27 +268,27 @@ class cmw_bt(object):
 		else:
 			if mode == 0 or mode == 'tx':
 				self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:TOUT 10')
-				self.wait()
+				#self.wait()
 				self.device.write('ROUTe:BLUetooth:MEAS:SCENario:SALone RF%dC,RX%d' % (rfport, rfport))
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:RFSettings:EATTenuation {}'.format(atten))
-				self.wait()
+				#self.wait()
 				logdebug('Standalone (non-signaling) TX measure')
 			elif mode == 1 or mode == 'rx':
 				self.device.write('ROUTe:GPRF:GEN:SCENario:SALone RF{}C,TX{}'.format(rfport, rfport))
-				self.wait()
+				#self.wait()
 				self.device.write('SOURce:GPRF:GEN:RFSettings:EATTenuation {}'.format(atten))
-				self.wait()
+				#self.wait()
 				logdebug('Standalone (non-signaling) RX measure')
 			else:
 				self.device.write('ROUTe:BLUetooth:MEAS:SCENario:CSPath "Bluetooth Sig1"')
-				self.wait()
+				#self.wait()
 				self.device.write('ROUTe:BLUetooth:SIGN:SCENario:OTRX RF%dC,RX1,RF%dC,TX1' % (rfport, rfport))
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:EATTenuation:INPut {}'.format(atten))
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:EATTenuation:OUTPut {}'.format(atten))
-				self.wait()
+				#self.wait()
 				logdebug('Combined signal path (signaling)')
 
 	@log()
@@ -332,11 +332,11 @@ class standalone_tx(cmw_bt):
 			logerror('instrument freq set over range')
 			return False
 		self.device.write('CONFigure:BLUetooth:MEAS:RFSettings:ENPower %d' % enpower)
-		self.wait()
+		
 		self.device.write('CONFigure:BLUetooth:MEAS:RFSettings:UMARgin %d' % umargin)
-		self.wait()
+		
 		self.device.write('CONFigure:BLUetooth:MEAS:RFSettings:FREQuency %d' % freq)
-		self.wait()
+		
 		logdebug('analyzer set success')
 
 	@log()
@@ -373,44 +373,44 @@ class standalone_tx(cmw_bt):
 			logerror('phy is wrong,must be LE1M,LE2M,LELR')
 		if dmode == 'AUTO':
 			self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:ASYNchronize %s' % asyn)
-			self.wait()
+			##self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:BDADdress #H%s' % bdaddr)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:DMODe %s' % dmode)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:BTYPe %s' % btype)
-			self.wait()
+			#self.wait()
 			if btype == 'LE':
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:LENergy:PHY %s' % phy)
-				self.wait()
+				#self.wait()
 			logdebug('input_signal para set AUTO success')
 		else:
 			if btype == 'BR':
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:BTYPe BR')
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:PTYPe:BRate %s' % ptype)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:PATTern %s' % pattern)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:PLENgth:BRATe?')
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:BDADdress #H%s' % bdaddr)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:ASYNchronize OFF')
-				self.wait()
+				#self.wait()
 			elif btype == 'EDR':
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:BTYPe EDR')
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:PTYPe:EDRate %s' % ptype)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:PATTern %s' % pattern)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:PLENgth:EDRATe?')
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:BDADdress #H%s' % bdaddr)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:ISIGnal:ASYNchronize OFF')
-				self.wait()
+				#self.wait()
 
 	@log()
 	def trigger_settings(self, source='power', threshold=-30, tout=1):
@@ -505,26 +505,26 @@ class standalone_tx(cmw_bt):
 			logerror('repetition is wrong,must be SINGleshot|SING|CONTinuous|CONT')
 			return False
 		self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:TOUT %d' % tout)
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:REPetition %s' % repetition)
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:MOEXception %s' % MOEXception)
-		self.wait()
+		#self.wait()
 		if repetition == 'SINGleshot':
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:MODulation %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:PENCoding %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:PVTime  %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:SOBW  %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:FRANge %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:SACP %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:SGACp %d' % count)
-			self.wait()
+			#self.wait()
 			logdebug('repetition is SINGleshot,count is %d' % count)
 		else:
 			logdebug('repetition is CONTinuous')
@@ -664,7 +664,7 @@ class standalone_tx(cmw_bt):
 			elif k == 4:
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(1)
+			#time.sleep(1)
 		return res
 				# return self.error_code(eval(res[0]))
 	@log()
@@ -862,7 +862,7 @@ class standalone_tx(cmw_bt):
 				# return self.error_code(eval(res[0]))
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(1)
+			#time.sleep(1)
 		return res
 				# return False
 				# return res
@@ -888,16 +888,16 @@ class standalone_tx(cmw_bt):
 				return False
 			else:
 				self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SACP:BRATe:MEASurement:MODE %s' % opt)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SACP:EDRATe:MEASurement:MODE %s' % opt)
-				self.wait()
+				#self.wait()
 		elif self.mode in ('LE1M', 'LE2M'):
 			if opt not in ('CH40', 'CH10'):
 				logerror('opt is wrong,must be CH40 or CH10 for LE')
 				return False
 			else:
 				self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SACP:LENergy:%s:MEASurement:MODE %s' % (self.mode, opt))
-				self.wait()
+				#self.wait()
 				logdebug('acp measure set success')
 		else:
 			logerror('mode is wrong')
@@ -939,7 +939,7 @@ class standalone_tx(cmw_bt):
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:TRACe:SGACp?' % cmd_type)
 			else:
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:TRACe:SACP?' % cmd_type)
-			time.sleep(2)
+			#time.sleep(2)
 			res = res.replace('\n','').split(',')
 			for i in range(len(res)):
 				if res[i] == 'NCAP':
@@ -950,7 +950,7 @@ class standalone_tx(cmw_bt):
 			elif k == 4:
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			# time.sleep(1)
+			# #time.sleep(1)
 		return res
 				# return self.error_code(eval(res[0]))
 
@@ -1005,7 +1005,7 @@ class standalone_tx(cmw_bt):
 			elif k == 4:
 				err = self.error_code(eval(res1[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(1)
+			#time.sleep(1)
 		return [res1, res2]
 				# return [self.error_code(eval(res1[0])), self.error_code(eval(res2[0]))]
 
@@ -1047,7 +1047,7 @@ class standalone_tx(cmw_bt):
 				elif k == 4:
 					err = self.error_code(eval(res[0]))
 					logerror('{} ,try agian {}'.format(err,k))
-				time.sleep(1)
+				#time.sleep(1)
 					# return self.error_code(eval(res[0]))
 			else:
 				logerror('mode is wrong,must be EDR')
@@ -1104,7 +1104,7 @@ class standalone_tx(cmw_bt):
 				elif k == 4:
 					err = self.error_code(eval(res[0]))
 					logerror('{} ,try agian {}'.format(err,k))
-				time.sleep(1)
+				#time.sleep(1)
 					# return self.error_code(eval(res[0]))
 			else:
 				logerror('mode is wrong,must be BR')
@@ -1152,7 +1152,7 @@ class standalone_tx(cmw_bt):
 				elif k == 4:
 					err = self.error_code(eval(res[0]))
 					logerror('{} ,try agian {}'.format(err,k))
-				time.sleep(1)
+				#time.sleep(1)
 					# return self.error_code(eval(res[0]))
 			else:
 				logerror('mode is wrong,must be BR')
@@ -1191,7 +1191,7 @@ class standalone_rx(cmw_bt):
 			RDY: generator switched off, ARB file processing complete in smart channel mode
 		'''
 		self.device.write('SOUR:GPRF:GEN:STAT %s' % status)
-		self.wait()
+		#self.wait()
 		logdebug('Turns the generator {}'.format(status))
 
 	@log()
@@ -1277,7 +1277,7 @@ class standalone_rx(cmw_bt):
 		The trigger causes the generator to start the selected waveform file.
 		'''
 		self.device.write('TRIG:GPRF:GEN:ARB:MAN:EXEC')
-		time.sleep(1)
+		#time.sleep(1)
 
 	@log()
 	def trig_cw(self):
@@ -1304,9 +1304,9 @@ class standalone_rx(cmw_bt):
 			logerror('instrument freq set over range')
 			return False
 		self.device.write('SOURce:GPRF:GEN:RFSettings:FREQuency {}'.format(freq))
-		self.wait()
+		#self.wait()
 		self.device.write('SOURce:GPRF:GEN:RFSettings:LEVel %d' % level)
-		self.wait()
+		#self.wait()
 		logdebug('parameter set success,freq is {} Hz,output power level is {} dBm'.format(freq, level))
 
 class combined_signal_path(cmw_bt):
@@ -1321,7 +1321,7 @@ class combined_signal_path(cmw_bt):
 		1:	on	,When turned ON, the R&S CMW switches to standby state
 		'''
 		self.device.write('SOURce:BLUetooth:SIGN:STATe %s' % self.str_check(en))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def hopping_en(self, en=0):
@@ -1331,7 +1331,7 @@ class combined_signal_path(cmw_bt):
 		1:	on
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:HOPPing %s' % self.str_check(en))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def trigger_settings(self, source='power', threshold=-30, tout=1):
@@ -1367,7 +1367,7 @@ class combined_signal_path(cmw_bt):
 		Connection test, RF test, audio echo mode, audio profiles
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:OPMode %s' % mode)
-		self.wait()
+		#self.wait()
 
 	@log()
 	def sig_std(self, std='LE'):
@@ -1376,7 +1376,7 @@ class combined_signal_path(cmw_bt):
 		CLAS or LE
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:OPMode %s' % std)
-		self.wait()
+		#self.wait()
 
 	@log()
 	def sig_le_phy(self, phy='LE1M'):
@@ -1388,7 +1388,7 @@ class combined_signal_path(cmw_bt):
 		LELR: LE 1 Msymbol/s long range (LE coded PHY)
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PHY:LENergy {}'.format(phy))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def sig_le_lr_coding(self, coding='S2'):
@@ -1398,7 +1398,7 @@ class combined_signal_path(cmw_bt):
 		Coding S = 8 or S = 2
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:FEC:LENergy:LRANge {}'.format(coding))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def sig_btype(self, btype='BR'):
@@ -1410,7 +1410,7 @@ class combined_signal_path(cmw_bt):
 		LE: "Low Energy"
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:BTYPe %s' % btype)
-		self.wait()
+		#self.wait()
 		self.mode = btype
 
 	@log()
@@ -1427,17 +1427,17 @@ class combined_signal_path(cmw_bt):
 		ch_rx = 0 if ch_tx > 39 else 78
 		if mode == 'DTM':
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:CHANnel:DTMode %d' % ch_tx)
-			self.wait()
+			#self.wait()
 		elif mode == 'LOOP':
 			self.device.write('CONFigure:BLUetooth:SIGN:TMODe LOOPback')
-			self.wait()
-			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:CHANnel:LOOPback %d,%d' % (ch_rx,ch_tx))
-			self.wait()
+			#self.wait()
+			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:CHANnel:LOOPback %d,%d' % (ch_tx,ch_tx))
+			#self.wait()
 		elif mode == 'TXT':
 			self.device.write('CONFigure:BLUetooth:SIGN:TMODe TXTest ')
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:CHANnel:TXTest  %d' % ch_tx)
-			self.wait()
+			#self.wait()
 
 	@log()
 	def RF_Frequency_Settings_tx(self, mode='DTM', ch_tx=19):
@@ -1453,17 +1453,17 @@ class combined_signal_path(cmw_bt):
 		# ch_rx = ch_tx-39 if ch_tx > 39 else ch_tx+39
 		if mode == 'DTM':
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:CHANnel:DTMode %d' % ch_tx)
-			self.wait()
+			#self.wait()
 		elif mode == 'LOOP':
 			self.device.write('CONFigure:BLUetooth:SIGN:TMODe LOOPback')
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:CHANnel:LOOPback %d,%d' % (ch_tx, ch_tx))
-			self.wait()
+			#self.wait()
 		elif mode == 'TXT':
 			self.device.write('CONFigure:BLUetooth:SIGN:TMODe TXTest ')
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:CHANnel:TXTest  %d' % ch_tx)
-			self.wait()
+			#self.wait()
 
 	@log()
 	def RF_Power_settings(self, rx_level=-40, tx_power=15, margin=8):
@@ -1481,13 +1481,13 @@ class combined_signal_path(cmw_bt):
 					Range:  0 dB to (55 dB + external attenuation - expected nominal power)
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:ARANging OFF')
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:ENPower %d ' % tx_power)
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:LEVel %d ' % rx_level)
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:UMARgin %d ' % margin)
-		self.wait()
+		#self.wait()
 
 	@log()
 	def RF_Power_settings_autoranging(self, en=1):
@@ -1496,10 +1496,10 @@ class combined_signal_path(cmw_bt):
 		'''
 		if en !=0:
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:ARANging ON')
-			self.wait()
+			#self.wait()
 		else:
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:ARANging OFF')
-			self.wait()
+			#self.wait()
 
 	@log()
 	def dirty_tx_settings(self, en=0, mode='BR'):
@@ -1510,21 +1510,21 @@ class combined_signal_path(cmw_bt):
 		'''
 		if mode == 'BR':
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:DTX:MODE:BRATe SPEC')
-			self.wait()
+			#self.wait()
 		elif mode == 'EDR':
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:DTX:MODE:EDRate SPEC')
-			self.wait()
+			#self.wait()
 		elif mode == 'LE1M':
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:DTX:MODE:LENergy:LE1M SPEC')
-			self.wait()
+			#self.wait()
 		elif mode == 'LE2M':
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:DTX:MODE:LENergy:LE2M SPEC')
-			self.wait()
+			#self.wait()
 		elif mode == 'LRANge':
 			self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:DTX:MODE:LENergy:LRANge SPEC')
-			self.wait()
+			#self.wait()
 		self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:DTX %s' % self.str_check(en))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def stack_delay_ctrl(self, ptimeout=5, act_delay=5):
@@ -1537,9 +1537,9 @@ class combined_signal_path(cmw_bt):
 						Range:  1 ms to 100 ms
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:DELay:PTIMeout %d' % ptimeout)
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:SIGN:DELay:TMODe %d' % act_delay)
-		self.wait()
+		#self.wait()
 
 	@log()
 	def get_bt_connect_state(self):
@@ -1633,7 +1633,7 @@ class combined_signal_path(cmw_bt):
 			logerror('action is wrong command')
 			return False
 		self.device.write('CALL:BLUetooth:SIGN:CONNection:ACTion:LESignaling {}'.format(action))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def check_le_connect_usb(self):
@@ -1654,9 +1654,8 @@ class combined_signal_path(cmw_bt):
 		'''
 		Sends the HCI reset command to the EUT via USB.
 		'''
-		self.device.write('CALL:BLUetooth:SIGN:LENergy:RESet')
-		self.wait()
-
+		self.device.write('CALL:BLUetooth:SIGN:LENergy:RESet;*WAI')
+		#self.wait()
 	@log()
 	def config_sig_testmode(self, testmode='LOOPback'):
 		'''
@@ -1666,12 +1665,12 @@ class combined_signal_path(cmw_bt):
 		TXTest: BR/EDR transmitter test mode
 		'''
 		self.device.write('CALL:BLUetooth:SIGN:TMODe {}'.format(testmode))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_delay_tmode(self, delay=2):
 		self.device.write('CONFigure:BLUetooth:SIGN:DELay:TMODe {}'.format(delay))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_power_control(self, para='MAX'):
@@ -1682,7 +1681,7 @@ class combined_signal_path(cmw_bt):
 		One step up, one step down, command to maximum EUT power
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PCONtrol:STEP:ACTion {}'.format(para))
-		self.wait()
+		#self.wait()
 
 	def config_power_control_state(self):
 		'''
@@ -1729,7 +1728,7 @@ class combined_signal_path(cmw_bt):
 		if rate == 'LELR':
 			rate = 'LRANge'
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PATTern:LENergy:{} {}'.format(rate,pattern))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_br_packet_pattern(self,  pattern='PRBS9'):
@@ -1744,56 +1743,56 @@ class combined_signal_path(cmw_bt):
 		ALT: the periodical alternation of the pattern P11 and P44
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PATTern:BRATe {}'.format(pattern))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_edr_packet_pattern(self,  pattern='PRBS9'):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PATTern:EDRate {}'.format(pattern))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_le_packet_len(self, rate='LE1M', len=37):
 		if rate == 'LELR':
 			rate = 'LRANge'
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PLENgth:LENergy:{} {}'.format(rate,len))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_br_packet_len(self,  len=27):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PLENgth:BRATe {}'.format(len))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_edr_packet_len(self,  len=54):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PLENgth:EDRate {}'.format(len))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_br_packet_ptype(self, ptype='DH1'):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PTYPe:BRATe {}'.format(ptype))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_edr_packet_ptype(self, ptype='E21P'):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PACKets:PTYPe:EDRate  {}'.format(ptype))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_whitening(self, en='OFF'):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:WHITening {}'.format(en))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_le_synword(self, synword='#H71764129'):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:SYNWord:LENergy {}'.format(synword))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_paging_classic_bdaddr(self, cmw_addr='#H123456123456', eut_addr='#H654321654321'):
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:BDADdress:CMW {}'.format(cmw_addr))
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:BDADdress:EUT {}'.format(eut_addr))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_paging_classic_svtimeout(self, svtimeout=8000):
@@ -1802,7 +1801,7 @@ class combined_signal_path(cmw_bt):
 		Range:  400 slots  to  65535 slots
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:SVTimeout {}'.format(svtimeout))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_paging_classic_ilength(self, ilength=8000):
@@ -1812,7 +1811,7 @@ class combined_signal_path(cmw_bt):
 		Range:  1  to  24
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:INQuiry:ILENgth {}'.format(ilength))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_paging_classic_NOResponses(self, NOResponses=1):
@@ -1822,7 +1821,7 @@ class combined_signal_path(cmw_bt):
 		Range:  0  to  12
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:INQuiry:NOResponses {}'.format(NOResponses))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_paging_classic_tout(self, tout=8000):
@@ -1831,7 +1830,7 @@ class combined_signal_path(cmw_bt):
 		Range:  22  to  65535
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PAGing:TOUT {}'.format(tout))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def get_paging_classic_target(self):
@@ -1854,7 +1853,7 @@ class combined_signal_path(cmw_bt):
 					Range:  Integer >= 0
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:CONNection:PAGing:PTARget {}'.format(target))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_hwinterface(self, interface='RS232'):
@@ -1876,12 +1875,12 @@ class combined_signal_path(cmw_bt):
 		USB: direct USB connection
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:HWINterface1 {}'.format(interface))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_connect_ereset(self, en='ON'):
 		self.device.write('CONFigure:BLUetooth:SIGN:COMSettings1:ERESet {}'.format(en))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_comport(self):
@@ -1901,66 +1900,66 @@ class combined_signal_path(cmw_bt):
 		Data transmission rate in symbol: 110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200, 230400, 460800, 500000, 576000, 921600, 1000000, 1152000, 2000000, 3000000, 3500000, 4000000
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:COMSettings1:BAUDrate {}'.format(baudrate))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def per_meas_state(self, state=0):
 		if state == 0 or state == 'RUN':
 			self.device.write('INITiate:BLUetooth:SIGN:RXQuality:PER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RUN" state')
 		elif state == 1 or state == 'RDY':
 			self.device.write('STOP:BLUetooth:SIGN:RXQuality:PER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RDY" state')
 		else:
 			self.device.write('ABORt:BLUetooth:SIGN:RXQuality:PER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "OFF" state')
 
 	@log()
 	def per_search_meas_state(self, state=0):
 		if state == 0 or state == 'RUN':
 			self.device.write('INITiate:BLUetooth:SIGN:RXQuality:SEARch:PER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RUN" state')
 		elif state == 1 or state == 'RDY':
 			self.device.write('STOP:BLUetooth:SIGN:RXQuality:SEARch:PER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RDY" state')
 		else:
 			self.device.write('ABORt:BLUetooth:SIGN:RXQuality:SEARch:PER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "OFF" state')
 
 	@log()
 	def ber_meas_state(self, state=0):
 		if state == 0 or state == 'RUN':
 			self.device.write('INITiate:BLUetooth:SIGN:RXQuality:BER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RUN" state')
 		elif state == 1 or state == 'RDY':
 			self.device.write('STOP:BLUetooth:SIGN:RXQuality:BER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RDY" state')
 		else:
 			self.device.write('ABORt:BLUetooth:SIGN:RXQuality:BER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "OFF" state')
 
 	@log()
 	def ber_search_meas_state(self, state=0):
 		if state == 0 or state == 'RUN':
 			self.device.write('INITiate:BLUetooth:SIGN:RXQuality:SEARch:BER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RUN" state')
 		elif state == 1 or state == 'RDY':
 			self.device.write('STOP:BLUetooth:SIGN:RXQuality:SEARch:BER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "RDY" state')
 		else:
 			self.device.write('ABORt:BLUetooth:SIGN:RXQuality:SEARch:BER')
-			self.wait()
+			#self.wait()
 			loginfo('The RX measurement enters the "OFF" state')
 
 	@log()
@@ -1983,7 +1982,7 @@ class combined_signal_path(cmw_bt):
 		<Repetition>	SINGleshot | CONTinuous
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:REPetition {}'.format(rep))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_le_packets(self, rate='LE1M', num=1500):
@@ -1993,11 +1992,13 @@ class combined_signal_path(cmw_bt):
 		Commands for LE 1M PHY - uncoded (...:LE1M...), LE 2M PHY - uncoded (...:LE2M...), and LE coded PHY (...:LRANge...) are available.
 		<NumberPackets> Range:  1  to  30E+3
 		'''
+		if rate == 'LELR':
+			rate = 'LRANge'
 		if rate not in ('LE1M','LE2M','LRANge'):
 			logerror('rate  is wrong command')
 			return False
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:PACKets:LENergy:{} {}'.format(rate,num))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_le_integrity(self, rate='LE1M', en='OFF'):
@@ -2009,11 +2010,13 @@ class combined_signal_path(cmw_bt):
 
 		ON: 50% of packets generated with correct CRC
 		'''
+		if rate == 'LELR':
+			rate = 'LRANge'
 		if rate not in ('LE1M','LE2M','LRANge'):
 			logerror('rate  is wrong command')
 			return False
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:RINTegrity:LENergy:{} {}'.format(rate,en))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_le_mod_index(self, en='OFF'):
@@ -2026,7 +2029,7 @@ class combined_signal_path(cmw_bt):
 		ON: stable modulation index is used
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:SMINdex:LENergy {}'.format(en))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_br_packets(self, num=1500):
@@ -2035,7 +2038,7 @@ class combined_signal_path(cmw_bt):
 		<NumberPackets> Range:  1  to  30E+3
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:PACKets:BEDR {}'.format(num))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_br_search_tout(self, tout=100):
@@ -2043,7 +2046,7 @@ class combined_signal_path(cmw_bt):
 		Defines a timeout for the measurement. The timer is started when the measurement is initiated via a READ or INIT command. It is not started if the measurement is initiated manually ([ON | OFF]
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:SEARch:TOUT {}'.format(tout))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_br_tout(self, tout=10):
@@ -2051,7 +2054,7 @@ class combined_signal_path(cmw_bt):
 		Defines a timeout for the measurement. The timer is started when the measurement is initiated via a READ or INIT command. It is not started if the measurement is initiated manually ([ON | OFF]
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:TOUT {}'.format(tout))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_br_search_packets(self, num=1500):
@@ -2060,7 +2063,7 @@ class combined_signal_path(cmw_bt):
 		<NumberPackets> Range:  1  to  30E+3
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:SEARch:PACKets {}'.format(num))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rxq_br_search_step(self, step=0.5):
@@ -2069,12 +2072,12 @@ class combined_signal_path(cmw_bt):
 		<LevelStep>		Range:  0.01 dB  to  5 dB
 		'''
 		self.device.write('CONFigure:BLUetooth:SIGN:RXQuality:SEARch:STEP:BREDr {}'.format(step))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def config_rx_level(self, rxpwr=-40):
 		self.device.write('CONFigure:BLUetooth:SIGN:RFSettings:LEVel {}'.format(rxpwr))
-		self.wait()
+		#self.wait()
 
 	@log()
 	def meas_le_per_res(self, cmd_type='READ', rate='LE1M'):
@@ -2094,6 +2097,8 @@ class combined_signal_path(cmw_bt):
 		if cmd_type not in cmd_tpye_list:
 			logerror('cmd_type is wrong,must be in (FETCh, READ, CALCulate)')
 			return False
+		if rate == 'LELR':
+			rate = 'LRANge'
 		for k in range(5):
 			res = self.device.ask('{}:BLUetooth:SIGN:RXQuality:PER:LENergy:{}?'.format(cmd_type, rate))
 			logdebug(res)
@@ -2105,7 +2110,7 @@ class combined_signal_path(cmw_bt):
 			elif k == 4:
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(0.5)
+			#time.sleep(0.5)
 		return res
 
 	@log()
@@ -2158,7 +2163,7 @@ class combined_signal_path(cmw_bt):
 			elif k == 4:
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(0.5)
+			#time.sleep(0.5)
 		return res
 
 	@log()
@@ -2214,7 +2219,7 @@ class combined_signal_path(cmw_bt):
 			elif k == 4:
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(0.5)
+			#time.sleep(0.5)
 		return res
 
 	@log()
@@ -2295,26 +2300,26 @@ class combined_signal_path(cmw_bt):
 			logerror('repetition is wrong,must be SINGleshot|SING|CONTinuous|CONT')
 			return False
 		self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:TOUT %d' % tout)
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:REPetition %s' % repetition)
-		self.wait()
+		#self.wait()
 		self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:MOEXception %s' % MOEXception)
-		self.wait()
+		#self.wait()
 		if repetition == 'SINGleshot':
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:MODulation %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:PENCoding %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:PVTime  %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:SOBW  %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:FRANge %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:SACP %d' % count)
-			self.wait()
+			#self.wait()
 			self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SCOunt:SGACp  %d' % count)
-			self.wait()
+			#self.wait()
 			logdebug('repetition is SINGleshot,count is %d' % count)
 		else:
 			logdebug('repetition is CONTinuous')
@@ -2437,7 +2442,7 @@ class combined_signal_path(cmw_bt):
 		if cmd_type not in cmd_tpye_list:
 			logerror('cmd_type is wrong,must be in (FETCh, READ, CALCulate)')
 			return False
-		for k in range(10):
+		for k in range(4):
 			if self.mode == 'BR':
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:PVTime:BRATe:%s?' % (cmd_type, data_type))
 			elif self.mode == 'EDR':
@@ -2447,15 +2452,15 @@ class combined_signal_path(cmw_bt):
 			loginfo(res)
 			res = res.replace('\n','').split(',')
 			for i in range(len(res)):
-				if res[i] == 'NCAP':
-					res[i] = '-999'
+				if res[i] == 'NCAP' or res[i] == 'NAV':
+					res[i] = '-999999'
 			if eval(res[0]) == 0:
 				logdebug('get pvt measure result success')
 				break
 			elif k == 9:
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(1)
+			#time.sleep(1)
 		return res
 				# return self.error_code(eval(res[0]))
 	@log()
@@ -2635,7 +2640,7 @@ class combined_signal_path(cmw_bt):
 		if cmd_type not in cmd_tpye_list:
 			logerror('cmd_type is wrong,must be in (FETCh, READ, CALCulate)')
 			return False
-		for k in range(10):
+		for k in range(4):
 			if self.mode == 'BR':
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:MODulation:BRATe:%s?' % (cmd_type, data_type))
 			elif self.mode == 'EDR':
@@ -2644,8 +2649,8 @@ class combined_signal_path(cmw_bt):
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:MODulation:LENergy:%s:%s?' % (cmd_type, rate, data_type))
 			res = res.replace('\n','').split(',')
 			for i in range(len(res)):
-				if res[i] == 'NCAP':
-					res[i] = '-999'
+				if res[i] == 'NCAP' or res[i] == 'NAV':
+					res[i] = '-999999'
 			if eval(res[0]) == 0:
 				logdebug('get mod measure result success')
 				break
@@ -2653,7 +2658,7 @@ class combined_signal_path(cmw_bt):
 				# return self.error_code(eval(res[0]))
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(1)
+			#time.sleep(1)
 		return res
 				# return False
 				# return res
@@ -2679,16 +2684,16 @@ class combined_signal_path(cmw_bt):
 				return False
 			else:
 				self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SACP:BRATe:MEASurement:MODE %s' % opt)
-				self.wait()
+				#self.wait()
 				self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SGACp:EDRATe:MEASurement:MODE %s' % opt)
-				self.wait()
+				#self.wait()
 		elif self.mode in ('LE1M', 'LE2M'):
 			if opt not in ('CH40', 'CH10'):
 				logerror('opt is wrong,must be CH40 or CH10 for LE')
 				return False
 			else:
 				self.device.write('CONFigure:BLUetooth:MEAS:MEValuation:SACP:LENergy:%s:MEASurement:MODE %s' % (self.mode, opt))
-				self.wait()
+				#self.wait()
 				logdebug('acp measure set success')
 		else:
 			logerror('mode is wrong')
@@ -2725,7 +2730,7 @@ class combined_signal_path(cmw_bt):
 		if cmd_type not in cmd_tpye_list:
 			logerror('cmd_type is wrong,must be in (FETCh, READ, CALCulate)')
 			return False
-		for k in range(10):
+		for k in range(4):
 			if self.mode == 'EDR':
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:TRACe:SGACp?' % cmd_type, delay=10)
 			elif self.mode == 'BR':
@@ -2736,8 +2741,8 @@ class combined_signal_path(cmw_bt):
 
 			res = res.replace('\n','').split(',')
 			for i in range(len(res)):
-				if res[i] == 'NCAP':
-					res[i] = '-999'
+				if res[i] == 'NCAP' or res[i] == 'NAV' :
+					res[i] = '-999999'
 			if eval(res[0]) < 2:
 				logdebug('get acp measure result success')
 				break
@@ -2745,7 +2750,7 @@ class combined_signal_path(cmw_bt):
 				err = self.error_code(eval(res[0]))
 				logerror('{} ,try agian {}'.format(err,k))
 			# time.sleep(5)
-		self.wait()
+		#self.wait()
 		# self.device.write('*CLS')
 		return res
 				# return self.error_code(eval(res[0]))
@@ -2783,25 +2788,25 @@ class combined_signal_path(cmw_bt):
 		for k in range(10):
 			if self.mode == 'EDR':
 				res1 = self.device.ask('%s:BLUetooth:MEAS:MEValuation:SGACp:EDRate?' % cmd_type)
-				time.sleep(2)
+				#time.sleep(2)
 				res2 = self.device.ask('%s:BLUetooth:MEAS:MEValuation:TRACe:SGACp?' % cmd_type, delay=20)
 			else:
 				logerror('mode is wrong, must be edr')
 			res1 = res1.replace('\n','').split(',')
 			res2 = res2.replace('\n','').split(',')
 			for i in range(len(res1)):
-				if res1[i] == 'NCAP':
-					res1[i] = '-999'
+				if res1[i] == 'NCAP' or res1[i] == 'NAV' :
+					res1[i] = '-999999'
 			for i in range(len(res2)):
-				if res2[i] == 'NCAP':
-					res2[i] = '-999'
+				if res2[i] == 'NCAP'or res2[i] == 'NAV' :
+					res2[i] = '-999999'
 			if eval(res1[0]) < 2 and eval(res2[0]) < 2:
 				logdebug('get acp measure result success')
 				break
 			elif k == 9:
 				err = self.error_code(eval(res1[0]))
 				logerror('{} ,try agian {}'.format(err,k))
-			time.sleep(1)
+			#time.sleep(1)
 		return [res1, res2]
 				# return [self.error_code(eval(res1[0])), self.error_code(eval(res2[0]))]
 
@@ -2835,15 +2840,15 @@ class combined_signal_path(cmw_bt):
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:PENCoding:EDRATe:CURRent?' % cmd_type)
 				res = res.replace('\n','').split(',')
 				for i in range(len(res)):
-					if res[i] == 'NCAP':
-						res[i] = '-999'
+					if res[i] == 'NCAP' or res[i] == 'NAV':
+						res[i] = '-999999'
 				if eval(res[0]) == 0:
 					logdebug('get diff_phase_encoding measure result success')
 					break
 				elif k == 9:
 					err = self.error_code(eval(res[0]))
 					logerror('{} ,try agian {}'.format(err,k))
-				time.sleep(1)
+				#time.sleep(1)
 					# return self.error_code(eval(res[0]))
 			else:
 				logerror('mode is wrong,must be EDR')
@@ -2892,15 +2897,15 @@ class combined_signal_path(cmw_bt):
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:SOBW:BRATe:MAXimum?' % cmd_type)
 				res = res.replace('\n','').split(',')
 				for i in range(len(res)):
-					if res[i] == 'NCAP':
-						res[i] = '-999'
+					if res[i] == 'NCAP' or res[i] == 'NAV':
+						res[i] = '-999999'
 				if eval(res[0]) == 0:
 					logdebug('get obw measure result success')
 					break
 				elif k == 9:
 					err = self.error_code(eval(res[0]))
 					logerror('{} ,try agian {}'.format(err,k))
-				time.sleep(1)
+				#time.sleep(1)
 					# return self.error_code(eval(res[0]))
 			else:
 				logerror('mode is wrong,must be BR')
@@ -2940,15 +2945,15 @@ class combined_signal_path(cmw_bt):
 				res = self.device.ask('%s:BLUetooth:MEAS:MEValuation:FRANge:BRATe:CURRent?' % cmd_type)
 				res = res.replace('\n','').split(',')
 				for i in range(len(res)):
-					if res[i] == 'NCAP':
-						res[i] = '-999'
+					if res[i] == 'NCAP' or res[i] == 'NAV':
+						res[i] = '-999999'
 				if eval(res[0]) == 0 or eval(res[0]) == 1:
 					logdebug('get freq range measure result success')
 					break
 				elif k == 4:
 					err = self.error_code(eval(res[0]))
 					logerror('{} ,try agian {}'.format(err,k))
-				time.sleep(1)
+				#time.sleep(1)
 					# return self.error_code(eval(res[0]))
 			else:
 				logerror('mode is wrong,must be BR')

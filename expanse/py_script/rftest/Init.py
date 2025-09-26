@@ -24,7 +24,7 @@ data_path = './rftest/rfdata'
 
 class RFTCS(object):
     """docstring for TCS"""
-    def __init__(self, comport, chipv = "AUTO", jlink_en=1, jlink='59610042'):
+    def __init__(self, comport, chipv = "AUTO", jlink_en=1, jlink_sn='59610042'):
         self.comport = comport
         # try:
         # self.hals = HALS(self.comport, chipv)
@@ -45,16 +45,24 @@ class RFTCS(object):
         self.MEM = MEM(self.comport,self.chipv)
         self.mem_ts = MEM_TS(self.comport)
         self.MEM_TS = MEM_TS(self.comport)
+        self.adc_dump = DUMP(self.comport, self.chipv)
         if jlink_en != 0:
-            self.JLINK = jlink
+            self.JLINK = jlink(jlink_sn=jlink_sn)
         #rflib
-        self.adc_dump = DUMP(self.comport,self.chipv)
-        self.bt_api = bt_api(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
-        self.bt_nosignal_test = bt_nosignal_test(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
-        self.curr_test = bt_curr(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
-        self.rf_debug = rf_debug(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
-        self.rf_diag_test = rf_diag_test(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
-        self.test_pin = testpin(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
+            self.bt_api = bt_api(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
+            self.bt_nosignal_test = bt_nosignal_test(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
+            self.curr_test = bt_curr(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
+            self.rf_debug = rf_debug(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
+            self.rf_diag_test = rf_diag_test(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
+            self.test_pin = testpin(self.comport,self.chipv,jlink=self.JLINK ,jlink_en=jlink_en)
+        else:
+            self.bt_api = bt_api(self.comport,self.chipv,jlink_en=jlink_en)
+            self.bt_nosignal_test = bt_nosignal_test(self.comport,self.chipv,jlink_en=jlink_en)
+            self.curr_test = bt_curr(self.comport,self.chipv,jlink_en=jlink_en)
+            self.rf_debug = rf_debug(self.comport,self.chipv,jlink_en=jlink_en)
+            self.rf_diag_test = rf_diag_test(self.comport,self.chipv,jlink_en=jlink_en)
+            self.test_pin = testpin(self.comport,self.chipv,jlink_en=jlink_en)
+
         # self.csp = bt_signaling(self.comport,self.chipv)
 
         # caselist

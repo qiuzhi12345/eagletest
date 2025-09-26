@@ -141,7 +141,7 @@ class rf_diag_test(object):
 
     def ldo_bbpll_trim_diag(self, device_name='MY50180049'):
         title = 'bbpll_bg_trim,ldo_bbpll_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_bbpll_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_ldo_bbpll_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.bbpll_en(1)
@@ -231,7 +231,7 @@ class rf_diag_test(object):
 
     def pkd_trim_diag(self, device_name='MY49260023', cableloss=1.5):
         title = 'pkd_ref,VDD,VREF(V),VREF1(V),VREF2(V)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_pkd_trim_diag{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_pkd_trim_diag{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         init_value = self.mem_ts.rdm(0xa0421028, 25, 19)
@@ -284,7 +284,7 @@ class rf_diag_test(object):
 
     def bg_trim_diag(self):
         title = 'bg_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_bg_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_bg_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.rf_diag(4, 1)
@@ -305,7 +305,7 @@ class rf_diag_test(object):
 
     def ldo_trxhf_trim_diag(self):
         title = 'ldo_trxhf_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_trxhf_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_ldo_trxhf_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.rf_diag(6, 1)
@@ -326,7 +326,7 @@ class rf_diag_test(object):
 
     def ldo_trxlf_trim_diag(self):
         title = 'ldo_trxlf_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_trxlf_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_ldo_trxlf_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.rf_diag(7, 1)
@@ -347,7 +347,7 @@ class rf_diag_test(object):
 
     def ldo_rfpll_trim_diag(self):
         title = 'ldo_rfpll_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_rfpll_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_ldo_rfpll_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.trf_diag(8, 1)
@@ -368,7 +368,7 @@ class rf_diag_test(object):
 
     def ldo_vco_trim_diag(self):
         title = 'ldo_vco_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_vco_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_ldo_vco_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         self.rf_diag(9, 1)
@@ -392,7 +392,7 @@ class rf_diag_test(object):
         TX232_MPW3 xo使用bbpll bg，MPW2使用的是rfpll bg
         '''
         title = 'bg_trim,ldo_xo_trim,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_ldo_xo_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_ldo_xo_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.rf_diag(3, 1)
@@ -444,7 +444,7 @@ class rf_diag_test(object):
             9: '0xa0421028 15 14',
             }
         title = 'item,bg_trim,trim value,diag_code,volt(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rf_ldo_trim_diag_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_rf_ldo_trim_diag_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         bg_trim_init = self.mem_ts.rdm(0xa0421028, 2, 0)
@@ -479,7 +479,7 @@ class rf_diag_test(object):
 
     def rfpll_vtune(self):
         title = 'freq(MHz),rfpll_vtune(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rfpll_vtune')
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_rfpll_vtune')
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name='MY50180049', num_of_machine=0, comm='USB')
         # self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
@@ -511,41 +511,3 @@ class rf_diag_test(object):
         else:
             self.mem_ts.wrm(0xa01200c8, 3, 2, 1)  ##rx IF test buf
 
-    def get_filename(self, folder, file_name, sub_folder=''):
-        '''
-        :folder: file store folder
-        :file_name:  file name
-        :sub_folder: if not need, it may be default ""
-        '''
-        if rfglobal.file_folder=="":
-            rfdata_path = './rftest/rfdata/'
-        else:
-            rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
-            if os.path.exists(rfdata_path) == False:
-                os.mkdir(rfdata_path)
-
-        data_path1 = rfdata_path+'%s/'%(folder)
-        if os.path.exists(data_path1) == False:
-            os.mkdir(data_path1)
-
-        filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
-        # mac = self.read_mac()
-        mac = ''
-
-        gen_folder = '_%s'%(filetime[0:8])
-        data_path2 = data_path1 +'%s/'%(gen_folder)
-        if os.path.exists(data_path2) == False:
-            os.mkdir(data_path2)
-
-        fname = '%s'%(file_name)
-        outfile_name = data_path2 + fname
-
-        if sub_folder != '':
-            gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
-            sub_path = data_path2+'%s/'%(gen_folder)
-            if os.path.exists(sub_path) == False:
-                os.mkdir(sub_path)
-
-            outfile_name = sub_path + file_name
-
-        return outfile_name

@@ -239,7 +239,7 @@ class bt_signaling(object):
         title = 'type,tp_gain_value,channel,nominal_pow(dBm),'
         title = title + 'delta_f1_avg(KHz),delta_f1_avg_max(KHz),delta_f2_avg(KHz),delta_f2_avg_max(KHz),mod_ratio,delta_f2_99(KHz),'
         title = title + '\n'
-        fname = self.get_filename('ts_bt_test/','le_tx_tp_debug_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/','le_tx_tp_debug_{}'.format(self.board_name))
         fw1=csvreport(fname,title)
         self.config_per_le_connect_usb(rate='LE1M', packet_len=37)
         self.csp.config_rx_level(rxpwr=-67)
@@ -307,11 +307,11 @@ class bt_signaling(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(KHz),freq_drift(KHz),drift_rate(Hz/50us),'
             title = title + 'delta_f1_avg(KHz),delta_f1_min(KHz),delta_f1_max(KHz),delta_f2_avg(KHz),delta_f2_min(KHz),delta_f2_max(KHz),mod_ratio,delta_f1_99(KHz),delta_f2_99(KHz),'
             title = title + 'acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_le_tx_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','test_le_tx_{}'.format(self.board_name))
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_le_tx_report_{}'.format(self.board_name))
+            fname2 = rfglobal.get_filename('ts_bt_test/','test_le_tx_report_{}'.format(self.board_name))
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'TP/TRM-LE/CA/BV-01-C - Output power  - Average Power', u' - Peak Power',
                     u'- Peak - Average Power',
@@ -499,11 +499,11 @@ class bt_signaling(object):
             title = 'channel,type,nominal_pow(dBm),peak_pow(dBm),leakage_pow(dBm),freq_accuracy(kHz),freq_drift(kHz),drift_rate(Hz/50 μs),'
             title = title + 'delta_f1_avg(kHz),delta_f1_min(kHz),delta_f1_max(kHz),delta_f2_avg(kHz),delta_f2_min(kHz),delta_f2_max(kHz),mod_ratio,delta_f2_99(kHz),'
             title = title + 'obw(kHz),frange_l(kHz),frange_h(kHz),acp_list_21ch\n'
-            fname = self.get_filename('ts_bt_test/','test_br_tx_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','test_br_tx_{}'.format(self.board_name))
             fw1=csvreport(fname,title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_br_tx_report_{}'.format(self.board_name))
+            fname2 = rfglobal.get_filename('ts_bt_test/','test_br_tx_report_{}'.format(self.board_name))
             fw2=csvreport(fname2,title2)
             item = ['channel', 'DH', u'Tx/01 - Output Power  - Average', u'- Peak',
                     u'@   - Leakage',
@@ -667,11 +667,11 @@ class bt_signaling(object):
             title = 'rate,channel,nominal_pwr(dBm),peak_pwr(dBm),gfsk_pwr(dBm),dpsk_pwr(dBm),dpsk_gfsk_diff_pwr,guard_period(us),'
             title = title + 'wi(KHz),w0_wi(KHz),w0_max(KHz),DEVM_RMS(%),DEVM_peak(%),DEVM_P99(%),bit_error_rate,packet0error,'
             title = title + 'PTxRef(dBm),N26ChN1Abs(dBm),N26ChP1Abs(dBm),N26ChN1Rel(dBm),N26ChP1Rel(dBm),acp_list\n'
-            fname = self.get_filename('ts_bt_test/', 'test_edr_tx_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/', 'test_edr_tx_{}'.format(self.board_name))
             fw1 = csvreport(fname, title)
         if report_save:
             title2 = 'BR_tx_performance'
-            fname2 = self.get_filename('ts_bt_test/','test_edr_tx_report_{}'.format(self.board_name))
+            fname2 = rfglobal.get_filename('ts_bt_test/','test_edr_tx_report_{}'.format(self.board_name))
             fw2=csvreport(fname2,title2)
             item = ['channel', 'rate', u'Tx/10 - EDR Relative Transmit Power - PGFSK - Max Power', u' - PDPSK',
                     u'- PDPSK - PGFSK',
@@ -805,7 +805,7 @@ class bt_signaling(object):
     def bedr_rx_sens(self, chan_list=[0,38,78], rate_list=['DH1'], rx_level=-60, tx_power=10, packet_num=2000, step=0.5, csv_save=True):
         if csv_save:
             title = 'rate,channel,ber,per,NAK,hec_err,crc_err,packet_type_err,pay_err,sens\n'
-            fname = self.get_filename('ts_bt_test/', 'br_rx_sens_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/', 'br_rx_sens_{}'.format(self.board_name))
             fw1 = csvreport(fname, title)
         for chan in chan_list:
             self.config_classic_ber(rate='BR',chan=chan, rx_level=rx_level, tx_power=tx_power)
@@ -852,7 +852,7 @@ class bt_signaling(object):
     def bedr_rx_range(self, chan_list=[0,38,78], rate_list=['DH1'], rx_level=-60, tx_power=10, packet_num=2000, rxpwr_range=range(-98,0),  csv_save=True):
         if csv_save:
             title = 'rate,channel,ber,per,NAK,hec_err,crc_err,packet_type_err,pay_err,sens\n'
-            fname = self.get_filename('ts_bt_test/', 'bedr_rx_range_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/', 'bedr_rx_range_{}'.format(self.board_name))
             fw1 = csvreport(fname, title)
 
         self.config_classic_ber(rate='BR', chan=1, rx_level=rx_level, tx_power=tx_power)
@@ -922,11 +922,11 @@ class bt_signaling(object):
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,ber(%), per(%),agc_gain_index,agc_tgt,agc_sat\n'
-            fname = self.get_filename('ts_bt_test/','bedr_rx_ci_data_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','bedr_rx_ci_data_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
 
             title1 = 'signal_channel,rate,freq_interference,rxpwr_interference(dbm),ci(db),agc_tgt,agc_sat\n'
-            fname1 = self.get_filename('ts_bt_test/','bedr_rx_ci_report_{}'.format(self.board_name))
+            fname1 = rfglobal.get_filename('ts_bt_test/','bedr_rx_ci_report_{}'.format(self.board_name))
             fw2 = csvreport(fname1,title1)
 
         self.config_classic_ber(rate='BR', chan=1, rx_level=rx_level, tx_power=tx_power)
@@ -1023,11 +1023,11 @@ class bt_signaling(object):
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,ber(%), per(%),agc_gain_index,agc_tgt,agc_sat\n'
-            fname = self.get_filename('ts_bt_test/','bedr_rx_ci_data_{}'.format(name_str))
+            fname = rfglobal.get_filename('ts_bt_test/','bedr_rx_ci_data_{}'.format(name_str))
             fw1 = csvreport(fname,title)
 
             title1 = 'signal_channel,rate,freq_interference,rxpwr_interference(dbm),ci(db),agc_tgt,agc_sat\n'
-            fname1 = self.get_filename('ts_bt_test/','bedr_rx_ci_report_{}'.format(name_str))
+            fname1 = rfglobal.get_filename('ts_bt_test/','bedr_rx_ci_report_{}'.format(name_str))
             fw2 = csvreport(fname1,title1)
         if self.chipv.find('TX232') != -1:
             if cbpf2_en !=0:
@@ -1123,7 +1123,7 @@ class bt_signaling(object):
 
     def bedr_rx_blocking(self, rate_list=['DH1'],  packet_num=1500, inter_loss=11, inter_rxpwr=[-30], freq_range=[]):
         title = 'rate,blocking_level,freq_blocking_1,freq_blocking_2,ber,per(%)\n'
-        fname = self.get_filename('ts_bt_test/', 'bedr_rx_blocking_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'bedr_rx_blocking_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         self.tester_inter = mxg.MXG(device_name='N5182B',num_of_machine=1)
         self.tester_inter.para_set(30,-30+inter_loss)
@@ -1280,7 +1280,7 @@ class bt_signaling(object):
 
     def le_rx_blocking(self, rate_list=['LE1M'], packet_len=37, packet_num=1500, inter_loss=11, inter_rxpwr=-10, freq_range_le=[]):
         title = 'rate,blocking_level,freq_blocking_1,freq_blocking_2,per(%)\n'
-        fname = self.get_filename('ts_bt_test/', 'le_rx_blocking_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'le_rx_blocking_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         self.tester_inter = mxg.MXG(device_name='N5182B',num_of_machine=1)
         self.tester_inter.para_set(30,-30+inter_loss)
@@ -1375,11 +1375,11 @@ class bt_signaling(object):
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,per(%),agc_gain_index,agc_tgt,agc_sat\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
 
             title1 = 'signal_channel,rate,freq_interference,rxpwr_interference(dbm),ci(db),agc_tgt,agc_sat\n'
-            fname1 = self.get_filename('ts_bt_test/','le_rx_ci_report_{}'.format(self.board_name))
+            fname1 = rfglobal.get_filename('ts_bt_test/','le_rx_ci_report_{}'.format(self.board_name))
             fw2 = csvreport(fname1,title1)
         if self.chipv == 'TX232':
             if cbpf2_en !=0:
@@ -1443,7 +1443,7 @@ class bt_signaling(object):
     def test_le_sens(self, chan_list=[], rate_list=[], rx_pwr_range=[-99,-90], cable_loss=5, csv_save=True):
         if csv_save:
             title = 'rate,channel,sensitivity,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','test_le_per_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','test_le_per_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
         for rate in rate_list:
             if rate == 'LE_1M' or rate == 'LE1M':
@@ -1488,7 +1488,7 @@ class bt_signaling(object):
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference_tone,freq_interference_mod,rxpwr_interference,per(%)\n'
-            fname = self.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','le_rx_ci_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
         for chan in chan_list:
             for rate in rate_list:
@@ -1609,44 +1609,44 @@ class bt_signaling(object):
             plt.plot( t, per, '.b')
             plt.pause(0.01)
 
-    def get_filename(self, folder, file_name, sub_folder=''):
-        '''
-        :folder: file store folder
-        :file_name:  file name
-        :sub_folder: if not need, it may be default ""
-        '''
-        if rfglobal.file_folder=="":
-            rfdata_path = './rftest/rfdata/'
-        else:
-            rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
-            if os.path.exists(rfdata_path) == False:
-                os.mkdir(rfdata_path)
-
-        data_path1 = rfdata_path+'%s/'%(folder)
-        if os.path.exists(data_path1) == False:
-            os.mkdir(data_path1)
-
-        filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
-        # mac = self.read_mac()
-        mac = ''
-
-        gen_folder = '_%s'%(filetime[0:8])
-        data_path2 = data_path1 +'%s/'%(gen_folder)
-        if os.path.exists(data_path2) == False:
-            os.mkdir(data_path2)
-
-        fname = '%s'%(file_name)
-        outfile_name = data_path2 + fname
-
-        if sub_folder != '':
-            gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
-            sub_path = data_path2+'%s/'%(gen_folder)
-            if os.path.exists(sub_path) == False:
-                os.mkdir(sub_path)
-
-            outfile_name = sub_path + file_name
-
-        return outfile_name
+    # def get_filename(self, folder, file_name, sub_folder=''):
+    #     '''
+    #     :folder: file store folder
+    #     :file_name:  file name
+    #     :sub_folder: if not need, it may be default ""
+    #     '''
+    #     if rfglobal.file_folder=="":
+    #         rfdata_path = './rftest/rfdata/'
+    #     else:
+    #         rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
+    #         if os.path.exists(rfdata_path) == False:
+    #             os.mkdir(rfdata_path)
+    #
+    #     data_path1 = rfdata_path+'%s/'%(folder)
+    #     if os.path.exists(data_path1) == False:
+    #         os.mkdir(data_path1)
+    #
+    #     filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
+    #     # mac = self.read_mac()
+    #     mac = ''
+    #
+    #     gen_folder = '_%s'%(filetime[0:8])
+    #     data_path2 = data_path1 +'%s/'%(gen_folder)
+    #     if os.path.exists(data_path2) == False:
+    #         os.mkdir(data_path2)
+    #
+    #     fname = '%s'%(file_name)
+    #     outfile_name = data_path2 + fname
+    #
+    #     if sub_folder != '':
+    #         gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
+    #         sub_path = data_path2+'%s/'%(gen_folder)
+    #         if os.path.exists(sub_path) == False:
+    #             os.mkdir(sub_path)
+    #
+    #         outfile_name = sub_path + file_name
+    #
+    #     return outfile_name
 
 
 class BQB_autotest(bt_signaling):

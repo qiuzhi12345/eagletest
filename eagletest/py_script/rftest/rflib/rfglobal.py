@@ -15,7 +15,10 @@ def rate2addr(rate_sym):
     addr = 0x60000504 + rate_num*4
     return addr
 
-
+BT_MODEM_BASE = 0x50420000
+BT_RF_BASE = 0x50421000
+BT_CORE_BASE = 0x50422000
+BT_BASEBAND = 0x50400000
 #--------------------------------------------------
 # WiFi Related (Chengzhou Wang, 2013/9/05)
 #--------------------------------------------------

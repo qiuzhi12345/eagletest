@@ -118,14 +118,14 @@ class MXG(object):
 							'2_DH1_PN15': 'EDR_2M_AF_DH1_PN15.WFM',
 							'3M_DH1': 'EDR_3M_DB61_00001111.WFM',
 							'3_DH1_PN15': 'EDR_3M_AF_DH1_PN15.WFM',
-							'LE_1M_PN15': 'LE_1M_PN15_INTERFERENCE.WFM',
-							# 'LE_500K_PN15': 'LE_500K_PN15_INTERFERENCE.WFM',
-							# 'LE_125K_PN15': 'LE_125K_PN15_INTERFERENCE.WFM',
-							'LE_500K_PN15': 'LE_500K_PN15.WFM',
-							'LE_125K_PN15': 'LE_125K_PN15.WFM',
-							'LE_1M': 'LE_1M_PN9.WFM',
-							'LE_2M': 'LE_2M_PN9.WFM',
-							'LE_2M_PN15': 'LE_2M_PN15_INTERFERENCE.WFM'}
+							'LE1M_PN15': 'LE_1M_PN15_INTERFERENCE.WFM',
+							'LE500K_PN15': 'LE_500K_PN15_INTERFERENCE.WFM',
+							'LE125K_PN15': 'LE_125K_PN15_INTERFERENCE.WFM',
+							# 'LE500K_PN15': 'LE_500K_PN15.WFM',
+							# 'LE125K_PN15': 'LE_125K_PN15.WFM',
+							'LE1M': 'LE_1M_PN9.WFM',
+							'LE2M': 'LE_2M_PN9.WFM',
+							'LE2M_PN15': 'LE_2M_PN15_INTERFERENCE.WFM'}
 		arb_file = self.arbfile_dic[rate]
 		self.device.write(':RAD:ARB:WAV "WFM1:{}"'.format(arb_file))
 		self.wait()

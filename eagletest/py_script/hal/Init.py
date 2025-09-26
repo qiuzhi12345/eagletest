@@ -40,7 +40,7 @@ class HALS(object):
         self.CHIP_ID = CHIP_ID(self.channel, self.chipv)
 
         self.MEM = MEM(self.channel, self.chipv)
-        self.MEM_TS = MEM_TS(self.channel)
+        self.MEM_TS = MEM_TS(self.channel ,self.chipv)
         self.PBUS= PBUS(self.channel,self.chipv)
         self.HWPBUS= HWPBUS(self.channel,self.chipv)
         self.HWREG = HWREG(self.channel, self.chipv)

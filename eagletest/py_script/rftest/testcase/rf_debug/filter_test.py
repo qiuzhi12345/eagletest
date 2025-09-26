@@ -32,14 +32,13 @@ from baselib.instrument import *
 
 class filter_test(object):
     def __init__(self,comport,chipv='ESP32'):
-
         self.comport = comport
         self.chipv = chipv
         self.hals= HALS(self.comport,self.chipv)
         self.rfcal = _rfcal(self.comport,self.chipv)
         self.wifi = WIFILIB(self.comport,self.chipv)
         self.mem = MEM(self.comport, self.chipv)
-        self.mem_ts = MEM_TS(self.comport)
+        self.mem_ts = MEM_TS(self.comport, self.chipv)
         self.pbus = Pbus(self.comport, self.chipv)
         self.rfpll = rfpll(self.comport, self.chipv)
         self.iq_est = IQ_EST(self.comport, self.chipv)
@@ -190,6 +189,109 @@ class filter_test(object):
             pylab.show()
 
         pylab.savefig(self.curr_data_path + "tx_filter_gain.png")
+
+    def filter_rx_epm9062(self, cfreq=2440,  device_spa='N9020A',if_bw=1, bw=4,step_acc=20):
+        title = 'step_freq(MHz),measure_freq(KHz),txtone_pwr\n'
+        fname = self.wifi.get_filename('ts_bt_test/', 'filter_rx_epm9062_{}m'.format(if_bw))
+        fw1 = csvreport(fname, title)
+        self.txg = mxg.MXG()
+        # txg.arb_waveform(rate='LE_1M')
+        self.txg.trriger_para_set(type='CONTinuous', count=1000)
+        self.txg.output_state(1, 0)
+        # txg.arb_state(1)
+        self.txg.para_set(freq=cfreq, power=-60)
+        if device_spa == "":
+            self.spa = HP('SA', cfreq)
+        else:
+            self.spa = Agilent('SA', cfreq, device=device_spa)
+
+        self.mem_ts.wr(0x50422014, 0x0)
+        self.mem_ts.wrm(0x50421064, 12, 12, 1)  ##Frequency value manual enable
+        self.mem_ts.wrm(0x50421064, 11, 0, cfreq)  ##Manual value of frequency (unit: MHz)
+        # self.mem_ts.wrm(0xa012005c, 31, 16, 0)  ##
+        # self.mem_ts.wrm(0xa0120038, 11, 8, 0)
+        # self.mem_ts.wrm(0xa0120060, 7, 0, 0)  ##PC8/9/10/11
+        self.mem_ts.wrm(0xa0000144, 29, 29, 1)  ##bbpll_bg_pup_ibg_tbuf
+        self.mem_ts.wrm(0xa0120098, 4, 4, 1)  ##test buf en
+        ##self.mem_ts.wrm(0xa01200c8,3,2,2)	##tx IF test buf
+        self.mem_ts.wrm(0xa0120098, 3, 2, 1)  ##rx IF test buf
+
+        self.mem_ts.wrm(0x504210a0, 0, 0, 1)  ##agc off
+
+        self.spa.set_param(1, span=0.3, rb=1, vb=1)
+        self.mem_ts.wr(0x50422014, 0x0)  ##manual rxon disable
+        time.sleep(1)
+        self.mem_ts.wr(0x50422014, 0x3)  ##manual rxon enable
+        freq_r = []
+        pwr_r = []
+        step_list = range((-bw) * 1000 / step_acc, (bw) * 1000 / step_acc, 1)
+        delta_txp = []
+        mxg_freq = cfreq
+        for step in step_list:
+            step = step * step_acc / 1000.000
+            mxg_freq = cfreq + step
+            self.txg.set_cfreq(mxg_freq)
+
+            self.spa.set_cfreq(abs(step+if_bw))
+
+            if device_spa == "":
+                level = self.spa.pk_search(th=-80, pk_excursion=-40)[0][1]
+                self.spa.set_reflvl(int(level) + 6)
+                result = self.spa.pk_search(th=-80, pk_excursion=-40)
+            else:
+                ##                level=self.spa.pk_search()[0][1]
+                ##                self.spa.set_reflvl(int(level)+6)
+                result = self.spa.pk_search()
+            freq_r.append(result[0][0])
+            pwr_r.append(result[0][1])
+            fw1.write_data(
+                [ step, result[0][0], result[0][1]])
+
+    def filter_rx_epm9062_debug(self, cfreq=2440, cbpf_if_list=['1M', '1.5M','3M','4M'],
+                        device_spa='N9020A', step_acc=20,bw=10):
+
+        cbpf_ifsel_dict = {
+            '1M': 3,
+            '1.5M': 2,
+            '3M': 1,
+            '4M': 0
+        }
+        cbpf_ifbw_dict = {
+            '1M': 1,
+            '1.5M': 1.5,
+            '3M': 3,
+            '4M': 4
+        }
+        cbpf_ifvalue_dict = {
+            '1M': 0x155556,
+            '1.5M': 0x200001,
+            '3M': 0x400002,
+            '4M': 0x555558
+        }
+        cbpf_iop1_dict = {
+            '1M': 1,
+            '1.5M': 3,
+            '3M': 4,
+            '4M': 7
+        }
+        cbpf_iop2_dict = {
+            '1M': 1,
+            '1.5M': 1,
+            '3M': 4,
+            '4M': 7
+        }
+        for flt_bw in cbpf_if_list:
+            cbpf_ifbw = cbpf_ifbw_dict[flt_bw]
+            cbpf_ifsel = cbpf_ifsel_dict[flt_bw]
+            ifvalue = cbpf_ifvalue_dict[flt_bw]
+            cbpf_iop1 = cbpf_iop1_dict[flt_bw]
+            cbpf_iop2 = cbpf_iop2_dict[flt_bw]
+            self.mem_ts.wrm(0x50421100, 1, 0, cbpf_ifsel)  ##Rx CBPF IF select
+            self.mem_ts.wrm(0x50421070, 22, 0, ifvalue)
+            self.mem_ts.wrm(0x50421104, 2, 0, cbpf_iop1)
+            self.mem_ts.wrm(0x50421104, 17, 15, cbpf_iop2)
+            self.filter_rx_epm9062(cfreq=cfreq,  device_spa=device_spa,if_bw=cbpf_ifbw, bw=bw,step_acc=step_acc)
+
 
     def filter_rx_tx232(self, cfreq=2440, cbpf_if_list=['1M','1.5M'], flt_index_list=['cbpf1','cbpf1&2'], rccal_code_val_list=range(1,31,2), cbpf_bw_code_list=[2],
                         device_spa='N9020A', step_acc=20):
@@ -349,8 +451,8 @@ class filter_test(object):
             # for cbpf_bias_trim in range(0,8):
             for cbpf_bias_trim in [2]:
                 self.mem_ts.wrm(0xa0421034, 18, 16, cbpf_bias_trim)
-                # for rccal_code_val in rccal_code_val_list:
-                for rccal_code_val in [1]:
+                for rccal_code_val in rccal_code_val_list:
+                # for rccal_code_val in [1]:
                     self.mem_ts.wrm(0xa0421044, 26, 26, 1)
                     self.mem_ts.wrm(0xa0421044, 31, 27, rccal_code_val)
                     for flt_bw in cbpf_if_list:
@@ -383,10 +485,10 @@ class filter_test(object):
                                 freq_r = []
                                 pwr_r = []
                                 # step_list = range(-4*1000/step_acc, 4*1000/step_acc,1)
-                                step_list = range(-4 * 1000 / step_acc, -2 * 1000 / step_acc, 2) + range(-2 * 1000 / step_acc, 2 * 1000 / step_acc, 1) + range(2 * 1000 /
+                                step_list = range(-4 * 1000 / step_acc, -15 * 100 / step_acc, 5) + range(-15 * 100 / step_acc, 15 * 100 / step_acc, 1) + range(15 * 100 /
                                                                                                                                                                step_acc,
-                                                                                                                                                               4 * 1000 /
-                                                                                                                                                               step_acc, 2)
+                                                                                                                                                               41 * 100 /
+                                                                                                                                                               step_acc, 5)
                                 delta_txp = []
                                 mxg_freq = cfreq
                                 for step in step_list:

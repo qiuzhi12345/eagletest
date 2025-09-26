@@ -22,6 +22,7 @@ import os
 from baselib.instrument.cmw_bt import *
 from baselib.instrument.spa import *
 from rftest.rflib import *
+from rftest.rflib import rfglobal
 from hal.common import *
 from rftest.rflib.csv_report import csvreport
 from rftest.testcase.bt_api import bt_api
@@ -50,14 +51,18 @@ class bt_curr(object):
         self.chipv = chipv
         self.mem_ts = MEM_TS(self.comport)
         self.jlink_en = jlink_en
-        if jlink_en != 0:
+        if jlink_en!=0:
             self.jlink = jlink
-        self.tp = testpin(self.comport, chipv=self.chipv, jlink=self.jlink)
-        bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=self.jlink)
+            self.btapi = bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=self.jlink)
+            self.tp = testpin(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=self.jlink)
+        else:
+            self.btapi = bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en)
+            self.tp = testpin(self.comport, chipv=self.chipv, jlink_en=jlink_en)
+
 
     def curr_paramp_tx_carrier(self, device_name='MY49260023', freq_list=[2402], vdd_pa_list=[3.3], cable_loss=2.6, tpmode=1, name_str='tpmode'):
         title = 'freq(MHz),vdd_pa(mv),pa_ramp,tx_carrier_pwr(dBm),curr_vddpa(mA),curr_vline3(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_pa_tx_carrier_{}'.format(name_str))
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_pa_tx_carrier_{}'.format(name_str))
         fw1 = csvreport(fname, title)
         self.jlink.wrm(0xa0120080,9,9,0)
         self.jlink.wrm(0xa0120080,28,25,0)
@@ -68,7 +73,7 @@ class bt_curr(object):
         myspa = Agilent()
         myspa.set_reflvl(15)
         self.jlink.wrm(0xa0120080, 9, 9, 1)
-        btapi = bt_api(self.comport, chipv=self.chipv, jlink=self.jlink)
+        # btapi = bt_api(self.comport, chipv=self.chipv, jlink=self.jlink)
         for freq in freq_list:
             myspa.set_param(freq, 100)
             for vdd_pa in vdd_pa_list:
@@ -76,20 +81,20 @@ class bt_curr(object):
                 time.sleep(2)
 
                 for ramp in range(63,0,-1):
-                    btapi.tx_carrier_stop()
-                    btapi.tx_carrier(freq,0xff,ramp,tpmode)
+                    self.btapi.tx_carrier_stop()
+                    self.btapi.tx_carrier(freq,0xff,ramp,tpmode)
                     res = myspa.pk_search_timesleep(timesleep=1.5)
                     txp = res[0][1]+cable_loss
                     curr_vddpa = eval(DM_VDDPA.device.ask('SENS:CURR?'))*1000
                     # curr_vline3 = eval(DM_VLINE3.device.ask('MEAS:CURR?'))*1000
                     loginfo('ramp:  {}  txp:   {}  curr_vddpa:  {}  '.format(ramp,txp,curr_vddpa))
                     fw1.write_data([freq,vdd_pa,ramp,txp,curr_vddpa])
-        btapi.tx_carrier_stop()
+        self.btapi.tx_carrier_stop()
 
     def curr_reg_tx_carrier(self, freq=2402, vdd_pa=3.3,cable_loss=4 ):
         title = 'freq(MHz),vdd_pa(v),pa_ramp,pa_vbiasb_trim,pa_vbiasa_trim,pa_ptat_trim,pa_vblowcas_trim,pa_vbcas_trim,tx_carrier_pwr(dBm),curr_vddpa(mA),curr_vline3(mA),txp_br,' \
                 'delta_f2_99,delta_f2_avg,curr_br_vddpa,curr_br_vline3,txp_edr2,DEVM_RMS,curr_edr2_vddpa,curr_edr2_vline3\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_reg_tx_carrier')
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_reg_tx_carrier')
         fw1 = csvreport(fname, title)
         self.jlink.wrm(0xa0120080,9,9,0)
         self.jlink.wrm(0xa0120080,28,25,8)
@@ -101,10 +106,10 @@ class bt_curr(object):
         tester = tester_cmw(mode=0, rfport=1, cable_loss=cable_loss, bt_mode='BR', freq=freq,
                             target_power=15, burst_type='BR', asyn='OFF', bdaddr='050604010203')
         # self.BT_INIT('BR')
-        btapi = bt_api(self.comport, chipv=self.chipv, jlink=self.jlink)
-        btapi.cmdstop(1)
-        btapi.cmdstop(0)
-        btapi.tx_carrier_stop()
+        # btapi = bt_api(self.comport, chipv=self.chipv, jlink=self.jlink)
+        self.btapi.cmdstop(1)
+        self.btapi.cmdstop(0)
+        self.btapi.tx_carrier_stop()
         myspa.set_param(freq,100)
         myspa.set_reflvl(15)
         self.jlink.wrm(0xa0120080, 9, 9, 1)
@@ -144,15 +149,15 @@ class bt_curr(object):
                             for pa_vbcas_trim in range(3,-1,-1):
                                 self.jlink.wrm(0xa0421038, msb4, lsb4, pa_vbcas_trim)
 
-                                btapi.tx_carrier(freq, 0xff, ramp)
+                                self.btapi.tx_carrier(freq, 0xff, ramp)
                                 res = myspa.pk_search_avg_timesleep(timesleep=1.5)
                                 tx_tone_pwr = res[0][1]
                                 curr_tone_vddpa = eval(DM_VDDPA.device.ask('SENS:CURR?'))*1000
                                 time.sleep(0.5)
                                 curr_tone_vline3 = eval(DM_VLINE3.device.ask('MEAS:CURR?'))*1000
-                                btapi.tx_carrier_stop()
+                                self.btapi.tx_carrier_stop()
 
-                                btapi.BR_TX(chan=0,len=27,ptype=2,rate=1)
+                                self.btapi.BR_TX(chan=0,len=27,ptype=2,rate=1)
                                 tester.stx.mode_set('BR')
                                 tester.stx.input_signal_settings(btype='BR',asyn='OFF')
                                 res = tester.stx.get_modulation_measure_res()
@@ -169,8 +174,8 @@ class bt_curr(object):
                                 delta_f2_min = eval(res[10]) / 1000.00
                                 delta_f2_max = eval(res[11]) / 1000.00
                                 txp_br = eval(res[12])
-                                btapi.cmdstop(1)
-                                btapi.BR_TX(chan=0, len=54, ptype=7, rate=2)
+                                self.btapi.cmdstop(1)
+                                self.btapi.BR_TX(chan=0, len=54, ptype=7, rate=2)
                                 tester.stx.mode_set('EDR')
                                 tester.stx.input_signal_settings(btype='EDR',asyn='OFF')
                                 res = tester.stx.get_modulation_measure_res()
@@ -188,7 +193,7 @@ class bt_curr(object):
                                 DEVM_peak = res[6]
                                 DEVM_P99 = res[7]
                                 txp_edr2 = res[8]
-                                btapi.cmdstop(1)
+                                self.btapi.cmdstop(1)
 
 
                                 loginfo('ramp:  {}  txp:   {}  curr_vddpa:  {}  curr_vline3:    {}'.format(ramp, tx_tone_pwr, curr_tone_vddpa, curr_tone_vline3))
@@ -203,7 +208,7 @@ class bt_curr(object):
 
     def curr_lna(self,freq=2402,device_name='MY50180049'):
         title = 'freq(MHz),lna_itrim,lna_hgain_code,curr_vline1(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_lna')
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_lna')
         fw1 = csvreport(fname, title)
         DM_VLINE1 = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.jlink.wrm(0xa04210a0,0,0,1)   ##agc disable
@@ -242,7 +247,7 @@ class bt_curr(object):
         测试的是xo与bbpll_bg合在一起的电流
         '''
         title = 'xo_ldo_trim,xo_isel,curr_vline3(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_xo')
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_xo')
         fw1 = csvreport(fname, title)
         DM_VLINE3 = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.jlink.wr(0xa0422014, 0x0)
@@ -272,7 +277,7 @@ class bt_curr(object):
 
     def curr_vline1(self, device_name='MY50180049'):
         title = 'mode,curr_init(mA),curr_LNA+mix_off(mA),curr_cbpf_off(mA),curr_ldo_trxhf_off(mA),curr_bg_off(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_vline1')
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_vline1')
         fw1 = csvreport(fname, title)
         DM_VLINE = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.jlink.wrm(0xa00000a8, 1, 0,1)  ##mclk0_sel rc48m
@@ -329,7 +334,7 @@ class bt_curr(object):
 
     def curr_vline2(self, device_name='MY50180049'):
         title = 'mode,ldo_vco_trim,curr_init(mA),curr_vlo_rx_off(mA),curr_vcodiv2_off(mA),curr_vco_off(mA),curr_ldo_vco_off(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_vline2')
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_vline2')
         fw1 = csvreport(fname, title)
         DM_VLINE2 = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
 
@@ -400,7 +405,7 @@ class bt_curr(object):
     def curr_vline3(self, device_name='MY50180049'):
         title = 'mode,curr_init(mA),curr_adc_off(mA),curr_pfdcp_off(mA),curr_divn_off(mA),curr_ldo_pll_off(mA),curr_ldo_trxlf_off(mA),curr_ldo_lv_off(mA),curr_bbpll_off(mA),' \
                 'curr_xo_off(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_vline3')
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_vline3')
         fw1 = csvreport(fname, title)
         DM_VLINE = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.jlink.wrm(0xa00000a8, 1, 0,1)  ##mclk0_sel rc48m
@@ -469,7 +474,7 @@ class bt_curr(object):
 
     def curr_bbpll(self, device_name='MY50180049'):
         title = 'bbpll_ldo_trim,curr_init(mA),curr_bbpll_off(mA),curr_bbpll_ldo_off(mA),curr_xo_off(mA),curr_bg_off(mA)\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'curr_bbpll')
+        fname = rfglobal.get_filename('ts_bt_test/', 'curr_bbpll')
         fw1 = csvreport(fname, title)
         DM_VLINE = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.jlink.wr(0xa0422014, 0x0)

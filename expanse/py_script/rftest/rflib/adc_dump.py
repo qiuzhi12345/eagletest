@@ -24,7 +24,7 @@ class DUMP(object):
 
     def get_ts_txt_data(self,file_name='E:/chip/eagletest/py_script/rftest/rfdata/SaveWindows2020_7_15_17-27-26.TXT'):
         title = 'adc_data,i_data,q_data\n'
-        fname = self.get_filename('adc/','adc_dump_ts')
+        fname = rfglobal.get_filename('adc/','adc_dump_ts')
         fw1=csvreport(fname,title)
         i_data_list=[]
         q_data_list=[]
@@ -51,7 +51,7 @@ class DUMP(object):
 
     def get_ts_txt_data_wnf9062(self,file_name='E:/chip/eagletest/py_script/rftest/rfdata/SaveWindows2020_7_15_17-27-26.TXT'):
         title = 'adc_data,i_data,q_data\n'
-        fname = self.get_filename('adc/','adc_dump_ts')
+        fname = rfglobal.get_filename('adc/','adc_dump_ts')
         fw1=csvreport(fname,title)
         i_data_list=[]
         q_data_list=[]
@@ -188,7 +188,7 @@ class DUMP(object):
 
     def ts_adc_dump(self, cmd='dump'):
         title = 'adc_data,i_data,q_data\n'
-        fname = self.get_filename('ts_adc_dump/','adc_dump_ts')
+        fname = rfglobal.get_filename('ts_adc_dump/','adc_dump_ts')
         fw1=csvreport(fname,title)
         i_data_list=[]
         q_data_list=[]
@@ -228,7 +228,7 @@ class DUMP(object):
 
     def ts_adc_dump_manu(self, buf_size=3,sign_en=1):
         title = 'adc_data,i_data,q_data\n'
-        fname = self.get_filename('ts_adc_dump/','adc_dump_ts')
+        fname = rfglobal.get_filename('ts_adc_dump/','adc_dump_ts')
         fw1=csvreport(fname,title)
         i_data_list=[]
         q_data_list=[]
@@ -269,41 +269,41 @@ class DUMP(object):
         myplot.fft_plot(fftdata,13,0)
 
 
-    def get_filename(self, folder, file_name, sub_folder=''):
-        '''
-        :folder: file store folder
-        :file_name:  file name
-        :sub_folder: if not need, it may be default ""
-        '''
-        if rfglobal.file_folder=="":
-            rfdata_path = './rftest/rfdata/'
-        else:
-            rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
-            if os.path.exists(rfdata_path) == False:
-                os.mkdir(rfdata_path)
-
-        data_path1 = rfdata_path+'%s/'%(folder)
-        if os.path.exists(data_path1) == False:
-            os.mkdir(data_path1)
-
-        filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
-        # mac = self.read_mac()
-        mac = ''
-
-        gen_folder = '_%s'%(filetime[0:8])
-        data_path2 = data_path1 +'%s/'%(gen_folder)
-        if os.path.exists(data_path2) == False:
-            os.mkdir(data_path2)
-
-        fname = '%s'%(file_name)
-        outfile_name = data_path2 + fname
-
-        if sub_folder != '':
-            gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
-            sub_path = data_path2+'%s/'%(gen_folder)
-            if os.path.exists(sub_path) == False:
-                os.mkdir(sub_path)
-
-            outfile_name = sub_path + file_name
-
-        return outfile_name
+    # def get_filename(self, folder, file_name, sub_folder=''):
+    #     '''
+    #     :folder: file store folder
+    #     :file_name:  file name
+    #     :sub_folder: if not need, it may be default ""
+    #     '''
+    #     if rfglobal.file_folder=="":
+    #         rfdata_path = './rftest/rfdata/'
+    #     else:
+    #         rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
+    #         if os.path.exists(rfdata_path) == False:
+    #             os.mkdir(rfdata_path)
+    #
+    #     data_path1 = rfdata_path+'%s/'%(folder)
+    #     if os.path.exists(data_path1) == False:
+    #         os.mkdir(data_path1)
+    #
+    #     filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
+    #     # mac = self.read_mac()
+    #     mac = ''
+    #
+    #     gen_folder = '_%s'%(filetime[0:8])
+    #     data_path2 = data_path1 +'%s/'%(gen_folder)
+    #     if os.path.exists(data_path2) == False:
+    #         os.mkdir(data_path2)
+    #
+    #     fname = '%s'%(file_name)
+    #     outfile_name = data_path2 + fname
+    #
+    #     if sub_folder != '':
+    #         gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
+    #         sub_path = data_path2+'%s/'%(gen_folder)
+    #         if os.path.exists(sub_path) == False:
+    #             os.mkdir(sub_path)
+    #
+    #         outfile_name = sub_path + file_name
+    #
+    #     return outfile_name

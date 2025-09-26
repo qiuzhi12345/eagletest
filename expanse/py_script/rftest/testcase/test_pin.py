@@ -22,6 +22,7 @@ import os
 from baselib.instrument.cmw_bt import *
 from baselib.instrument.spa import *
 from rftest.rflib import *
+from rftest.rflib import rfglobal
 from hal.common import *
 from rftest.rflib.csv_report import csvreport
 
@@ -171,8 +172,9 @@ class testpin(object):
         divf =int(((freq%8)/8.000)*(2**16))
         loginfo('{}     {}'.format(fn,divf))
         self.jlink.wrm(0xa000014c, 7, 3, fn)  ##FN select
-        self.jlink.wrm(0xa000014c, 31, 16, divf)  ##FD select
         self.jlink.wrm(0xa000014c, 1, 1, 1)  ##frac_pll_resetn enable
+        self.jlink.wrm(0xa000014c, 31, 16, divf)  ##FD select
+        # self.jlink.wrm(0xa000014c, 1, 1, 1)  ##frac_pll_resetn enable
 
     def frac_divf_set(self, divf=0x0):
         self.jlink.wrm(0xa000014c, 1, 1, 0)  ##frac_pll_resetn disable
@@ -186,7 +188,7 @@ class testpin(object):
         '''
         title = 'freq_center(MHz),freq_divf-1(MHz),freq_center(MHz),freq_divf+1(MHz),freq_center_ld,freq_divf-1_ld,freq_center1_ld,freq_divf+1_ld,txp1,' \
                 'txp2,txp3,txp4,divf,step\n'
-        fname = self.wifi.get_filename('ts_bt_test/', 'frac_pll_looptest')
+        fname = rfglobal.get_filename('ts_bt_test/', 'frac_pll_looptest')
         fw1 = csvreport(fname, title)
         self.jlink.wrm(0xa0200258, 10, 6, 6)
         self.jlink.wrm(0xa0200240,2,0,3)

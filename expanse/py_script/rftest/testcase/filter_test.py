@@ -34,7 +34,7 @@ class filter_test(object):
 
     def filter_tx_ts(self, cfreq=2440, mixer_gain_list=range(0,8), device_spa='N9020A'):
         title = 'mixer_gain,h_gain_le,freq,txtone_pwr\n'
-        fname = self.get_filename('ts_bt_test/', 'filter_tx_ts')
+        fname = rfglobal.get_filename('ts_bt_test/', 'filter_tx_ts')
         fw1 = csvreport(fname, title)
         if device_spa == "":
             self.spa = HP('SA', cfreq)
@@ -97,7 +97,7 @@ class filter_test(object):
     def filter_rx_tx232(self, cfreq=2440, cbpf_if_list=['1M','1.5M'], flt_index_list=['cbpf1','cbpf1&2'], rccal_code_val_list=range(1,31,2), cbpf_bw_code_list=[2],
                         device_spa='N9020A', step_acc=20):
         title = 'rccal_code_val,IF,flt_mode,cbpf_bw_code,step_freq(MHz),measure_freq(KHz),txtone_pwr\n'
-        fname = self.get_filename('ts_bt_test/', 'filter_rx_tx232')
+        fname = rfglobal.get_filename('ts_bt_test/', 'filter_rx_tx232')
         fw1 = csvreport(fname, title)
         self.txg = mxg.MXG()
         # txg.arb_waveform(rate='LE_1M')
@@ -204,7 +204,7 @@ class filter_test(object):
     def filter_rx_tx232_debug(self, cfreq=2440, cbpf_if_list=['1M','1.5M'], flt_index_list=['cbpf1','cbpf1&2'], rccal_code_val_list=range(1,31,2), cbpf_bw_code_list=[2],
                         device_spa='N9020A', step_acc=20):
         title = 'cbpf_vcm_trim,cbpf_bias_trim,rccal_code_val,IF,flt_mode,cbpf_bw_code,step_freq(MHz),measure_freq(KHz),txtone_pwr\n'
-        fname = self.get_filename('ts_bt_test/', 'filter_rx_tx232')
+        fname = rfglobal.get_filename('ts_bt_test/', 'filter_rx_tx232')
         fw1 = csvreport(fname, title)
         self.txg = mxg.MXG()
         # txg.arb_waveform(rate='LE_1M')
@@ -389,44 +389,44 @@ class filter_test(object):
             pylab.grid()
             pylab.show()
 
-    def get_filename(self, folder, file_name, sub_folder=''):
-        '''
-        :folder: file store folder
-        :file_name:  file name
-        :sub_folder: if not need, it may be default ""
-        '''
-        if rfglobal.file_folder=="":
-            rfdata_path = './rftest/rfdata/'
-        else:
-            rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
-            if os.path.exists(rfdata_path) == False:
-                os.mkdir(rfdata_path)
-
-        data_path1 = rfdata_path+'%s/'%(folder)
-        if os.path.exists(data_path1) == False:
-            os.mkdir(data_path1)
-
-        filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
-        # mac = self.read_mac()
-        mac = ''
-
-        gen_folder = '_%s'%(filetime[0:8])
-        data_path2 = data_path1 +'%s/'%(gen_folder)
-        if os.path.exists(data_path2) == False:
-            os.mkdir(data_path2)
-
-        fname = '%s'%(file_name)
-        outfile_name = data_path2 + fname
-
-        if sub_folder != '':
-            gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
-            sub_path = data_path2+'%s/'%(gen_folder)
-            if os.path.exists(sub_path) == False:
-                os.mkdir(sub_path)
-
-            outfile_name = sub_path + file_name
-
-        return outfile_name
+    # def get_filename(self, folder, file_name, sub_folder=''):
+    #     '''
+    #     :folder: file store folder
+    #     :file_name:  file name
+    #     :sub_folder: if not need, it may be default ""
+    #     '''
+    #     if rfglobal.file_folder=="":
+    #         rfdata_path = './rftest/rfdata/'
+    #     else:
+    #         rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
+    #         if os.path.exists(rfdata_path) == False:
+    #             os.mkdir(rfdata_path)
+    #
+    #     data_path1 = rfdata_path+'%s/'%(folder)
+    #     if os.path.exists(data_path1) == False:
+    #         os.mkdir(data_path1)
+    #
+    #     filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
+    #     # mac = self.read_mac()
+    #     mac = ''
+    #
+    #     gen_folder = '_%s'%(filetime[0:8])
+    #     data_path2 = data_path1 +'%s/'%(gen_folder)
+    #     if os.path.exists(data_path2) == False:
+    #         os.mkdir(data_path2)
+    #
+    #     fname = '%s'%(file_name)
+    #     outfile_name = data_path2 + fname
+    #
+    #     if sub_folder != '':
+    #         gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
+    #         sub_path = data_path2+'%s/'%(gen_folder)
+    #         if os.path.exists(sub_path) == False:
+    #             os.mkdir(sub_path)
+    #
+    #         outfile_name = sub_path + file_name
+    #
+    #     return outfile_name
 
 
 

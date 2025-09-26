@@ -59,7 +59,7 @@ class USBDevice(object):
                         logerror('{} disconnect to instrument'.format(res_name))
         if device_list == []:
             raise StandardError("can't find GPIB device address")
-        self.device.timeout=5000
+        self.device.timeout=10000
         self.device = device_list[num_of_machine-1]
         logdebug('you are using {}'.format(self.device.ask("*IDN?")))
         pass

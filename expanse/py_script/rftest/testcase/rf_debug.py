@@ -53,7 +53,9 @@ class rf_debug(object):
         self.jlink_en = jlink_en
         if jlink_en !=0:
             self.jlink = jlink
-        bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=self.jlink)
+            self.btapi=bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en,jlink=self.jlink)
+        else:
+            self.btapi=bt_api(self.comport, chipv=self.chipv, jlink_en=jlink_en)
         self.br_len_dic = {
             'DH1': 27,
             'DH3': 183,
@@ -153,7 +155,7 @@ class rf_debug(object):
 
     def test232_tp_gain_cal_scan(self):
         title = 'mode,channel,tp_gain_cal_value\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_tp_gain_cal_scan_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_tp_gain_cal_scan_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         for mode in [0,1]:
             if mode == 0:
@@ -179,7 +181,7 @@ class rf_debug(object):
 
     def test232_cfo_est_test(self,chan_list=[0],signal_freq_oft=400):
         title = 'channel,signal_freq(khz),cfo_est, cfo_est_step\n'
-        fname = self.get_filename('ts_bt_test/','test232_cfo_est_test_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/','test232_cfo_est_test_{}'.format(self.board_name))
         fw1 = csvreport(fname,title)
         txg = mxg.MXG()
         txg.arb_waveform(rate='LE_1M')
@@ -272,7 +274,7 @@ class rf_debug(object):
 
     def test232_rxdcoc_scan_lna_gain(self, device_name='MY50180049',idac_code=30,qdac_code=28):
         title = 'idac_code,qdac_code,hgain_code,lgain_code,atten,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_lna_gain_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_lna_gain_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
@@ -371,7 +373,7 @@ class rf_debug(object):
         self.mem_ts.wrm(0xa04210cc, 14, 13, 3)  ##cbpf gain1&2 on
 
         title = 'cbpf2_en,cbpf1_idac_code,cbpf1_qdac_code,cbpf2_idac_code,cbpf2_qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_cal_diff_{}'.format(board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_rxdcoc_cal_diff_{}'.format(board_name))
         fw1 = csvreport(fname, title)
         for cbpf_en in [0,1]:
             self.mem_ts.wrm(0xa0422014, 3, 0, 0)
@@ -446,7 +448,7 @@ class rf_debug(object):
         self.mem_ts.wrm(0xa0421020, 20, 20, 1)
 
         title = 'cbpf2_en,cbpf1_idac_code,cbpf1_qdac_code,cbpf2_idac_code,cbpf2_qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_cal_diff_{}'.format(board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_rxdcoc_cal_diff_{}'.format(board_name))
         fw1 = csvreport(fname, title)
         for i in range(loop):
             # self.mem_ts.wrm(0xa0421010, 6, 5, 3)
@@ -502,7 +504,7 @@ class rf_debug(object):
 
         if cbpf1_en!=0:
             title = 'idac_code,qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-            fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_cbpf1_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_cbpf1_{}'.format(self.board_name))
             fw1 = csvreport(fname, title)
             self.mem_ts.wrm(0xa0421020, 20, 20, 0)  ##cbpf2 disable
             for idac_code in range(64):
@@ -548,7 +550,7 @@ class rf_debug(object):
 
             title = 'ro_rxdcoc1_q_code={},ro_rxdcoc1_i_code={},ro_rxdcoc2_q_code={},ro_rxdcoc2_i_code={}\n'.format(ro_rxdcoc1_q_code,ro_rxdcoc1_i_code,ro_rxdcoc2_q_code,ro_rxdcoc2_i_code)
             title = title + 'idac_code,qdac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v)\n'
-            fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_cbpf2')
+            fname = rfglobal.get_filename('ts_bt_test/', 'test232_rxdcoc_scan_cbpf2')
             fw1 = csvreport(fname, title)
             for idac_code in range(64):
                 self.mem_ts.wrm(0xa042105c, 18, 13, idac_code)
@@ -582,7 +584,7 @@ class rf_debug(object):
 
     def test232_rxdcoc_manual_cal(self, device_name='MY50180049'):
         title = 'idac_code,rxdcoc_qn(v),rxdcoc_qp(v),rxdcoc_in(v),rxdcoc_ip(v),cbpf_outi,cbpf_outq\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_rxdcoc_manual_cal_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_rxdcoc_manual_cal_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         mydm = dm.dm(device_name=device_name, num_of_machine=0, comm='USB')
         self.mem_ts.wrm(0xa0421024, 17, 17, 1)  ##RF diag  soc enable
@@ -662,7 +664,7 @@ class rf_debug(object):
 
     def test232_txdcoc_allchannel_rd(self):
         title = 'channel,txdcoc_i_code,txdcoc_q_code\n'
-        fname = self.get_filename('ts_bt_test/', 'test232_txdcoc_allchannel_rd_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/', 'test232_txdcoc_allchannel_rd_{}'.format(self.board_name))
         fw1 = csvreport(fname, title)
         self.mem_ts.wrm(0xa0421064, 12, 12, 1)  ##Frequency value manual enable
         for channel in range(0,79):
@@ -677,7 +679,7 @@ class rf_debug(object):
     def test232_tx_gain_scan(self, csv_save=True):
         if csv_save:
             title = 'tx pa tpr value,tx carrier power(dbm)\n'
-            fname = self.get_filename('ts_bt_test/','test232_tx_gain_scan_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','test232_tx_gain_scan_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -703,7 +705,7 @@ class rf_debug(object):
         self.btapi.cmdstop(1)
         if csv_save:
             title = 'channel,lna_itrim,cbpf_bias_trim,LNA_HGAIN,LNA_LGAIN,LNA_ATTEN,FLT_GAIN1,FLT_GAIN2,RF_pwr(dbm),IF_pwr(dbm),dalta\n'
-            fname = self.get_filename('ts_bt_test/','rxgain_scan_tx232_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','rxgain_scan_tx232_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -836,7 +838,7 @@ class rf_debug(object):
         self.btapi.cmdstop(1)
         if csv_save:
             title = 'channel,LNA_GAIN,LNA_ATTEN_R,LNA_ATTEN_C,FLT_GAIN1,FLT_GAIN2,RF_pwr(dbm),IF_pwr(dbm),dalta\n'
-            fname = self.get_filename('ts_bt_test/','rxgain_scan_tx231_{}'.format(self.board_name))
+            fname = rfglobal.get_filename('ts_bt_test/','rxgain_scan_tx231_{}'.format(self.board_name))
             fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -1062,7 +1064,7 @@ class rf_debug(object):
                          interference_offset_freq=3):
 
         title = 'flt_pkd_value,agc_tgt,agc_sat,interference_pwr(dbm)@offset {}MHz,signal_pwr(dbm),IF_pwr(dbm),dalta\n'.format(interference_offset_freq)
-        fname = self.get_filename('ts_bt_test/','test231_agc_scan_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/','test231_agc_scan_{}'.format(self.board_name))
         fw1 = csvreport(fname,title)
 
         spa = Agilent()
@@ -1126,7 +1128,7 @@ class rf_debug(object):
                          interference_offset_freq=3):
 
         title = 'agc_tgt,agc_sat,interference_pwr(dbm)@offset {}MHz,signal_pwr(dbm),IF_pwr(dbm),dalta,agc_gain_idx\n'.format(interference_offset_freq)
-        fname = self.get_filename('ts_bt_test/','test232_agc_scan_{}M'.format(interference_offset_freq))
+        fname = rfglobal.get_filename('ts_bt_test/','test232_agc_scan_{}M'.format(interference_offset_freq))
         fw1 = csvreport(fname,title)
         self.test232_agc_gain_table_set()
         spa = Agilent()
@@ -1175,7 +1177,7 @@ class rf_debug(object):
 
     def test232_agc_vs_gainindex(self, channel_list=[0], rf_cableloss=7):
         title = 'mode,channel,signal_pwr(dbm),agc_gain_idx\n'
-        fname = self.get_filename('ts_bt_test/','test232_agc_vs_gainindex_{}'.format(self.board_name))
+        fname = rfglobal.get_filename('ts_bt_test/','test232_agc_vs_gainindex_{}'.format(self.board_name))
         fw1 = csvreport(fname,title)
         txg = mxg.MXG()
         txg.arb_waveform(rate='LE_1M')
@@ -1254,7 +1256,7 @@ class rf_debug(object):
         '''
 
         title = 'rate,freq(MHz),instrument_tx_level(dBm),rssi/agc_gain_index\n'
-        fname = self.get_filename('ts_bt_test/','test232_rssi_scan_{}'.format(name_str))
+        fname = rfglobal.get_filename('ts_bt_test/','test232_rssi_scan_{}'.format(name_str))
         fw1 = csvreport(fname,title)
         tester_signal = mxg.MXG('N5182B', 1)
         if mode!=0:
@@ -1368,7 +1370,7 @@ class rf_debug(object):
         document = Document(file_path)
         tables = document.tables
         paragraph_list = []
-        fname = self.get_filename('ts_bt_test/', 'rf_top_reg_to_code')
+        fname = rfglobal.get_filename('ts_bt_test/', 'rf_top_reg_to_code')
         logtime = time.strftime('%Y%m%d_%H%M%S', time.localtime(time.time()))
         with open('{}_{}.txt'.format(fname,logtime),'w+') as f:
             f.write('/*\n * DEFINES\n *****************************************************************************************\n */\n')
@@ -1425,41 +1427,3 @@ class rf_debug(object):
                     f.write(struct_wstr1+struct_wstr2_list+struct_wstr3+struct_wstr4+struct_wstr5)
 
 
-    def get_filename(self, folder, file_name, sub_folder=''):
-        '''
-        :folder: file store folder
-        :file_name:  file name
-        :sub_folder: if not need, it may be default ""
-        '''
-        if rfglobal.file_folder=="":
-            rfdata_path = './rftest/rfdata/'
-        else:
-            rfdata_path = './rftest/rfdata/%s/'%rfglobal.file_folder
-            if os.path.exists(rfdata_path) == False:
-                os.mkdir(rfdata_path)
-
-        data_path1 = rfdata_path+'%s/'%(folder)
-        if os.path.exists(data_path1) == False:
-            os.mkdir(data_path1)
-
-        filetime = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()));
-        # mac = self.read_mac()
-        mac = ''
-
-        gen_folder = '_%s'%(filetime[0:8])
-        data_path2 = data_path1 +'%s/'%(gen_folder)
-        if os.path.exists(data_path2) == False:
-            os.mkdir(data_path2)
-
-        fname = '%s'%(file_name)
-        outfile_name = data_path2 + fname
-
-        if sub_folder != '':
-            gen_folder = '%s_%s'%(sub_folder,filetime[0:8])
-            sub_path = data_path2+'%s/'%(gen_folder)
-            if os.path.exists(sub_path) == False:
-                os.mkdir(sub_path)
-
-            outfile_name = sub_path + file_name
-
-        return outfile_name
