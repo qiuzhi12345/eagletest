@@ -1,0 +1,471 @@
+********
+###################
+##	xtal 
+###################
+chip.mem_ts.wrm(0xa012009c,23,20,0xb)
+#chip.mem_ts.wrm(0xa012009c,19,14,27)		##xo_ctune for QFN50 EVB
+chip.mem_ts.wrm(0xa012009c,19,14,47)		##xo_ctune for QFN80 EVB
+chip.mem_ts.wrm(0xa012009c,13,11,4)		##xo_cfix
+chip.mem_ts.wrm(0xa012009c,10,7,0)		##xo_ibit
+
+chip.mem_ts.wrm(0xa0120084,9,9,0x1)
+chip.mem_ts.wrm(0xa0120084,0,0,0x1)
+chip.mem_ts.wrm(0xa0120084,28,25,0xf)
+
+chip.mem_ts.wrm(0x50420010,7,0,0x7f)		## BR TX DAC gain
+chip.mem_ts.wrm(0x50420018,7,0,0x7f)		## EDR TX DAC gain
+chip.mem_ts.wrm(0x5042000c,15,8,0xe8)		## EDR TX DAC gain
+
+chip.mem_ts.wrm(0x50421038,15,14,0x3)		## txdac_rload_trim
+chip.mem_ts.wrm(0x50421038,7,6,0x3)		## pa_ptat_trim
+chip.mem_ts.wrm(0x50421038,4,3,0x3)		## pa_vbias_trim
+chip.mem_ts.wrm(0x50421038,2,1,0x3)		## pa_vbcas_trim
+chip.mem_ts.wrm(0x50421038,28,25,0xf)		## pa_vbiasb_trim/pa_vbiasa_trim
+chip.mem_ts.wrm(0x5042108c,5,4,0x0)		## PA ramp table max gain
+chip.mem_ts.wrm(0x50421034,3,0,0x0)		## pa_caps
+
+chip.mem_ts.wrm(0x50421038,11,10,0x0)		## txlpf_vcm_trim
+chip.mem_ts.wrm(0x50421028,8,8,1)		## ldo_trxlf_bypass	可以提升evm
+###################
+##	vbuck_dig
+###################
+chip.mem_ts.wr(0xa0120088,0x3842353c)
+
+###################
+##	ldo_pa 
+###################
+chip.mem_ts.wrm(0xa0120084,9,9,0x1)
+chip.mem_ts.wrm(0xa0120084,0,0,0x1)
+chip.mem_ts.wrm(0xa0120084,28,25,0xf)
+
+###################
+##	xo_clksel_dig  48m
+###################
+chip.mem_ts.wrm(0xa012009c,31,31,0x1)
+chip.mem_ts.wrm(0xa0120098,10,10,0x1)
+chip.mem_ts.wrm(0xa0120098,12,11,0x1)		##xo_dutyc
+chip.mem_ts.wrm(0x50421034,29,29,0x0)		##adc_delay_sel
+
+###################
+##	agc debug
+###################
+chip.mem_ts.wrm(0x504210a0,0,0,0x1)		##disable agc
+chip.mem_ts.wrm(0x504210a0,20,17,0xc)		##rx gain index
+
+chip.mem_ts.wrm(0x50421028,25,19,0x68)		##pkd_ref
+chip.mem_ts.wrm(0x50421028,18,17,0x2)		##pkd_hys
+chip.mem_ts.wrm(0x50421028,30,28,0x1)		##pkd_dac_ibc
+chip.mem_ts.wrm(0x50421028,27,26,0x1)		##pkd_lpf_cap
+chip.mem_ts.wrm(0x50421028,16,16,0x1)		##pkd_lp
+
+chip.mem_ts.wrm(0x504210b0,29,26,0x0)		##agc_t_pkd_rstn
+chip.mem_ts.wrm(0x504210b0,25,21,0x7)		##agc_t_pkd_sat_samp
+chip.mem_ts.wrm(0x504210b0,20,16,0x0)		##agc_t_pkd_sat_srch
+
+chip.mem_ts.wrm(0x504210a8,11,2,0x14a)		##agc_sat_pow
+chip.mem_ts.wrm(0x504210ac,9,0,0x14a)		##agc_tgt_pow
+
+###################
+##	tpmode
+###################
+
+chip.mem_ts.wrm(0x50421020,25,25,0x0)
+
+###################
+##	tp cal
+###################
+chip.mem_ts.wrm(0x50422014,3,0,0x0)
+chip.mem_ts.wrm(0x50421064,12,12,1)
+chip.mem_ts.wrm(0x50421064,11,0,2402)
+chip.mem_ts.wrm(0x50421010,3,3,0x0)
+chip.mem_ts.wrm(0x50421080,18,18,0x0)
+chip.mem_ts.wrm(0x50421024,21,18,0x1)
+chip.mem_ts.wrm(0x50421030,21,16,0x20)
+chip.mem_ts.wrm(0x50421030,27,22,0x3f)
+chip.mem_ts.wrm(0x50421014,15,8,0x70)
+##chip.mem_ts.wrm(0x50400880,7,0,0x60)
+chip.mem_ts.wrm(0x50422014,3,0,0xe)
+time.sleep(1)
+chip.mem_ts.wrm(0x50422014,3,0,0x0)
+chip.mem_ts.rdm(0x504210f8,10,0)
+
+
+###################
+##	rxdcoc cal
+###################
+chip.mem_ts.wrm(0x50421010,5,5,0x0)
+chip.mem_ts.wrm(0x50422014,3,0,0x3)
+sleep(100us)
+chip.mem_ts.wrm(0x50422014,3,0,0x0)
+chip.mem_ts.wrm(0x50421010,5,5,0x1)
+
+
+
+###################
+##	rxon delay
+###################
+
+chip.mem_ts.wrm(0x5040048c,23,16,0x64)		##rxon delay
+
+###################
+##	rxdcoc set
+###################1EF23B90
+chip.mem_ts.wrm(0x50421010,6,5,3)		##rx dc cal bypass
+
+chip.mem_ts.wrm(0x50421058,12,12,1)		##manual rxdcoc 
+chip.mem_ts.wrm(0x50421058,18,13,0x20)		##rxdcoc_i_code
+chip.mem_ts.wrm(0x50421058,24,19,0x20)		##rxdcoc_q_code
+
+###################
+##	TP mode tx packet txon pu delay
+###################
+chip.mem_ts.wrm(0x501200cc,19,14,3)		##xtal freq offset
+chip.mem_ts.wrm(0x501200cc,23,22,3)		##rf_aon_xo_en_clk_adcdac_dig & rf_aon_xo_en_clk_ana_dig
+chip.mem_ts.wrm(0x501200cc,20,20,1)		##rf_aon_xo_en_clk_ref_dig
+chip.mem_ts.wrm(0x50400880,7,0,0x69)		##LE_1M rw txpwrup delay,	TP mode
+chip.mem_ts.wrm(0x5040048c,7,0,0X69)		## BR/EDR rw txpwrup delay	TP mode
+
+###################
+##	IQ mode tx packet txon pu delay
+###################
+chip.mem_ts.wrm(0x501200cc,19,14,3)		##xtal freq offset
+chip.mem_ts.wrm(0x501200cc,23,22,3)		##rf_aon_xo_en_clk_adcdac_dig & rf_aon_xo_en_clk_ana_dig
+chip.mem_ts.wrm(0x501200cc,20,20,1)		##rf_aon_xo_en_clk_ref_dig
+chip.mem_ts.wrm(0x50400880,7,0,0x69)		##LE_1M rw txpwrup delay,	IQ mode
+##chip.mem_ts.wrm(0x5040048c,7,0,0X40)		## BR rw txpwrup delay	IQ mode
+chip.mem_ts.wrm(0x5040048c,7,0,0X60)		## EDR rw txpwrup delay	IQ mode
+
+###################
+##	TX gain
+###################
+
+chip.mem_ts.wrm(0x50420010,7,0,0x7f)		## BR TX DAC gain
+chip.mem_ts.wrm(0x50420018,7,0,0x7f)		## EDR TX DAC gain
+chip.mem_ts.wrm(0x5042000c,15,8,0xe8)		## EDR TX DAC gain
+
+chip.mem_ts.wrm(0x50421038,15,14,0x3)		## txdac_rload_trim
+chip.mem_ts.wrm(0x50421038,13,12,0x1)		## txdac_ibit
+chip.mem_ts.wrm(0x50421038,7,6,0x3)		## pa_ptat_trim
+chip.mem_ts.wrm(0x50421038,4,3,0x3)		## pa_vbias_trim
+chip.mem_ts.wrm(0x50421038,2,1,0x3)		## pa_vbcas_trim
+chip.mem_ts.wrm(0x50421038,28,25,0xf)		## pa_vbiasb_trim/pa_vbiasa_trim
+chip.mem_ts.wrm(0x5042108c,5,4,0x0)		## PA ramp table max gain
+chip.mem_ts.wrm(0x50421034,3,0,0x0)		## pa_caps
+
+chip.mem_ts.wrm(0x50421038,11,10,0x0)		## txlpf_vcm_trim
+chip.mem_ts.wrm(0x50421028,8,8,1)		## ldo_trxlf_bypass	可以提升evm
+###################
+##	PLL
+###################
+
+chip.mem_ts.wrm(0x5042102c,6,4,2)		## cp_ibleed
+
+chip.mem_ts.wrm(0x5042102c,9,7,5)		## cp_idn
+chip.mem_ts.wrm(0x5042102c,12,10,5)		## cp_iup
+chip.mem_ts.wrm(0x5042102c,15,14,3)		## loopfit_r0=250
+
+###################
+##	frequency manual
+###################
+
+chip.mem_ts.wrm(0x50421064,12,12,1)	##Frequency value manual enable
+chip.mem_ts.wrm(0x50421064,11,0,2402)   ##Manual value of frequency (unit: MHz)，2440为中心频点设置到2440MHz
+
+chip.mem_ts.wrm(0x50422014,3,0,0x0)
+chip.mem_ts.wrm(0x50422040,15,15,1)
+chip.mem_ts.wrm(0x50422044,9,9,1)
+chip.mem_ts.wrm(0x50422014,3,0,0x3)
+a=chip.mem_ts.rdm(0x504210dc,27,26)
+b=chip.mem_ts.rdm(0x504210dc,11,8)
+c=chip.mem_ts.rdm(0x50420014,9,0)
+chip.mem_ts.wrm(0x50422014,3,0,0x0)
+chip.mem_ts.wrm(0x50422040,15,15,0)
+chip.mem_ts.wrm(0x50422044,9,9,0)
+print(a,b,c)
+
+###################
+##	tx carrier
+###################
+chip.mem_ts.wr(0x50422014,0xa)  	##manual tx off
+##chip.mem_ts.wrm(0x50422044,10,0,0x7ff)
+##chip.mem_ts.wr(0x5042100c,0x103e0249)  	##rf_ctrl_clk_manual 
+chip.mem_ts.wrm(0x501200cc,23,22,3)		##rf_aon_xo_en_clk_adcdac_dig & rf_aon_xo_en_clk_ana_dig
+chip.mem_ts.wrm(0x501200cc,20,20,1)		##rf_aon_xo_en_clk_ref_dig
+
+chip.mem_ts.wrm(0x504210e8,26,26,1)	##txdcoc sw mode
+chip.mem_ts.wrm(0x504210e8,25,18,0xff)	##Manual TX DAC value for q-path gain index 7
+chip.mem_ts.wrm(0x504210e8,17,10,0xff)	##Manual TX DAC value for i-path gain index 7
+chip.mem_ts.wr(0x50422014,0xe)  	##manual tx on
+
+###reset
+chip.mem_ts.wrm(0x50421064,12,12,0)	##Frequency value manual enable
+chip.mem_ts.wr(0x50422014,0x0)  	##manual tx off
+chip.mem_ts.wrm(0x50422044,10,0,0x0)
+chip.mem_ts.wrm(0x504210e8,26,26,0)	##txdcoc sw mode
+###################
+##	tx tone
+###################
+chip.mem_ts.wr(0x50422014,0xa)  	##manual tx off
+###reset
+chip.mem_ts.wrm(0x50422040,2,0,0)	##symbol_tx
+chip.mem_ts.wrm(0x50422040,8,8,0)	##le mode
+chip.mem_ts.wrm(0x50422040,23,23,0)	##tx ramp
+chip.mem_ts.wrm(0x50422040,14,14,0)	##modem tx_en
+chip.mem_ts.wrm(0x50422040,6,4,0)	##symbol_flag_tx
+##manual
+chip.mem_ts.wrm(0x50422044,10,0,0x7ff)
+chip.mem_ts.wrm(0x50422040,2,0,1)	##symbol_tx，select tx 1 or 0
+chip.mem_ts.wrm(0x50422040,8,8,1)	##le mode
+chip.mem_ts.wr(0x50422014,0xe)  	##manual tx on
+chip.mem_ts.wrm(0x50422040,23,23,1)	##tx ramp
+chip.mem_ts.wrm(0x50422040,14,14,1)	##modem tx_en
+chip.mem_ts.wrm(0x50422040,6,4,1)	##symbol_f
+
+###################
+##	IF test buf ctrl
+###################
+
+chip.mem_ts.wrm(0xa0000144,29,29,1)	##bbpll_bg_pup_ibg_tbuf
+chip.mem_ts.wrm(0xa0120098,4,4,1)	##test buf en
+##chip.mem_ts.wrm(0xa0120098,3,2,2)	##tx IF test buf
+chip.mem_ts.wrm(0xa0120098,3,2,1)	##rx IF test buf
+
+###################
+##	rf diag
+###################
+chip.mem_ts.wr(0x50422014,0xa)  	##manual tx off
+##chip.mem_ts.wrm(0x50422044,10,0,0x7ff)
+##chip.mem_ts.wr(0x5042100c,0x103e0249)  	##rf_ctrl_clk_manual 
+chip.mem_ts.wrm(0x501200cc,23,22,3)		##rf_aon_xo_en_clk_adcdac_dig & rf_aon_xo_en_clk_ana_dig
+chip.mem_ts.wrm(0x501200cc,20,20,1)		##rf_aon_xo_en_clk_ref_dig
+
+chip.mem_ts.wrm(0x504210e8,26,26,1)	##txdcoc sw mode
+chip.mem_ts.wrm(0x504210e8,25,18,0x7ff)	##Manual TX DCOC value for q-path gain index 7
+chip.mem_ts.wrm(0x504210e8,17,10,0x7ff)	##Manual TX DCOC value for i-path gain index 7
+chip.mem_ts.wr(0x50422014,0xe)  	##manual tx on	
+
+chip.mem_ts.wrm(0x50421024,17,17,1)	##RF diag  soc enable
+chip.mem_ts.wrm(0x50421024,3,3,0)	##RF diag  enable
+chip.mem_ts.wrm(0x50421024,2,0,1)	##RF diag code select
+
+##LNA diag
+chip.mem_ts.wr(0x50422014,0x3)
+chip.mem_ts.wrm(0x50421024,17,17,1)	##RF diag  soc enable
+chip.mem_ts.wrm(0x50421024,3,3,0)	##RF diag  enable
+chip.mem_ts.wrm(0x50421024,2,0,3)	##RF diag code select
+chip.mem_ts.wrm(0x50421024,10,10,1)
+chip.mem_ts.wrm(0x504210a0,0,0,1)
+chip.mem_ts.wrm(0x504210b4,25,25,1)
+
+##cbpf diag
+chip.mem_ts.wr(0x50422014,0x3)
+chip.mem_ts.wrm(0x50421024,17,17,1)	##RF diag  soc enable
+chip.mem_ts.wrm(0x50421024,3,3,0)	##RF diag  enable
+chip.mem_ts.wrm(0x50421024,2,0,3)	##RF diag code select
+chip.mem_ts.wrm(0x50421024,11,11,1)
+chip.mem_ts.wrm(0x504210a0,0,0,1)
+
+##VCO LDO diag select
+chip.mem_ts.wrm(0x50421024,9,9,1)
+
+##xtal ldo diag select
+chip.mem_ts.wrm(0x501200cc,3,3,1)
+
+##ldo_lv_diag_sel
+chip.mem_ts.wrm(0x50421024,5,5,1)
+
+##bg_diag_sel
+chip.mem_ts.wrm(0x50421024,4,4,1)
+
+
+##txdc
+chip.mem_ts.wrm(0x504210e8,26,26,1)
+chip.mem_ts.wrm(0x504210e8,25,18,0x80)
+chip.mem_ts.wrm(0x504210e8,17,10,0x80)
+chip.mem_ts.wrm(0x50421024,14,14,1)
+
+###################
+##	BBPLL
+###################
+chip.mem_ts.wrm(0x501200a0,24,24,1)	##BBPLL_BG_Pu
+chip.mem_ts.wrm(0x501200a0,23,23,1)	##BBPLL_LDO_Pu
+chip.mem_ts.wrm(0x501200a0,22,22,1)	##BBPLL_Pu
+chip.mem_ts.wrm(0x501200a0,21,21,1)	##BBPLL_LD_Pu
+chip.mem_ts.wrm(0x501200a0,16,16,1)
+chip.mem_ts.wrm(0x501200a0,15,15,1)
+
+###############################
+#	Tx/Rx Control Signal Probe	
+###############################
+#PA6	flt_rstn
+#PA7	flt_pkd_en
+#PA8	pu_adc
+#PA9	pu_flt
+#PA10	pu_rmx
+#PA11	pu_lna
+#PA12	pu_dac
+#PA13	pu_tmx
+#PA14	pu_padrv
+#PA15	pu_lo_reg
+#PA16	adc_refbuf_sar_en
+chip.mem_ts.wrm(0xa04210e8,1,0,1)		##{RF_DBG1[7:0], RF_DBG0[7:0]} select rf_ctrl_dbg1[15:0];
+chip.mem_ts.wrm(0xa0422004,3,0,15)  		##tport_data0_sel select btcore_dbg7
+chip.mem_ts.wrm(0xa0422004,11,8,7)  		##tport_data1_sel select btcore_dbg8
+chip.mem_ts.wrm(0xa0422048,0,0,1)  		##{btcore_dbg8[7:0], btcore_dbg7[7:0]} select {RF_DBG1[7:0], RF_DBG0[7:0]};		
+chip.mem_ts.wrm(0xa0200258,10,6,24)  		##test_pin[15:0] select mdm_dgp[47:32];
+chip.mem_ts.wrm(0xa0200240,31,4,0xfffffff)  	##PA15~PA4 select fun3 (test_pin);
+chip.mem_ts.wrm(0xa0200244,1,0,3)  		##PA16 select fun3
+
+
+###############################
+#	CLK OUTPUT	
+###############################
+chip.mem_ts.wrm(0xa0200258,10,6,6)  		##test_pin[15:0] select mdm_dgp[47:32];
+chip.mem_ts.wrm(0xa0200240,31,4,0xfffffff)  	##PA15~PA4 select fun3 (test_pin);
+
+chip.mem_ts.wrm(0xa01200a0,24,24,1)	##BBPLL_BG_Pu
+chip.mem_ts.wrm(0xa01200a0,23,23,1)	##BBPLL_LDO_Pu
+chip.mem_ts.wrm(0xa01200a0,22,22,1)	##BBPLL_Pu
+chip.mem_ts.wrm(0xa01200a0,21,21,1)	##BBPLL_LD_Pu
+chip.mem_ts.wrm(0xa01200a0,16,16,1)
+chip.mem_ts.wrm(0xa01200a0,15,15,1)
+chip.mem_ts.wrm(0xa01200e0,0,0,1)	##BBPLL_test_ck6p144_en
+chip.mem_ts.wrm(0xa01200e0,11,11,1)
+
+chip.mem_ts.wrm(0xa01200a0,15,15,0)
+chip.mem_ts.wrm(0xa01200e0,1,1,1)	##BBPLL_test_vctl_en
+chip.mem_ts.wrm(0xa01200e0,10,10,1)
+
+##bbpll DIV
+chip.mem_ts.wrm(0xa0000050,20,20,0)
+chip.mem_ts.wrm(0xa0000050,15,14,0)
+
+###############################
+#	BBPLL TEST
+###############################
+##PA3	rc48m clk
+##PA4	xtal clk
+##PA5	ahb clk
+
+##probe cpr_tif_dout
+chip.mem_ts.wrm(0xa0200258,10,6,6)  		##test_pin[15:0] select mdm_dgp[47:32];
+chip.mem_ts.wrm(0xa0200240,31,4,0xfffffff)  	##PA15~PA4 select fun3 (test_pin);
+
+##bbpll power up
+chip.mem_ts.wrm(0xa01200a0,25,25,1)	##bbpll_bg_pup_ibg
+chip.mem_ts.wrm(0xa01200a0,29,29,1)	##bbpll_bg_pup_ibg_tbuf
+chip.mem_ts.wrm(0xa01200a0,20,20,1)	##bbpll_bg_fc on
+chip.mem_ts.wrm(0xa01200cc,22,22,1)	##rf_aon_xo_en_clk_ana
+chip.mem_ts.wrm(0xa01200cc,20,20,1)	##rf_aon_xo_en_clk_ref
+chip.mem_ts.wrm(0xa01200a0,23,23,1)	##bbpll_ldo_pup
+chip.mem_ts.wrm(0xa01200a0,22,22,1)	##bbpll_pup
+chip.mem_ts.wrm(0xa01200a0,21,21,1)	##bbpll_ld_pd
+chip.mem_ts.wrm(0xa01200a0,18,18,1)	##bbpll_ldo_fc on
+chip.mem_ts.wrm(0xa01200a0,17,17,1)	##bbpll_vco_fast_en on
+
+##wait 40us and end bbpll fast charge
+chip.mem_ts.wrm(0xa01200a0,20,20,0)	##bbpll_bg_fc off
+chip.mem_ts.wrm(0xa01200a0,18,18,0)	##bbpll_ldo_fc off
+chip.mem_ts.wrm(0xa01200a0,17,17,0)	##bbpll_vco_fast_en off
+
+##chip.mem_ts.wrm(0xa01200a0,24,24,1)	##BBPLL_BG_Pu default auto mode
+chip.mem_ts.wrm(0xa01200a0,16,16,1)	##bbpll_ck_dig_en
+chip.mem_ts.wrm(0xa01200a0,15,15,1)	##bbpll_ck_codec_en
+chip.mem_ts.wrm(0xa01200e0,0,0,1)	##bbpll_ck6p144m_test_en
+chip.mem_ts.wrm(0xa01200e0,11,11,1)	##bbpll_ck_test_en
+
+##mclk0 switch to bbpll div (default divided by 8)
+chip.mem_ts.wrm(0xa0000050,20,20,0)
+chip.mem_ts.wrm(0xa0000050,15,14,0)
+
+
+###############################
+#	RC Clock ctrl
+###############################
+chip.mem_ts.wrm(0xa0120110,26,26,0x1)	##clk_32k_en
+chip.mem_ts.wrm(0xa0120110,17,17,0x1)	##clk_1m_en
+chip.mem_ts.wrm(0xa0120110,8,8,0x1)	##clk_48m_en
+
+chip.mem_ts.wrm(0xa0120110,30,27,0x8)	##ldo_osc_trim
+
+chip.mem_ts.wrm(0xa0120110,25,18,0xff)	##clk_32k_trim
+chip.mem_ts.wrm(0xa0120070,6,4,7)	##vol_32k_trim
+chip.mem_ts.wrm(0xa0120110,16,9,0xff)	##clk_1m_trim
+chip.mem_ts.wrm(0xa0120070,9,7,7)	##vol_1m_trim
+chip.mem_ts.wrm(0xa0120110,7,0,0xff)	##clk_48M_trim
+chip.mem_ts.wrm(0xa0120070,12,10,7)	##vol_48m_trim
+
+
+chip.mem_ts.wrm(0xa0120070,12,10,7)	##vol_48m_trim
+chip.mem_ts.wrm(0xa0120070,9,7,7)	##vol_1m_trim
+chip.mem_ts.wrm(0xa0120070,6,4,7)	##vol_32k_trim
+
+chip.mem_ts.wrm(0xa0120070,15,13,7)	##vol_regulation_enable
+
+###############################
+#	RC48M & XTAL Clock Probe
+###############################
+##PA3	rc48m clk
+##PA4	xtal clk
+
+##probe cpr_tif_dout0
+chip.mem_ts.wrm(0xa0200258,10,6,6)  		##test_pin[15:0] select cpr_tif_dout0;
+chip.mem_ts.wrm(0xa0200240,31,4,0xfffffff)  	##PA15~PA2 select fun3 (test_pin);
+chip.mem_ts.wrm(0xa0200258,0,0,0)
+
+
+###############################
+#	RC1M & RC32K Clock Probe
+###############################
+##PA5	rc1m clk
+##PA3	rc32k clk through rtc cg
+
+##probe pmu_tif_dout0
+chip.mem_ts.wrm(0xa0200258,10,6,7)  		##test_pin[15:0] select pmu_tif_dout0;
+##chip.mem_ts.wrm(0xa0200240,31,4,0xfffffff)  	##PA15~PA2 select fun3 (test_pin);
+chip.mem_ts.wrm(0xa0200240,11,9,0x3)		##PA3 select testpin
+chip.mem_ts.wrm(0xa0200240,17,15,0x3)		##PA5 select testpin
+chip.mem_ts.wrm(0xa0200258,0,0,1)		##swap higher 8-bit and lower 8-bit of test_pin[15:0]
+chip.mem_ts.wrm(0xa0120008,31,0,0x00010001)	##rtc clock enable
+chip.mem_ts.wrm(0xa012000c,31,0,0x00010001)	##rc1m clock enable
+
+
+###############################
+#	RX control probe
+###############################
+##PA7	rx_syncfound_pulse
+##PA5	rf_rxon
+
+##probe pmu_tif_dout0
+chip.mem_ts.wrm(0xa0200258,10,6,24)  		##test_pin[15:0] select mdm_dgp[47:32](tport_data1, tport_data0);
+chip.mem_ts.wrm(0xa0422004,3,0,10)  		##tport_data0_sel select btcore_dbg2
+chip.mem_ts.wrm(0xa0200240,31,4,0xfffffff)  	##PA15~PA2 select fun3 (test_pin);
+
+
+###############################
+#	RF DBG1 control probe
+###############################
+##PA3	seq_pll_openloop
+##PA2	syn_lockdet
+
+##probe 
+chip.mem_ts.wrm(0xa04210e8,1,0,1)  		##rf_dbg select rf control group 1
+chip.mem_ts.wrm(0xa0422048,0,0,1)  		##btcore_dbg8 select RF_DBG1
+chip.mem_ts.wrm(0xa0200258,10,6,24)  		##test_pin[15:0] select mdm_dgp[47:32](tport_data1, tport_data0);
+chip.mem_ts.wrm(0xa0422004,3,0,7)  		##tport_data0_sel select btcore_dbg8
+chip.mem_ts.wrm(0xa0200240,31,4,0xfffffff)  	##PA15~PA2 select fun3 (test_pin);
+chip.mem_ts.wrm(0xa0200258,0,0,1)		##swap higher 8-bit and lower 8-bit of test_pin[15:0]
+
+
+
+#######################
+address: 0xa0120084, value:0x9f309acd
+address: 0xa012009c, value:0x8b6e010
+address: 0x50421034, value:0xf35418c0
+address: 0x50421038, value:0x1f92c1df
+address: 0x5042102c, value:0x984d6ac
+address: 0x50420010, value:0xa37f
+address: 0x50420018, value:0x917f
+address: 0x5042000c, value:0xb048
+
+#######################

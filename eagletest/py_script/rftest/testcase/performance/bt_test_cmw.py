@@ -6448,16 +6448,23 @@ class bt_signaling(object):
 
     def le_rx_ci(self,  cable_loss=5, chan_list=[0], rate_list=['LE1M'], packet_len=37, pkt_num=2000,  csv_save=True, cbpf2_en=0,agc_tgt_sat_list=[[300,400]]):
         self.dict_pwr_inter_freqoffset = {
-            0: range(-75, -50),
-            1: range(-65, -10),
+            0: range(-90, -50),
+            1: range(-75, -10),
             2: range(-52, -10),
             3: range(-41, 0),
             4: range(-41, 0),
-            -1: range(-65, -10),
+            -1: range(-75, -10),
             -2: range(-52, -10),
             -3: range(-41, 0),
             -4: range(-41, 0)
             }
+        rxpwr_dict = {
+            'LE125K': -79,
+            'LE500K': -72,
+            'LE1M': -67,
+            'LE2M': -67
+
+        }
 
         if csv_save:
             title = 'signal_channel,rate,freq_interference,rxpwr_interference,per(%),agc_gain_index,agc_tgt,agc_sat\n'
@@ -6479,19 +6486,20 @@ class bt_signaling(object):
                 self.tester_inter.trriger_para_set(type='CONT', count=pkt_num)
                 self.tester_inter.output_state(1, 1)
                 self.tester_inter.arb_state(1)
-
+                rxpwr = rxpwr_dict[rate]
                 if rate == 'LE500K' or rate == 'LE125K':
                     _rate = 'LELR'
                     mode = 'LRANge'
+
                 else:
                     mode = rate
                     _rate = rate
 
                 self.csp.mode_set(mode=mode)
-                self.config_per_le_connect_usb(rate=_rate, packet_len=packet_len)
+                self.config_per_le_connect_usb(rate=rate, packet_len=packet_len)
                 self.csp.RF_Frequency_Settings_rx(mode='DTM', ch_tx=chan)
                 self.csp.config_rxq_le_packets(rate=_rate, num=pkt_num)
-                self.csp.config_rx_level(rxpwr=-67)
+                self.csp.config_rx_level(rxpwr=rxpwr)
                 #time.sleep(1)
                 # for agc_tgt_sat in agc_tgt_sat_list:
                 #     agc_tgt = agc_tgt_sat[0]
@@ -6523,7 +6531,7 @@ class bt_signaling(object):
                         fw1.write_data([chan, rate, freq_inter, power_inter,  per, agc_gain_index])
 
                         if per > 30:
-                            ci = -67 - power_inter +1
+                            ci = rxpwr - power_inter +1
                             fw2.write_data([chan, rate, freq_inter, power_inter, ci])
                             break
 
